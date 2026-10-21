@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 func show(v any) string { b, _ := json.Marshal(v); return string(b) }
@@ -48,8 +49,49 @@ func compareMap(path string, want, got map[string]any) string {
 	return ""
 }
 
-// Compare returns "" when got matches want on every scored (tier P) field, else the first mismatching path.
+// unobservedScalars are the P fields an engine may list in State.Unobserved, by their Compare diff names.
+var unobservedScalars = map[string]bool{"cols": true, "rows": true, "buffer": true, "cursor.x": true, "cursor.y": true, "baseY": true,
+	"viewportY": true, "normalLength": true, "title": true, "titles": true, "bells": true, "replies": true, "lineFeeds": true}
+
+// unobserved returns "unobserved <path>" for the first listed entry (sorted) that the golden has.
+func unobserved(prefix string, want State, list []string) string {
+	ls := append([]string{}, list...)
+	sort.Strings(ls)
+	for _, u := range ls {
+		if p := goldenPath(prefix, want, u); p != "" {
+			return "unobserved " + p
+		}
+	}
+	return ""
+}
+
+// goldenPath is entry u's path in want, in Compare's diff form; "" when the golden has nothing there (an absent key,
+// an empty map). An entry outside the vocabulary is always a path, marked unknown.
+func goldenPath(prefix string, want State, u string) string {
+	name, key, sub := strings.Cut(u, ".")
+	var m map[string]any
+	switch {
+	case unobservedScalars[u]:
+		return prefix + ".P." + u
+	case name == "modes":
+		m = want.P.Modes
+	case name == "opts":
+		m = want.P.Opts
+	default:
+		return prefix + ".P." + u + " (unknown path)"
+	}
+	if _, has := m[key]; (sub && has) || (!sub && len(m) > 0) {
+		return prefix + ".P." + u
+	}
+	return ""
+}
+
+// Compare returns "" when got matches want on every scored (tier P) field, else the first mismatching path. A path
+// the engine lists in got.Unobserved that the golden has comes first, as "unobserved <path>".
 func Compare(prefix string, want, got State) string {
+	if d := unobserved(prefix, want, got.Unobserved); d != "" {
+		return d
+	}
 	w, g := want.P, got.P
 	ints := []struct {
 		name string
