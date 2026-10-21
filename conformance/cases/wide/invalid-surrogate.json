@@ -1,0 +1,1 @@
+{"id": "wide/invalid-surrogate", "desc": "encoded surrogate ED A0 80", "steps": [{"x": "eda080"}, {"w": "x"}]}

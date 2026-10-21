@@ -1,0 +1,1 @@
+{"id": "wide/combining-after-wide", "desc": "a combining mark after a wide char", "steps": [{"w": "\u4e2d\u0301x"}]}
