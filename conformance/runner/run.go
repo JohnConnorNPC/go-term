@@ -31,8 +31,8 @@ const splitLimit = 512 // as gen/lib/split.mjs SPLIT_LIMIT
 
 func start(f Factory, g *Golden) (Engine, error) {
 	e, err := f(Config{g.Init.Cols, g.Init.Rows, g.Init.Scrollback, g.Init.Unicode})
-	if ca, ok := e.(CaseAware); ok && err == nil {
-		ca.Begin(g)
+	if ca, ok := e.(caseAware); ok && err == nil {
+		ca.begin(g)
 	}
 	return e, err
 }

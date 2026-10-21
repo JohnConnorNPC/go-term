@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-// Oracle is the reference engine: it replays the golden it is scored on (CaseAware), so it scores 100 % by
-// construction. It anchors the stub/mutation tests and the CLI's `-engine oracle`. During probe twins it recognises
+// Oracle is the reference engine: it replays the golden it is scored on (caseAware), so it scores 100 % by
+// construction (it alone gets the golden, via the unexported caseAware). It anchors the stub/mutation tests and the CLI's `-engine oracle`. During probe twins it recognises
 // the probe sequences from probes.json and answers with the golden's raw B results.
 func Oracle(pr *Probes) Factory {
 	return func(Config) (Engine, error) { return &oracle{pr: pr, step: -1}, nil }
@@ -22,7 +22,7 @@ type oracle struct {
 	broken bool
 }
 
-func (o *oracle) Begin(g *Golden) { o.g = g }
+func (o *oracle) begin(g *Golden) { o.g = g }
 
 func (o *oracle) next(kind string) (Op, bool) {
 	if o.g == nil || o.step+1 >= len(o.g.Ops) || o.g.Ops[o.step+1].Op != kind {

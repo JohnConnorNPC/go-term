@@ -11,10 +11,10 @@ import (
 	"testing"
 )
 
-// pinned is the oracle bound to the pristine golden: Begin is shadowed, so it never sees the mutated expected side.
+// pinned is the oracle bound to the pristine golden: begin is shadowed, so it never sees the mutated expected side.
 type pinned struct{ *oracle }
 
-func (pinned) Begin(*Golden) {}
+func (pinned) begin(*Golden) {}
 
 var (
 	index    = regexp.MustCompile(`\.\d+(\.|$)`)

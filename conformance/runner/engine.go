@@ -19,8 +19,9 @@ type Engine interface {
 // Factory creates a fresh engine.
 type Factory func(Config) (Engine, error)
 
-// CaseAware engines (the oracle) are told which golden they are scored on, before the first write.
-type CaseAware interface{ Begin(*Golden) }
+// caseAware is unexported on purpose (S5): only engines in this package (the oracle) can be handed the golden they are
+// scored on; an engine from another package cannot implement an unexported method, so it never sees a golden.
+type caseAware interface{ begin(*Golden) }
 
 var engines = map[string]Factory{"stub": func(Config) (Engine, error) { return stub{}, nil }}
 
