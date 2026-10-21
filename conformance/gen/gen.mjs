@@ -22,6 +22,7 @@ for (const f of files) {
   try { c = parseCase(readJSON(CONF + 'cases/' + f), id, scrollback); } catch (e) { fail(id + ' ' + e.message); }
   for (const ref of Object.keys(REFS)) {
     const steps = await runCase(ref, c);
+    c.ops.forEach((op, i) => op.op === 'w' && steps[i].op.in !== Buffer.from(op.bytes).toString('hex') && fail('in-mismatch ' + id));
     const B = { t1: await probeT1(ref, c), t2: await probeT2(ref, c), t3: await probeT3(ref, c), t4: await probeT4(ref, c) };
     const g = { B, id, init: c.init, inSha: inSha(c.ops), pins: pinsSha, ref, steps };
     mkdirSync(dirname(out + ref + '/' + f), { recursive: true });
