@@ -1,0 +1,54 @@
+[
+ {
+  "name": "fresh",
+  "w": "",
+  "expect": {
+   "P.cursor": [
+    0,
+    0
+   ],
+   "P.buffer": "normal",
+   "P.baseY": 0,
+   "P.normalLength": 6,
+   "P.title": "",
+   "P.replies": [],
+   "P.bells": 0,
+   "I.cursorHidden": false,
+   "cells.alt": null,
+   "text.normal": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
+  }
+ },
+ {
+  "name": "title-bell-alt",
+  "w": "ab\u001b]0;t\u0007\u0007\u001b[?1049hX",
+  "expect": {
+   "P.buffer": "alternate",
+   "P.title": "t",
+   "P.bells": 1,
+   "text.normal": [
+    "ab",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   "text.alt": [
+    "  X",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   "I.cursorHidden": false
+  }
+ }
+]
