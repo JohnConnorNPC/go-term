@@ -1,0 +1,91 @@
+{
+  "refs": {
+    "x53": {
+      "name": "xterm-headless",
+      "version": "5.3.0",
+      "integrity": "sha512-HjKkEgvjlyXfZvI0LdQChOqGL5nDiXge6X2IvoQbOn+oavAKUCX9hKHtDxmWVwxgNCCvXDnfQCYL+3wyHQ9PXA==",
+      "lockIntegrity": "sha512-HjKkEgvjlyXfZvI0LdQChOqGL5nDiXge6X2IvoQbOn+oavAKUCX9hKHtDxmWVwxgNCCvXDnfQCYL+3wyHQ9PXA==",
+      "tgzSha256": "667a48ea6ac54a8ba2aa39eeb29360079f2c07b03aff910aae483cb3c522f79c",
+      "bundleSha256": "555aee07d82020458e9b50a9bd5e7a125868a2840dfb0ba897cd9851d1b97918",
+      "defaults": {
+        "cols": 80,
+        "rows": 24,
+        "scrollback": 1000,
+        "convertEol": false,
+        "windowsMode": false,
+        "allowProposedApi": false,
+        "cursorStyle": "block",
+        "cursorBlink": false,
+        "windowOptions": {}
+      },
+      "modesKeys": [
+        "applicationCursorKeysMode",
+        "applicationKeypadMode",
+        "bracketedPasteMode",
+        "insertMode",
+        "mouseTrackingMode",
+        "originMode",
+        "reverseWraparoundMode",
+        "sendFocusMode",
+        "wraparoundMode"
+      ]
+    },
+    "xcur": {
+      "name": "@xterm/headless",
+      "version": "6.0.0",
+      "integrity": "sha512-5Yj1QINYCyzrZtf8OFIHi47iQtI+0qYFPHmouEfG8dHNxbZ9Tb9YGSuLcsEwj9Z+OL75GJqPyJbyoFer80a2Hw==",
+      "lockIntegrity": "sha512-5Yj1QINYCyzrZtf8OFIHi47iQtI+0qYFPHmouEfG8dHNxbZ9Tb9YGSuLcsEwj9Z+OL75GJqPyJbyoFer80a2Hw==",
+      "tgzSha256": "07e4970b1674e7ef6cbd57c8c17746eaadcd41aa7df5b33695fd649e6ec4d78a",
+      "bundleSha256": "17a90b650cf6b77cce2b98c4063884d43545e4ce177a54b76ccfc906f1aacaed",
+      "defaults": {
+        "cols": 80,
+        "rows": 24,
+        "scrollback": 1000,
+        "convertEol": false,
+        "windowsMode": false,
+        "allowProposedApi": false,
+        "cursorStyle": "block",
+        "cursorBlink": false,
+        "windowOptions": {}
+      },
+      "modesKeys": [
+        "applicationCursorKeysMode",
+        "applicationKeypadMode",
+        "bracketedPasteMode",
+        "insertMode",
+        "mouseTrackingMode",
+        "originMode",
+        "reverseWraparoundMode",
+        "sendFocusMode",
+        "synchronizedOutputMode",
+        "wraparoundMode"
+      ]
+    }
+  },
+  "addons": {
+    "x53": {
+      "name": "xterm-addon-unicode11",
+      "version": "0.6.0",
+      "integrity": "sha512-5pkb8YoS/deRtNqQRw8t640mu+Ga8B2MG3RXGQu0bwgcfr8XiXIRI880TWM49ICAHhTmnOLPzIIBIjEnCq7k2A==",
+      "lockIntegrity": "sha512-5pkb8YoS/deRtNqQRw8t640mu+Ga8B2MG3RXGQu0bwgcfr8XiXIRI880TWM49ICAHhTmnOLPzIIBIjEnCq7k2A==",
+      "tgzSha256": "63ad5a8724600032459146997c0f87db9fab1af1d16ac112fdbb07b022480b9c"
+    },
+    "xcur": {
+      "name": "@xterm/addon-unicode11",
+      "version": "0.9.0",
+      "integrity": "sha512-FxDnYcyuXhNl+XSqGZL/t0U9eiNb/q3EWT5rYkQT/zuig8Gz/VagnQANKHdDWFM2lTMk9ly0EFQxxxtZUoRetw==",
+      "lockIntegrity": "sha512-FxDnYcyuXhNl+XSqGZL/t0U9eiNb/q3EWT5rYkQT/zuig8Gz/VagnQANKHdDWFM2lTMk9ly0EFQxxxtZUoRetw==",
+      "tgzSha256": "b665667792f916873fe946ba98cc98a1a742af08e163fb66e1c0809c120ca42e"
+    }
+  },
+  "peers": [
+    {
+      "name": "xterm",
+      "version": "5.3.0",
+      "integrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
+      "lockIntegrity": "sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==",
+      "tgzSha256": "1f528168b828af1e05070a2e8639e96f96c50b5b57029215aac4dbed5410ab85"
+    }
+  ],
+  "lockSha256": "0a01f34e744d36351811743bac2c6f5addd9fb51cc55a7d1a1c8ad496601935a"
+}
