@@ -5,6 +5,8 @@ import { GEN, REFS, sha256, readJSON } from './lib/refs.mjs';
 import { verifyPins } from './verify-pins.mjs';
 import { parseCase, inSha } from './lib/case.mjs';
 import { runCase } from './lib/run.mjs';
+import { openSession } from './lib/session.mjs';
+import { snapshot } from './lib/snapshot.mjs';
 import { variants, sensitiveIds } from './lib/split.mjs';
 import { probeT1 } from './lib/probe.mjs';
 import { probeT2, probeT3, probeT4 } from './lib/probe2.mjs';
@@ -26,6 +28,10 @@ for (const f of files) {
   for (const ref of Object.keys(REFS)) {
     const steps = await runCase(ref, c);
     c.ops.forEach((op, i) => op.op === 'w' && steps[i].op.in !== Buffer.from(op.bytes).toString('hex') && fail('in-mismatch ' + id));
+    // A case whose final state equals a fresh terminal's tests nothing, unless it is tagged noop-ok (S7).
+    const fresh = openSession(ref, c.init), same = JSON.stringify(snapshot(fresh)) === JSON.stringify(steps.at(-1) && (({ op, ...x }) => x)(steps.at(-1)));
+    fresh.term.dispose();
+    if (same && !c.tags.includes('noop-ok')) fail('noop ' + id);
     const vs = variants(c), base = JSON.stringify(steps), res = [];
     for (const v of vs) res.push([v.id, JSON.stringify(await runCase(ref, c, v.chunker))]);
     const split = { sensitive: sensitiveIds(base, res), variants: vs.length };
