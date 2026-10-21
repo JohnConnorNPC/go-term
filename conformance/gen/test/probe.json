@@ -65,7 +65,7 @@
  {
   "name": "dangling-decrqss",
   "pre": "\u001bP$qm",
-  "id": "?25",
-  "expect": "\u001b[?25;1$y"
+  "id": "?1",
+  "expect": "\u001b[?1;2$y"
  }
 ]
