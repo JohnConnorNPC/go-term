@@ -3,5 +3,6 @@
  "cells": 42,
  "probe": 20,
  "probe2": 18,
- "snap": 4
+ "snap": 4,
+ "writer": 5
 }
