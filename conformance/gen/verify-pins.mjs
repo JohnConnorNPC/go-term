@@ -2,7 +2,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
-import { GEN, REFS, DEFAULT_KEYS, bundlePath, loadTerminal, sha256, readJSON } from './lib/refs.mjs';
+import { GEN, REFS, DEFAULT_KEYS, bundlePath, loadTerminal, sha256, readJSON, runtime } from './lib/refs.mjs';
 // The 9 public modes of 5.3.0 (1/pins.md, modes getter); 6.0.0 adds synchronizedOutputMode.
 const MODES_X53 = ['applicationCursorKeysMode', 'applicationKeypadMode', 'bracketedPasteMode', 'insertMode', 'mouseTrackingMode',
   'originMode', 'reverseWraparoundMode', 'sendFocusMode', 'wraparoundMode'];
@@ -29,6 +29,8 @@ export function verifyPins() {
   if (JSON.stringify(locked) !== JSON.stringify(pins.map((p) => p[0]).sort())) fail('set ' + locked.join(',')); // (c)
   const pj = readJSON(GEN + 'pins.json');
   if (sha256(readFileSync(GEN + 'package-lock.json')) !== pj.lockSha256) fail('lockfile sha256 != pins.json'); // (h)
+  const rt = runtime();
+  if (JSON.stringify(rt) !== JSON.stringify(pj.runtime)) fail(`runtime node=${rt.node} npm=${rt.npm} pins=${JSON.stringify(pj.runtime)}`); // (i)
   for (const ref of Object.keys(REFS)) {
     if (sha256(readFileSync(bundlePath(ref))) !== pj.refs[ref].bundleSha256) fail('bundle ' + ref); // (e)
     const t = new (loadTerminal(ref))();

@@ -87,5 +87,9 @@
       "tgzSha256": "1f528168b828af1e05070a2e8639e96f96c50b5b57029215aac4dbed5410ab85"
     }
   ],
+  "runtime": {
+    "node": "v20.19.2",
+    "npm": "10.8.2"
+  },
   "lockSha256": "0a01f34e744d36351811743bac2c6f5addd9fb51cc55a7d1a1c8ad496601935a"
 }

@@ -1,7 +1,7 @@
 // Golden generator: every case on both refs -> golden/<ref>/<cat>/<name>.json (D9). Usage: node gen.mjs [--out <dir>].
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { GEN, REFS, sha256, readJSON } from './lib/refs.mjs';
+import { GEN, REFS, sha256, readJSON, runtime } from './lib/refs.mjs';
 import { verifyPins } from './verify-pins.mjs';
 import { parseCase, inSha } from './lib/case.mjs';
 import { runCase } from './lib/run.mjs';
@@ -57,7 +57,7 @@ const genShas = Object.fromEntries(['gen.mjs', ...readdirSync(GEN + 'lib').map((
   .map((f) => [f, sha256(readFileSync(GEN + f))]));
 mkdirSync(stage, { recursive: true }); // also when there are no cases
 writeFileSync(stage + 'diff.json', formatGolden({ cases: diffs, id: 'diff' }));
-writeFileSync(stage + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, sensitive: sens, variants: nv }));
+writeFileSync(stage + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, runtime: runtime(), sensitive: sens, variants: nv }));
 mkdirSync(out, { recursive: true });
 for (const x of [...Object.keys(REFS), 'diff.json', 'manifest.json']) {
   rmSync(out + x, { recursive: true, force: true });

@@ -1,6 +1,6 @@
 // Producer of pins.json: observes the installed packages once. verify-pins.mjs is the separate checker.
 import { readFileSync, writeFileSync } from 'node:fs';
-import { GEN, REFS, DEFAULT_KEYS, bundlePath, loadTerminal, sha256, readJSON } from './lib/refs.mjs';
+import { GEN, REFS, DEFAULT_KEYS, bundlePath, loadTerminal, sha256, readJSON, runtime } from './lib/refs.mjs';
 const lock = readJSON(GEN + 'package-lock.json');
 const pins = readFileSync(GEN + 'pins.lst', 'utf8').split('\n').filter((l) => l && !l.startsWith('#')).map((l) => l.split(' '));
 const entry = (name) => {
@@ -8,7 +8,7 @@ const entry = (name) => {
   const lk = lock.packages['node_modules/' + name];
   return { name, version, integrity, lockIntegrity: lk.integrity, tgzSha256: sha256(readFileSync(GEN + 'vendor/' + file)) };
 };
-const out = { refs: {}, addons: {}, peers: [], lockSha256: sha256(readFileSync(GEN + 'package-lock.json')) };
+const out = { refs: {}, addons: {}, peers: [], runtime: runtime(), lockSha256: sha256(readFileSync(GEN + 'package-lock.json')) };
 for (const ref of Object.keys(REFS)) {
   const Terminal = loadTerminal(ref);
   const t = new Terminal();
