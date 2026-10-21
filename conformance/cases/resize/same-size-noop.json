@@ -1,0 +1,1 @@
+{"id": "resize/same-size-noop", "desc": "resize to the same size", "steps": [{"w": "abc"}, {"resize": [20, 6]}]}

@@ -1,0 +1,1 @@
+{"id": "resize/alt-no-reflow", "desc": "the alt buffer is not reflowed", "steps": [{"w": "\u001b[?1049haaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, {"resize": [40, 6]}]}

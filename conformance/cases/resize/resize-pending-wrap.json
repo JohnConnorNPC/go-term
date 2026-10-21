@@ -1,0 +1,1 @@
+{"id": "resize/resize-pending-wrap", "desc": "resize while wrap is pending", "steps": [{"w": "aaaaaaaaaaaaaaaaaaaa"}, {"resize": [25, 6]}, {"w": "X"}]}

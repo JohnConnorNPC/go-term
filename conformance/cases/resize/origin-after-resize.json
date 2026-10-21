@@ -1,0 +1,1 @@
+{"id": "resize/origin-after-resize", "desc": "origin mode after resize", "steps": [{"w": "\u001b[2;5r\u001b[?6h"}, {"resize": [20, 8]}, {"w": "\u001b[2;2HX"}]}

@@ -1,0 +1,1 @@
+{"id": "resize/region-after-resize", "desc": "the scroll region resets on resize", "steps": [{"w": "\u001b[2;4r"}, {"resize": [20, 8]}, {"w": "x"}]}

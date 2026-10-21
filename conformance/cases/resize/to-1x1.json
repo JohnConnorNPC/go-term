@@ -1,0 +1,1 @@
+{"id": "resize/to-1x1", "desc": "resize to 1x1", "steps": [{"w": "abc"}, {"resize": [1, 1]}]}

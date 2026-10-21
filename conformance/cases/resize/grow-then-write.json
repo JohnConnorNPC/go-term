@@ -1,0 +1,1 @@
+{"id": "resize/grow-then-write", "desc": "grow then write past the old width", "steps": [{"resize": [30, 6]}, {"w": "ccccccccccccccccccccccccc"}]}

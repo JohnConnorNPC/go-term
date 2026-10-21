@@ -1,0 +1,1 @@
+{"id": "resize/trailing-empty-lines", "desc": "trailing empty lines on grow", "steps": [{"w": "a\r\nb"}, {"resize": [20, 10]}]}

@@ -1,0 +1,1 @@
+{"id": "resize/wide-at-reflow-boundary", "desc": "a wide char at the reflow boundary", "steps": [{"w": "aaaaaaaaa\u4e2d\u6587"}, {"resize": [10, 6]}]}

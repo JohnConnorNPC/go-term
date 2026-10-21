@@ -1,0 +1,1 @@
+{"id": "resize/split-utf8-across-resize", "desc": "a UTF-8 sequence split by a resize", "steps": [{"x": "e4"}, {"resize": [10, 6]}, {"x": "b8ad"}]}

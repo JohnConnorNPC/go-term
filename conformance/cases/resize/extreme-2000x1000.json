@@ -1,0 +1,1 @@
+{"id": "resize/extreme-2000x1000", "desc": "R7: resize to 2000x1000 and write", "steps": [{"w": "abc"}, {"resize": [2000, 1000]}, {"w": "\u001b[1000;2000HX"}]}

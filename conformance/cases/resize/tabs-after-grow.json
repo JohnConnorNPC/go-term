@@ -1,0 +1,1 @@
+{"id": "resize/tabs-after-grow", "desc": "tab stops after growing cols", "steps": [{"resize": [40, 6]}, {"w": "\t\t\t\tX"}]}

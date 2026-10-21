@@ -1,0 +1,1 @@
+{"id": "resize/sb-trim-on-resize", "desc": "scrollback 5 trims on resize", "scrollback": 5, "steps": [{"w": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10"}, {"resize": [20, 2]}]}

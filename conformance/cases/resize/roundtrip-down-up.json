@@ -1,0 +1,1 @@
+{"id": "resize/roundtrip-down-up", "desc": "shrink then grow back", "steps": [{"w": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, {"resize": [8, 6]}, {"resize": [20, 6]}]}
