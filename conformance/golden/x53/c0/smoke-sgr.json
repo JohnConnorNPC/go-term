@@ -10,6 +10,7 @@
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
 "pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
 "ref": "x53",
+"split": {"sensitive":[],"variants":13},
 "steps": [
 {
 "I": {"cursorHidden":false,"mouseEncoding":"DEFAULT","scrollRegion":[0,5],"unicodeVersion":"6"},
