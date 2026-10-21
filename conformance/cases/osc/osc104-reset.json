@@ -1,0 +1,1 @@
+{"id": "osc/osc104-reset", "desc": "OSC 104 reset", "steps": [{"w": "\u001b]4;1;rgb:11/22/33\u0007\u001b]104;1\u0007\u001b]4;1;?\u0007x"}]}

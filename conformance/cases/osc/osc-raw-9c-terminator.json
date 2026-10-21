@@ -1,0 +1,1 @@
+{"id": "osc/osc-raw-9c-terminator", "desc": "a raw 0x9c does not end an OSC in a UTF-8 stream; BEL does", "steps": [{"w": "\u001b]0;t"}, {"x": "9c"}, {"w": "ab"}, {"w": "\u0007x"}]}

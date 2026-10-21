@@ -1,0 +1,1 @@
+{"id": "osc/osc-unterminated", "desc": "an unterminated OSC swallows the following text until BEL", "steps": [{"w": "\u001b]0;abc"}, {"w": "more text"}, {"w": "\u0007x"}]}
