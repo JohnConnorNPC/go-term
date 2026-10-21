@@ -1,5 +1,5 @@
 // Golden generator: every case on both refs -> golden/<ref>/<cat>/<name>.json (D9). Usage: node gen.mjs [--out <dir>].
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { GEN, REFS, sha256, readJSON } from './lib/refs.mjs';
 import { verifyPins } from './verify-pins.mjs';
@@ -12,9 +12,11 @@ import { probeT1 } from './lib/probe.mjs';
 import { probeT2, probeT3, probeT4 } from './lib/probe2.mjs';
 import { formatGolden } from './lib/golden-writer.mjs';
 import { diffPaths } from './lib/diff.mjs';
-const fail = (m) => { console.log('gen FAIL ' + m); process.exit(1); };
 const CONF = GEN + '../', at = process.argv.indexOf('--out');
 const out = at > 0 ? process.argv[at + 1] + '/' : CONF + 'golden/';
+// Atomic (S1): everything is written under <out>.staging and swapped in at the end; a failure leaves <out> untouched.
+const stage = out.replace(/\/$/, '') + '.staging/';
+const fail = (m) => { rmSync(stage, { recursive: true, force: true }); console.log('gen FAIL ' + m); process.exit(1); };
 try { verifyPins(); } catch (e) { fail('pins ' + e.message.replace('PINS FAIL ', '')); }
 const image = process.env.IMAGE_DIGEST;
 if (!image) fail('IMAGE_DIGEST unset');
@@ -23,7 +25,7 @@ const scrollback = readJSON(GEN + 'pins.json').refs.x53.defaults.scrollback;
 let nv = 0;
 const sens = [], diffs = [], caseShas = {};
 const files = readdirSync(CONF + 'cases', { recursive: true }).filter((f) => f.endsWith('.json')).sort();
-for (const ref of Object.keys(REFS)) rmSync(out + ref, { recursive: true, force: true });
+rmSync(stage, { recursive: true, force: true });
 for (const f of files) {
   const id = f.replace(/\.json$/, '');
   let c;
@@ -44,8 +46,8 @@ for (const f of files) {
     if (split.sensitive.length) sens.push(`${ref}:${id}`);
     const B = { t1: await probeT1(ref, c), t2: await probeT2(ref, c), t3: await probeT3(ref, c), t4: await probeT4(ref, c) };
     const g = { B, id, init: c.init, inSha: inSha(c.ops), pins: pinsSha, ref, split, steps };
-    mkdirSync(dirname(out + ref + '/' + f), { recursive: true });
-    writeFileSync(out + ref + '/' + f, formatGolden(g));
+    mkdirSync(dirname(stage + ref + '/' + f), { recursive: true });
+    writeFileSync(stage + ref + '/' + f, formatGolden(g));
     pair[ref] = g;
   }
   const d = diffPaths(pair.x53, pair.xcur);
@@ -53,7 +55,13 @@ for (const f of files) {
 }
 const genShas = Object.fromEntries(['gen.mjs', ...readdirSync(GEN + 'lib').map((f) => 'lib/' + f).sort()]
   .map((f) => [f, sha256(readFileSync(GEN + f))]));
-mkdirSync(out, { recursive: true }); // also when there are no cases
-writeFileSync(out + 'diff.json', formatGolden({ cases: diffs, id: 'diff' }));
-writeFileSync(out + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, sensitive: sens, variants: nv }));
+mkdirSync(stage, { recursive: true }); // also when there are no cases
+writeFileSync(stage + 'diff.json', formatGolden({ cases: diffs, id: 'diff' }));
+writeFileSync(stage + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, sensitive: sens, variants: nv }));
+mkdirSync(out, { recursive: true });
+for (const x of [...Object.keys(REFS), 'diff.json', 'manifest.json']) {
+  rmSync(out + x, { recursive: true, force: true });
+  renameSync(stage + x, out + x);
+}
+rmSync(stage, { recursive: true, force: true });
 console.log(`gen ok cases=${files.length} refs=${Object.keys(REFS).length} variants=${nv} sensitive=${sens.length} diffs=${diffs.length}${sens.length ? ' ' + sens.join(',') : ''}`);
