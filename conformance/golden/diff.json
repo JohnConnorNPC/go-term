@@ -1,0 +1,9 @@
+{
+"cases": [
+{"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode","steps.1.P.modes.synchronizedOutputMode","steps.2.P.modes.synchronizedOutputMode","steps.3.P.modes.synchronizedOutputMode","steps.4.P.modes.synchronizedOutputMode","steps.5.P.modes.synchronizedOutputMode","steps.6.P.modes.synchronizedOutputMode","steps.7.P.modes.synchronizedOutputMode","steps.8.P.modes.synchronizedOutputMode","steps.9.P.modes.synchronizedOutputMode","steps.10.P.modes.synchronizedOutputMode","steps.11.P.modes.synchronizedOutputMode"],"id":"c0/raw-bytes"},
+{"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"c0/smoke-crlf"},
+{"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"c0/smoke-sgr"},
+{"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"c0/smoke-text"}
+],
+"id": "diff"
+}

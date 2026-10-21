@@ -1,0 +1,106 @@
+[
+ {
+  "name": "differs",
+  "a": {
+   "ref": "x53",
+   "steps": [
+    {
+     "P": {
+      "cursor": [
+       1,
+       0
+      ]
+     },
+     "I": {
+      "cursorHidden": false
+     }
+    }
+   ],
+   "B": {
+    "t1": {
+     "?25": "x"
+    }
+   }
+  },
+  "b": {
+   "ref": "xcur",
+   "steps": [
+    {
+     "P": {
+      "cursor": [
+       2,
+       0
+      ]
+     },
+     "I": {
+      "cursorHidden": false
+     }
+    }
+   ],
+   "B": {
+    "t1": {
+     "?25": "y"
+    }
+   }
+  },
+  "expect": {
+   "B": [
+    "B.t1.?25"
+   ],
+   "I": [],
+   "P": [
+    "steps.0.P.cursor.0"
+   ]
+  }
+ },
+ {
+  "name": "equal",
+  "a": {
+   "ref": "x53",
+   "steps": [
+    {
+     "P": {
+      "cursor": [
+       1,
+       0
+      ]
+     },
+     "I": {
+      "cursorHidden": false
+     }
+    }
+   ],
+   "B": {
+    "t1": {
+     "?25": "x"
+    }
+   }
+  },
+  "b": {
+   "ref": "xcur",
+   "steps": [
+    {
+     "P": {
+      "cursor": [
+       1,
+       0
+      ]
+     },
+     "I": {
+      "cursorHidden": false
+     }
+    }
+   ],
+   "B": {
+    "t1": {
+     "?25": "x"
+    }
+   }
+  },
+  "expect": {
+   "B": [],
+   "I": [],
+   "P": []
+  }
+ }
+]

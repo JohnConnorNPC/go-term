@@ -11,20 +11,25 @@ import { variants, sensitiveIds } from './lib/split.mjs';
 import { probeT1 } from './lib/probe.mjs';
 import { probeT2, probeT3, probeT4 } from './lib/probe2.mjs';
 import { formatGolden } from './lib/golden-writer.mjs';
+import { diffPaths } from './lib/diff.mjs';
 const fail = (m) => { console.log('gen FAIL ' + m); process.exit(1); };
 const CONF = GEN + '../', at = process.argv.indexOf('--out');
 const out = at > 0 ? process.argv[at + 1] + '/' : CONF + 'golden/';
 try { verifyPins(); } catch (e) { fail('pins ' + e.message.replace('PINS FAIL ', '')); }
+const image = process.env.IMAGE_DIGEST;
+if (!image) fail('IMAGE_DIGEST unset');
 const pinsSha = sha256(readFileSync(GEN + 'pins.json'));
 const scrollback = readJSON(GEN + 'pins.json').refs.x53.defaults.scrollback;
 let nv = 0;
-const sens = [];
+const sens = [], diffs = [], caseShas = {};
 const files = readdirSync(CONF + 'cases', { recursive: true }).filter((f) => f.endsWith('.json')).sort();
 for (const ref of Object.keys(REFS)) rmSync(out + ref, { recursive: true, force: true });
 for (const f of files) {
   const id = f.replace(/\.json$/, '');
   let c;
   try { c = parseCase(readJSON(CONF + 'cases/' + f), id, scrollback); } catch (e) { fail(id + ' ' + e.message); }
+  caseShas[id] = sha256(readFileSync(CONF + 'cases/' + f));
+  const pair = {};
   for (const ref of Object.keys(REFS)) {
     const steps = await runCase(ref, c);
     c.ops.forEach((op, i) => op.op === 'w' && steps[i].op.in !== Buffer.from(op.bytes).toString('hex') && fail('in-mismatch ' + id));
@@ -41,6 +46,13 @@ for (const f of files) {
     const g = { B, id, init: c.init, inSha: inSha(c.ops), pins: pinsSha, ref, split, steps };
     mkdirSync(dirname(out + ref + '/' + f), { recursive: true });
     writeFileSync(out + ref + '/' + f, formatGolden(g));
+    pair[ref] = g;
   }
+  const d = diffPaths(pair.x53, pair.xcur);
+  if (d.B.length + d.I.length + d.P.length) diffs.push({ id, ...d });
 }
-console.log(`gen ok cases=${files.length} refs=${Object.keys(REFS).length} variants=${nv} sensitive=${sens.length}${sens.length ? ' ' + sens.join(',') : ''}`);
+const genShas = Object.fromEntries(['gen.mjs', ...readdirSync(GEN + 'lib').map((f) => 'lib/' + f).sort()]
+  .map((f) => [f, sha256(readFileSync(GEN + f))]));
+writeFileSync(out + 'diff.json', formatGolden({ cases: diffs, id: 'diff' }));
+writeFileSync(out + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, sensitive: sens, variants: nv }));
+console.log(`gen ok cases=${files.length} refs=${Object.keys(REFS).length} variants=${nv} sensitive=${sens.length} diffs=${diffs.length}${sens.length ? ' ' + sens.join(',') : ''}`);
