@@ -1,8 +1,12 @@
 package runner
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"io/fs"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -119,7 +123,7 @@ func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 	r := Result{ID: g.ID, Category: g.Category(), Status: PASS}
 	fail := func(s Status, d string) Result { r.Status, r.Diff = s, d; return r }
 	if g.Stale() {
-		return fail(STALE, "inSha "+g.InSha+" != ops "+InSha(g.Ops))
+		return fail(STALE, g.stale+" inSha "+g.InSha+" ops "+InSha(g.Ops))
 	}
 	e, err := start(f, g)
 	if err != nil {
@@ -153,9 +157,24 @@ func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 	return r
 }
 
-// LoadAll parses every golden of one ref under root (the conformance directory), sorted by id.
+func fileSha(p string) string {
+	b, err := os.ReadFile(p)
+	if err != nil {
+		return ""
+	}
+	s := sha256.Sum256(b)
+	return hex.EncodeToString(s[:])
+}
+
+// LoadAll parses every golden of one ref under root (the conformance directory), sorted by id, and marks the ones whose
+// provenance does not match the tree (S3).
 func LoadAll(root, ref string) ([]*Golden, error) {
 	var out []*Golden
+	var man struct{ Cases map[string]string }
+	if b, err := os.ReadFile(filepath.Join(root, "golden", "manifest.json")); err != nil || json.Unmarshal(b, &man) != nil {
+		return nil, fmt.Errorf("manifest: %v", err)
+	}
+	pins := fileSha(filepath.Join(root, "gen", "pins.json"))
 	err := filepath.WalkDir(filepath.Join(root, "golden", ref), func(p string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() || !strings.HasSuffix(p, ".json") {
 			return err
@@ -164,6 +183,7 @@ func LoadAll(root, ref string) ([]*Golden, error) {
 		if err != nil {
 			return fmt.Errorf("%s: %w", p, err)
 		}
+		g.stale = provenance(g, ref, fileSha(filepath.Join(root, "cases", g.ID+".json")), man.Cases[g.ID], pins)
 		out = append(out, g)
 		return nil
 	})
