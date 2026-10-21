@@ -1,0 +1,1 @@
+{"id": "esc/decsc-origin", "desc": "DECSC saves origin mode", "steps": [{"w": "\u001b[2;5r\u001b[?6h\u001b7\u001b[?6l\u001b8X"}]}

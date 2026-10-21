@@ -1,0 +1,1 @@
+{"id": "esc/esc-percent", "desc": "ESC % G is ignored", "steps": [{"w": "\u001b%Gab"}]}

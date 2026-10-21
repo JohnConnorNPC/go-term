@@ -1,0 +1,1 @@
+{"id": "esc/ris", "desc": "RIS resets grid, modes and pen", "steps": [{"w": "\u001b]0;t\u0007\u001b[?1h\u001b[1mab\u001bcZ"}]}

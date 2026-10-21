@@ -1,0 +1,1 @@
+{"id": "esc/decrc-nosave", "desc": "DECRC without a save", "steps": [{"w": "\u001b[3;3H\u001b8X"}]}

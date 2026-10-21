@@ -1,0 +1,1 @@
+{"id": "esc/esc-esc", "desc": "a second ESC restarts the sequence", "steps": [{"w": "\u001b\u001b[1mX"}]}

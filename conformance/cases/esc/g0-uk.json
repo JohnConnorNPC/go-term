@@ -1,0 +1,1 @@
+{"id": "esc/g0-uk", "desc": "ESC ( A maps # to the pound sign", "steps": [{"w": "\u001b(A#\u001b(B#"}]}

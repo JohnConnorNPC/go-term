@@ -1,0 +1,1 @@
+{"id": "esc/esc-intermediate-garbage", "desc": "ESC inside an ESC sequence restarts it", "steps": [{"w": "\u001b(\u001b(Bx"}]}

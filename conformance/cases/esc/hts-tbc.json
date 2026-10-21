@@ -1,0 +1,1 @@
+{"id": "esc/hts-tbc", "desc": "HTS sets a stop, TBC 0 clears it", "steps": [{"w": "\u001b[5G\u001bH\r\tX"}, {"w": "\r\u001b[2B\u001b[5G\u001b[0g\r\tY"}]}
