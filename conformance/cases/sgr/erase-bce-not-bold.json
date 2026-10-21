@@ -1,0 +1,1 @@
+{"id": "sgr/erase-bce-not-bold", "desc": "erase takes bg only", "steps": [{"w": "\u001b[1;4;41mab\u001b[K"}]}

@@ -1,0 +1,1 @@
+{"id": "sgr/sgr-in-scrollback", "desc": "attributes survive scrolling into scrollback", "steps": [{"w": "\u001b[1;32mtop\u001b[0m\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7"}]}

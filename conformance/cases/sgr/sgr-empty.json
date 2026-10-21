@@ -1,0 +1,1 @@
+{"id": "sgr/sgr-empty", "desc": "empty SGR = 0", "steps": [{"w": "\u001b[1;31mA\u001b[mB"}]}

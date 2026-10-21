@@ -1,0 +1,1 @@
+{"id": "sgr/bg-rgb-colon", "desc": "SGR 48:2::r:g:b", "steps": [{"w": "\u001b[48:2::10:20:30mX"}]}

@@ -1,0 +1,1 @@
+{"id": "sgr/38-truncated", "desc": "SGR 38;5 with no index", "steps": [{"w": "\u001b[38;5mX"}]}

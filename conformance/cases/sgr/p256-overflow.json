@@ -1,0 +1,1 @@
+{"id": "sgr/p256-overflow", "desc": "SGR 38;5;300", "steps": [{"w": "\u001b[38;5;300mX"}]}

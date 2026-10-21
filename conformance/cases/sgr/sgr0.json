@@ -1,0 +1,1 @@
+{"id": "sgr/sgr0", "desc": "SGR 0 resets all", "steps": [{"w": "\u001b[1;3;4;31;42mA\u001b[0mB"}]}

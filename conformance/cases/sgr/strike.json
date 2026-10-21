@@ -1,0 +1,1 @@
+{"id": "sgr/strike", "desc": "SGR 9 on, 29 off", "steps": [{"w": "\u001b[9mX\u001b[29mY"}]}

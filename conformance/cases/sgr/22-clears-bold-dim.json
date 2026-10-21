@@ -1,0 +1,1 @@
+{"id": "sgr/22-clears-bold-dim", "desc": "SGR 22 clears bold and dim", "steps": [{"w": "\u001b[1;2mA\u001b[22mB"}]}

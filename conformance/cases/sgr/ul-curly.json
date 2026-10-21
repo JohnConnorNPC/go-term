@@ -1,0 +1,1 @@
+{"id": "sgr/ul-curly", "desc": "SGR 4:3 (curly, internal style)", "steps": [{"w": "\u001b[4:3mX"}]}
