@@ -1,0 +1,149 @@
+[
+ {
+  "name": "tabs-fresh",
+  "probe": "t2",
+  "pre": "",
+  "expect": [
+   8,
+   16,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19
+  ]
+ },
+ {
+  "name": "tabs-cleared",
+  "probe": "t2",
+  "pre": "\u001b[3g",
+  "expect": [
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19
+  ]
+ },
+ {
+  "name": "tabs-hts4",
+  "probe": "t2",
+  "pre": "\u001b[5G\u001bH",
+  "expect": [
+   4,
+   8,
+   16,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19,
+   19
+  ]
+ },
+ {
+  "name": "decrc-saved",
+  "probe": "t3",
+  "pre": "\u001b[2;3H\u001b7\u001b[H",
+  "expect": "\u001b[2;3R"
+ },
+ {
+  "name": "decrc-nosave",
+  "probe": "t3",
+  "pre": "\u001b[3;3H",
+  "expect": "\u001b[1;1R"
+ },
+ {
+  "name": "pen-default",
+  "probe": "t4",
+  "field": "pen",
+  "pre": "",
+  "expect": {
+   "fg": [
+    "d"
+   ],
+   "bg": [
+    "d"
+   ]
+  }
+ },
+ {
+  "name": "pen-bold-red",
+  "probe": "t4",
+  "field": "pen",
+  "pre": "\u001b[1;31m",
+  "expect": {
+   "fg": [
+    "p16",
+    1
+   ],
+   "bg": [
+    "d"
+   ],
+   "b": 1
+  }
+ },
+ {
+  "name": "glyphs-ascii",
+  "probe": "t4",
+  "field": "glyphs",
+  "pre": "",
+  "expect": [
+   "`",
+   "a",
+   "q",
+   "x"
+  ]
+ },
+ {
+  "name": "glyphs-dec",
+  "probe": "t4",
+  "field": "glyphs",
+  "pre": "\u001b(0",
+  "expect": [
+   "◆",
+   "▒",
+   "─",
+   "│"
+  ]
+ }
+]
