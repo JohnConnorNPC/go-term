@@ -1,0 +1,1 @@
+{"id": "csi/region-partial-no-push", "desc": "scrolling a partial region pushes nothing to scrollback", "steps": [{"w": "\u001b[2;5r\u001b[5;1Hx\n\n\n\n\ny"}]}

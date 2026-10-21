@@ -1,0 +1,1 @@
+{"id": "csi/il-in-region", "desc": "IL inside a region", "steps": [{"w": "line1\r\nline2\r\nline3\r\nline4\r\nline5\r\nline6\u001b[2;5r\u001b[3;1H\u001b[2L"}]}

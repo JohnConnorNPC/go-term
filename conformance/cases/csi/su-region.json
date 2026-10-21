@@ -1,0 +1,1 @@
+{"id": "csi/su-region", "desc": "SU inside a region", "steps": [{"w": "line1\r\nline2\r\nline3\r\nline4\r\nline5\r\nline6\u001b[2;4r\u001b[S"}]}

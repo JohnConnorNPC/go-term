@@ -1,0 +1,1 @@
+{"id": "csi/el2", "desc": "EL 2 erases the line", "steps": [{"w": "ABCDEFGHIJ\r\nKLMNOPQRST\r\nUVWXYZabcd\r\nefghijklmn\u001b[2;5H\u001b[2K"}]}

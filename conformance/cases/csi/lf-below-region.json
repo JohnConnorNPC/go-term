@@ -1,0 +1,1 @@
+{"id": "csi/lf-below-region", "desc": "LF below the region", "steps": [{"w": "\u001b[2;3r\u001b[5;1Ha\nb\nc"}]}

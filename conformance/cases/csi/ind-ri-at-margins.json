@@ -1,0 +1,1 @@
+{"id": "csi/ind-ri-at-margins", "desc": "RI at the top margin and IND at the bottom margin", "steps": [{"w": "\u001b[2;4r\u001b[2;1H\u001bMtop\u001b[4;1H\u001bDbot"}]}

@@ -1,0 +1,1 @@
+{"id": "csi/ed2", "desc": "ED 2 erases all", "steps": [{"w": "ABCDEFGHIJ\r\nKLMNOPQRST\r\nUVWXYZabcd\r\nefghijklmn\u001b[2;5H\u001b[2J"}]}

@@ -1,0 +1,1 @@
+{"id": "csi/bce-ed", "desc": "ED uses the current bg", "steps": [{"w": "ABCDEFGHIJ\r\nKLMNOPQRST\r\nUVWXYZabcd\r\nefghijklmn\u001b[41m\u001b[2J"}]}

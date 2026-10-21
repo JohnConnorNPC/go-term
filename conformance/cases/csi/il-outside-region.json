@@ -1,0 +1,1 @@
+{"id": "csi/il-outside-region", "desc": "IL outside the region does nothing", "steps": [{"w": "line1\r\nline2\r\nline3\r\nline4\r\nline5\r\nline6\u001b[2;4r\u001b[6;1H\u001b[L"}]}

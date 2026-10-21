@@ -1,0 +1,1 @@
+{"id": "csi/region-cursor-outside", "desc": "LF outside the region at the last row", "steps": [{"w": "\u001b[2;4r\u001b[6;1Hx\ny"}]}

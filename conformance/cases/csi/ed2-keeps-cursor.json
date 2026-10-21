@@ -1,0 +1,1 @@
+{"id": "csi/ed2-keeps-cursor", "desc": "ED 2 keeps the cursor", "steps": [{"w": "ABCDEFGHIJ\r\nKLMNOPQRST\r\nUVWXYZabcd\r\nefghijklmn\u001b[2;5H\u001b[2JX"}]}

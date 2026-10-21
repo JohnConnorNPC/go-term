@@ -1,0 +1,1 @@
+{"id": "csi/lf-at-bottom-margin", "desc": "LF at the bottom margin scrolls the region", "steps": [{"w": "\u001b[2;4r\u001b[4;1Ha\nb\nc"}]}

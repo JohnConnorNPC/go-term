@@ -1,0 +1,1 @@
+{"id": "csi/irm-insert", "desc": "IRM insert mode shifts cells", "steps": [{"w": "abc\r\u001b[4hXY"}]}

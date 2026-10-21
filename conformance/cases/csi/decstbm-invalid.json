@@ -1,0 +1,1 @@
+{"id": "csi/decstbm-invalid", "desc": "DECSTBM with top >= bottom is ignored", "steps": [{"w": "\u001b[4;2rX"}]}
