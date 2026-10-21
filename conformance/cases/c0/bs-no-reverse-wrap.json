@@ -1,0 +1,1 @@
+{"id": "c0/bs-no-reverse-wrap", "desc": "BS at col 0 of a wrapped line does not go up without ?45", "steps": [{"w": "aaaaaaaaaaaaaaaaaaaaaaaaa"}, {"w": "\b\b\b\b\b\bX"}]}

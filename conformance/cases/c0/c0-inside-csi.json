@@ -1,0 +1,1 @@
+{"id": "c0/c0-inside-csi", "desc": "CR inside a CSI executes, then CUF 2 applies", "steps": [{"w": "abc\u001b[\r2CX"}]}

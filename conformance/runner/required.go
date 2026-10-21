@@ -9,10 +9,10 @@ import (
 // RequiredCategories maps every category issue #1 requires to its minimum case count; MinTotal is the overall bar.
 // The -count CLI and TestCounts both use these (one list, S9).
 var RequiredCategories = map[string]int{
-	"c0": 10, "esc": 7, "csi": 7, "sgr": 40, "osc": 7, "dcs": 7, "decmodes": 7, "altscreen": 7, "scrollback": 7, "wide": 7, "resize": 7,
+	"c0": 22, "esc": 7, "csi": 7, "sgr": 40, "osc": 7, "dcs": 7, "decmodes": 7, "altscreen": 7, "scrollback": 7, "wide": 7, "resize": 7,
 }
 
-const MinTotal = 113
+const MinTotal = 125
 
 // Counts returns the number of case files per category under root/cases (split variants are not cases).
 func Counts(root string) (map[string]int, error) {
