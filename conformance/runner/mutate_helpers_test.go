@@ -73,8 +73,34 @@ func mutateAt(doc map[string]any, path string) bool {
 		parent = at(parent, s)
 	}
 	last, v := seg[len(seg)-1], at(parent, seg[len(seg)-1])
+	run := len(seg) > 2 && seg[len(seg)-3] == "c"
 	var nv any
 	switch {
+	case run && last == "0":
+		if at(parent, "3") != "" {
+			return false
+		}
+		nv = json.Number(strconv.Itoa(num(v) + 1))
+	case run && last == "1":
+		attrs := at(at(at(doc, "steps"), seg[1]), "attrs").([]any)
+		for j := range attrs {
+			if show(at(attrs[j], "P")) != show(at(attrs[num(v)], "P")) {
+				nv = json.Number(strconv.Itoa(j))
+				break
+			}
+		}
+	case run && last == "3":
+		t, r := v.(string), []rune(v.(string))
+		switch {
+		case t == "" && num(at(parent, "0")) == 1:
+			nv = "Z"
+		case t != "" && r[len(r)-1] != 'Z':
+			r[len(r)-1] = 'Z'
+			nv = string(r)
+		case t != "":
+			r[len(r)-1] = 'Y'
+			nv = string(r)
+		}
 	default:
 		switch t := v.(type) {
 		case bool:
