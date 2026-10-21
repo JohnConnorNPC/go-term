@@ -1,0 +1,6 @@
+# name version vendor-file tarball-url integrity (from 1/pins.md, L0; fetched by scripts/fetch-pins.sh)
+xterm-headless 5.3.0 xterm-headless-5.3.0.tgz https://registry.npmjs.org/xterm-headless/-/xterm-headless-5.3.0.tgz sha512-HjKkEgvjlyXfZvI0LdQChOqGL5nDiXge6X2IvoQbOn+oavAKUCX9hKHtDxmWVwxgNCCvXDnfQCYL+3wyHQ9PXA==
+@xterm/headless 6.0.0 xterm__headless-6.0.0.tgz https://registry.npmjs.org/@xterm/headless/-/headless-6.0.0.tgz sha512-5Yj1QINYCyzrZtf8OFIHi47iQtI+0qYFPHmouEfG8dHNxbZ9Tb9YGSuLcsEwj9Z+OL75GJqPyJbyoFer80a2Hw==
+xterm 5.3.0 xterm-5.3.0.tgz https://registry.npmjs.org/xterm/-/xterm-5.3.0.tgz sha512-8QqjlekLUFTrU6x7xck1MsPzPA571K5zNqWm0M0oroYEWVOptZ0+ubQSkQ3uxIEhcIHRujJy6emDWX4A7qyFzg==
+xterm-addon-unicode11 0.6.0 xterm-addon-unicode11-0.6.0.tgz https://registry.npmjs.org/xterm-addon-unicode11/-/xterm-addon-unicode11-0.6.0.tgz sha512-5pkb8YoS/deRtNqQRw8t640mu+Ga8B2MG3RXGQu0bwgcfr8XiXIRI880TWM49ICAHhTmnOLPzIIBIjEnCq7k2A==
+@xterm/addon-unicode11 0.9.0 xterm__addon-unicode11-0.9.0.tgz https://registry.npmjs.org/@xterm/addon-unicode11/-/addon-unicode11-0.9.0.tgz sha512-FxDnYcyuXhNl+XSqGZL/t0U9eiNb/q3EWT5rYkQT/zuig8Gz/VagnQANKHdDWFM2lTMk9ly0EFQxxxtZUoRetw==
