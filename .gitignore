@@ -28,3 +28,4 @@ go.work.sum
 conformance/gen/node_modules/
 conformance/gen/vendor/
 conformance/.cache/
+conformance/golden.staging/
