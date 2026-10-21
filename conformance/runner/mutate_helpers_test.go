@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"encoding/json"
 	"sort"
 	"strconv"
 	"strings"
@@ -42,6 +43,53 @@ func walk(v any, path string, f func(path string)) {
 	default:
 		f(path)
 	}
+}
+
+func at(v any, s string) any {
+	if m, ok := v.(map[string]any); ok {
+		return m[s]
+	}
+	i, _ := strconv.Atoi(s)
+	return v.([]any)[i]
+}
+
+func put(v any, s string, x any) {
+	if m, ok := v.(map[string]any); ok {
+		m[s] = x
+		return
+	}
+	i, _ := strconv.Atoi(s)
+	v.([]any)[i] = x
+}
+
+func num(v any) int { n, _ := v.(json.Number).Int64(); return int(n) }
+
+// mutateAt changes the leaf at path so that the golden still parses and means something else. It returns false when this
+// occurrence has no such change (a run with chars cannot grow; a run index needs another attr entry with a different P).
+func mutateAt(doc map[string]any, path string) bool {
+	seg := strings.Split(path, ".")
+	var parent any = doc
+	for _, s := range seg[:len(seg)-1] {
+		parent = at(parent, s)
+	}
+	last, v := seg[len(seg)-1], at(parent, seg[len(seg)-1])
+	var nv any
+	switch {
+	default:
+		switch t := v.(type) {
+		case bool:
+			nv = !t
+		case string:
+			nv = t + "Z"
+		case json.Number:
+			nv = json.Number(strconv.Itoa(num(t) + 1))
+		}
+	}
+	if nv == nil {
+		return false
+	}
+	put(parent, last, nv)
+	return true
 }
 
 func TestLeafKind(t *testing.T) {
