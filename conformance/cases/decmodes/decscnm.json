@@ -1,0 +1,1 @@
+{"id": "decmodes/decscnm", "desc": "?5 reverse video", "steps": [{"w": "\u001b[?5hx"}]}

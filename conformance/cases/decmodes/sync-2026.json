@@ -1,0 +1,1 @@
+{"id": "decmodes/sync-2026", "desc": "?2026 synchronized output (ref split)", "steps": [{"w": "\u001b[?2026hx"}]}

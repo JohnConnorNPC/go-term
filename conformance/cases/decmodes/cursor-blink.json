@@ -1,0 +1,1 @@
+{"id": "decmodes/cursor-blink", "desc": "?12 cursor blink option", "steps": [{"w": "\u001b[?12hx"}]}

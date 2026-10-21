@@ -1,0 +1,1 @@
+{"id": "decmodes/ansi-lnm", "desc": "ANSI 20 LNM", "steps": [{"w": "\u001b[20ha\nb"}]}

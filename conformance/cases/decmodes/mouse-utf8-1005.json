@@ -1,0 +1,1 @@
+{"id": "decmodes/mouse-utf8-1005", "desc": "?1005 (permanently reset in 5.3.0)", "steps": [{"w": "\u001b[?1005hx"}]}

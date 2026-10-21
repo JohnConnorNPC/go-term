@@ -1,0 +1,1 @@
+{"id": "decmodes/ris-resets-modes", "desc": "RIS resets modes", "steps": [{"w": "\u001b[?1;2004;1000h\u001bcx"}]}

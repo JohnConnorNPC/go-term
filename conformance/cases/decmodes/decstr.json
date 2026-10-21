@@ -1,0 +1,1 @@
+{"id": "decmodes/decstr", "desc": "DECSTR soft reset", "steps": [{"w": "\u001b[?1h\u001b[4h\u001b[2;4r\u001b[1m\u001b[!pX"}]}

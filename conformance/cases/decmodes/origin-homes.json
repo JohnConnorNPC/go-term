@@ -1,0 +1,1 @@
+{"id": "decmodes/origin-homes", "desc": "setting ?6 homes to the region top", "steps": [{"w": "\u001b[3;5r\u001b[4;4H\u001b[?6hX"}]}

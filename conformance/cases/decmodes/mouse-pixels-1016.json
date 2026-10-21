@@ -1,0 +1,1 @@
+{"id": "decmodes/mouse-pixels-1016", "desc": "?1016 SGR pixels", "steps": [{"w": "\u001b[?1016hx"}]}

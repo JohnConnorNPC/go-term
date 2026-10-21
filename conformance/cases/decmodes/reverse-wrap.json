@@ -1,0 +1,1 @@
+{"id": "decmodes/reverse-wrap", "desc": "?45 BS goes up a wrapped line", "steps": [{"w": "\u001b[?45haaaaaaaaaaaaaaaaaaaaaaaaa\b\b\b\b\b\bX"}]}

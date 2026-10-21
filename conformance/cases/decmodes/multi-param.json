@@ -1,0 +1,1 @@
+{"id": "decmodes/multi-param", "desc": "one CSI sets two modes", "steps": [{"w": "\u001b[?1;2004hx"}]}

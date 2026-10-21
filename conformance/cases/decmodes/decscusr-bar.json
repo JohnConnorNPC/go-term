@@ -1,0 +1,1 @@
+{"id": "decmodes/decscusr-bar", "desc": "DECSCUSR 6 = steady bar", "steps": [{"w": "\u001b[6 qx"}]}

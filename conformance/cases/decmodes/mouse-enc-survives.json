@@ -1,0 +1,1 @@
+{"id": "decmodes/mouse-enc-survives", "desc": "?1006 then ?1000 l", "steps": [{"w": "\u001b[?1000h\u001b[?1006h\u001b[?1000lx"}]}

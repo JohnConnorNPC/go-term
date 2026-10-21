@@ -1,0 +1,1 @@
+{"id": "decmodes/origin-cpr", "desc": "?6 CPR is region-relative", "steps": [{"w": "\u001b[2;5r\u001b[?6h\u001b[2;3H\u001b[6n"}]}

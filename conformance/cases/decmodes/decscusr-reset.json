@@ -1,0 +1,1 @@
+{"id": "decmodes/decscusr-reset", "desc": "DECSCUSR 0 after 4", "steps": [{"w": "\u001b[4 q\u001b[0 qx"}]}

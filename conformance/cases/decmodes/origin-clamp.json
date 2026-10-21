@@ -1,0 +1,1 @@
+{"id": "decmodes/origin-clamp", "desc": "?6 CUP clamps to the region", "steps": [{"w": "\u001b[2;4r\u001b[?6h\u001b[9;1HX"}]}

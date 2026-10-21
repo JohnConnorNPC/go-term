@@ -1,0 +1,1 @@
+{"id": "decmodes/keypad-66", "desc": "?66 application keypad", "steps": [{"w": "\u001b[?66hx"}]}

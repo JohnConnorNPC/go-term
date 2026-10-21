@@ -1,0 +1,1 @@
+{"id": "decmodes/deccolm-no-effect", "desc": "?3 has no effect without windowOptions", "steps": [{"w": "ab\u001b[?3hx"}]}

@@ -1,0 +1,1 @@
+{"id": "decmodes/nowrap-overwrite", "desc": "?7 l overwrites the last column", "steps": [{"w": "\u001b[?7laaaaaaaaaaaaaaaaaaaaaaaaa"}]}
