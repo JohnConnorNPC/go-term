@@ -6,7 +6,7 @@ run_container() {
   local repo; repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
   local cache=${CACHE:-$repo/conformance/.cache} name=${GOTERM_NAME:-goterm-$(id -un)-$$}
   mkdir -p "${cache:?}/home"
-  docker run --rm --cpus 4 --memory 8g --network none \
+  docker run --rm --cpus 4 --cpu-shares 256 --memory 8g --network none \
     --label gm.project=goterm --name "${name:?}" \
     --user "$(id -u):$(id -g)" -e HOME=/cache/home "${ENVS[@]}" \
     -v "${repo:?}:/repo:ro" -v "${repo:?}/conformance:/repo/conformance" -v "${cache:?}:/cache" \
