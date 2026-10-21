@@ -53,8 +53,13 @@ Selftests: `node.sh conformance/gen 'node selftest.mjs <suite>'` for case, cells
 - Every case also runs as split variants: one byte per write, and every two-chunk split of each write when the case writes
   fewer than 512 bytes. A failure there is `SPLIT`. Variants headless itself is sensitive to are recorded (`split.sensitive`).
 
-Options: `new Terminal({cols, rows, scrollback, allowProposedApi: true})`. Both bundles gate `term.buffer` behind
-`allowProposedApi`, and that option is read nowhere else, so it changes no behaviour; everything else is the headless default.
+Options: `new Terminal({cols, rows, scrollback, allowProposedApi: true})`. In both bundles `allowProposedApi` only gates the
+proposed-API getters `buffer`, `parser`, `unicode` and `markers` (`_checkProposedApi`) and is read nowhere else, so it is
+behaviour-neutral; the harness needs `buffer`. Everything else is the headless default.
+
+Not scored in #1: 7 cases whose distinguishing outcome lives only in tier I, because their P/B result equals the plain case:
+`osc/osc8-link` (link id), `sgr/double-underline`, `sgr/ul-curly`, `sgr/ul-dashed` (underline style), and
+`sgr/ul-colour-256`, `sgr/ul-colour-rgb`, `sgr/ul-colour-reset` (underline colour). Their I values are in the goldens.
 
 ## Scoring an engine
 
