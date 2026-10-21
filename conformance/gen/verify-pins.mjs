@@ -2,7 +2,11 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
-import { GEN, REFS, readJSON } from './lib/refs.mjs';
+import { GEN, REFS, DEFAULT_KEYS, bundlePath, loadTerminal, sha256, readJSON } from './lib/refs.mjs';
+// The 9 public modes of 5.3.0 (1/pins.md, modes getter); 6.0.0 adds synchronizedOutputMode.
+const MODES_X53 = ['applicationCursorKeysMode', 'applicationKeypadMode', 'bracketedPasteMode', 'insertMode', 'mouseTrackingMode',
+  'originMode', 'reverseWraparoundMode', 'sendFocusMode', 'wraparoundMode'];
+const MODES = { x53: MODES_X53, xcur: [...MODES_X53.slice(0, 8), 'synchronizedOutputMode', 'wraparoundMode'] };
 const fail = (what) => { throw new Error('PINS FAIL ' + what); };
 export function verifyPins() {
   const lock = readJSON(GEN + 'package-lock.json');
@@ -23,6 +27,17 @@ export function verifyPins() {
   }
   const locked = Object.keys(lock.packages).filter((k) => k).map((k) => k.replace(/^node_modules\//, '')).sort();
   if (JSON.stringify(locked) !== JSON.stringify(pins.map((p) => p[0]).sort())) fail('set ' + locked.join(',')); // (c)
+  const pj = readJSON(GEN + 'pins.json');
+  if (sha256(readFileSync(GEN + 'package-lock.json')) !== pj.lockSha256) fail('lockfile sha256 != pins.json'); // (h)
+  for (const ref of Object.keys(REFS)) {
+    if (sha256(readFileSync(bundlePath(ref))) !== pj.refs[ref].bundleSha256) fail('bundle ' + ref); // (e)
+    const t = new (loadTerminal(ref))();
+    const defaults = JSON.stringify(Object.fromEntries(DEFAULT_KEYS.map((k) => [k, t.options[k]])));
+    const keys = JSON.stringify(Object.keys(t.modes));
+    t.dispose();
+    if (defaults !== JSON.stringify(pj.refs[ref].defaults)) fail('defaults ' + ref); // (f)
+    if (keys !== JSON.stringify(pj.refs[ref].modesKeys) || keys !== JSON.stringify(MODES[ref])) fail('modesKeys ' + ref); // (g)
+  }
   return { n: pins.length, x53: REFS.x53.pkg + '@' + pins.find((p) => p[0] === REFS.x53.pkg)[1], xcur: REFS.xcur.pkg + '@' + xcur[1] };
 }
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
