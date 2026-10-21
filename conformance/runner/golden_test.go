@@ -57,3 +57,16 @@ func TestStale(t *testing.T) {
 		}
 	}
 }
+
+func TestProvenance(t *testing.T) {
+	g := &Golden{ID: "c0/x", Ref: "x53", Pins: "p"}
+	if r := provenance(g, "x53", "c", "c", "p"); r != "" {
+		t.Fatalf("matching provenance reported %q", r)
+	}
+	for name, r := range map[string]string{"ref": provenance(g, "xcur", "c", "c", "p"), "case": provenance(g, "x53", "c2", "c", "p"),
+		"missing": provenance(g, "x53", "", "", "p"), "pins": provenance(g, "x53", "c", "c", "p2")} {
+		if r == "" {
+			t.Errorf("%s mismatch not reported", name)
+		}
+	}
+}

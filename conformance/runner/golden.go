@@ -46,6 +46,7 @@ type Golden struct {
 	Steps                []State
 	B                    B
 	Sensitive            []string
+	stale                string // provenance mismatch found by LoadAll (S3)
 }
 
 // Category is the case's directory (c0, esc, ...).
@@ -187,5 +188,20 @@ func InSha(ops []Op) string {
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-// Stale reports a golden whose ops no longer hash to its stored inSha (a hand-edited `in`, or an edited digest).
-func (g *Golden) Stale() bool { return InSha(g.Ops) != g.InSha }
+// Stale reports a golden whose ops no longer hash to its stored inSha (a hand-edited `in`, or an edited digest), or
+// whose provenance does not match the tree (S3).
+func (g *Golden) Stale() bool { return g.stale != "" || InSha(g.Ops) != g.InSha }
+
+// provenance (S3) returns why a golden does not belong to the current tree: its ref directory, the current case file
+// (sha256 vs the manifest's record), and the current pins.json; "" when all match.
+func provenance(g *Golden, dirRef, caseSha, manifestSha, pinsSha string) string {
+	switch {
+	case g.Ref != dirRef:
+		return "ref " + g.Ref + " in directory " + dirRef
+	case caseSha == "" || caseSha != manifestSha:
+		return "case file " + g.ID + ".json changed or missing since gen (manifest " + manifestSha + ")"
+	case g.Pins != pinsSha:
+		return "pins " + g.Pins + " != sha256(gen/pins.json) " + pinsSha
+	}
+	return ""
+}
