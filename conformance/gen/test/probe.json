@@ -1,0 +1,65 @@
+[
+ {
+  "name": "fresh-25",
+  "pre": "",
+  "id": "?25",
+  "expect": "\u001b[?25;1$y"
+ },
+ {
+  "name": "fresh-1006",
+  "pre": "",
+  "id": "?1006",
+  "expect": "\u001b[?1006;2$y"
+ },
+ {
+  "name": "set-1006",
+  "pre": "\u001b[?1006h",
+  "id": "?1006",
+  "expect": "\u001b[?1006;1$y"
+ },
+ {
+  "name": "perm-reset-1005",
+  "pre": "",
+  "id": "?1005",
+  "expect": "\u001b[?1005;4$y"
+ },
+ {
+  "name": "perm-set-8",
+  "pre": "",
+  "id": "?8",
+  "expect": "\u001b[?8;3$y"
+ },
+ {
+  "name": "rqss-r-fresh",
+  "pre": "",
+  "id": "rqss-r",
+  "expect": "\u001bP1$r1;6r\u001b\\"
+ },
+ {
+  "name": "rqss-r-region",
+  "pre": "\u001b[2;4r",
+  "id": "rqss-r",
+  "expect": "\u001bP1$r2;4r\u001b\\"
+ },
+ {
+  "name": "cpr",
+  "pre": "\u001b[3;5H",
+  "id": "cpr",
+  "expect": "\u001b[3;5R"
+ },
+ {
+  "name": "dangling-osc",
+  "pre": "\u001b]0;abc",
+  "id": "?25",
+  "expect": "\u001b[?25;1$y"
+ },
+ {
+  "name": "split-2026",
+  "pre": "",
+  "id": "?2026",
+  "expectByRef": {
+   "x53": "\u001b[?2026;0$y",
+   "xcur": "\u001b[?2026;2$y"
+  }
+ }
+]
