@@ -1,0 +1,1 @@
+{"id": "decmodes/origin-cup", "desc": "?6 CUP is region-relative", "steps": [{"w": "\u001b[2;5r\u001b[?6h\u001b[2;2HX"}]}

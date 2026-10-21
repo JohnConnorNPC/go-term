@@ -1,0 +1,1 @@
+{"id": "resize/cols-1", "desc": "R7: request cols 1 (headless clamps to MINIMUM_COLS=2)", "cols": 1, "steps": [{"w": "abc"}]}

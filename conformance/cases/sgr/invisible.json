@@ -1,0 +1,1 @@
+{"id": "sgr/invisible", "desc": "SGR 8 on, 28 off", "steps": [{"w": "\u001b[8mX\u001b[28mY"}]}

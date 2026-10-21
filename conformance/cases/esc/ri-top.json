@@ -1,0 +1,1 @@
+{"id": "esc/ri-top", "desc": "RI at the top scrolls down", "steps": [{"w": "top\u001b[H\u001bMnew"}]}

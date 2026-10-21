@@ -1,0 +1,1 @@
+{"id": "altscreen/1049-alt-cleared-on-reenter", "desc": "1049 clears the alt screen on enter", "steps": [{"w": "\u001b[?1049hone\u001b[?1049l"}, {"w": "\u001b[?1049hX"}]}

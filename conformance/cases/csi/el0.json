@@ -1,0 +1,1 @@
+{"id": "csi/el0", "desc": "EL 0 erases to the right", "steps": [{"w": "ABCDEFGHIJ\r\nKLMNOPQRST\r\nUVWXYZabcd\r\nefghijklmn\u001b[2;5H\u001b[K"}]}

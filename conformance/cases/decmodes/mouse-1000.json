@@ -1,0 +1,1 @@
+{"id": "decmodes/mouse-1000", "desc": "?1000 VT200 mouse", "steps": [{"w": "\u001b[?1000hx"}]}

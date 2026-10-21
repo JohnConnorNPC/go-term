@@ -1,0 +1,1 @@
+{"id": "sgr/blink", "desc": "SGR 5 on, 25 off", "steps": [{"w": "\u001b[5mX\u001b[25mY"}]}

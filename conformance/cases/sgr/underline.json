@@ -1,0 +1,1 @@
+{"id": "sgr/underline", "desc": "SGR 4 on, 24 off", "steps": [{"w": "\u001b[4mX\u001b[24mY"}]}

@@ -1,0 +1,1 @@
+{"id": "sgr/italic", "desc": "SGR 3 on, 23 off", "steps": [{"w": "\u001b[3mX\u001b[23mY"}]}

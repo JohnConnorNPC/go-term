@@ -1,0 +1,1 @@
+{"id": "resize/shrink-cols-rewrap", "desc": "shrinking cols rewraps", "steps": [{"w": "aaaaaaaaaaaaaaaaaa"}, {"resize": [10, 6]}]}

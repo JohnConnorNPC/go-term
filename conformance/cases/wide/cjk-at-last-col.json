@@ -1,0 +1,1 @@
+{"id": "wide/cjk-at-last-col", "desc": "a wide char at the last column wraps early", "steps": [{"w": "aaaaaaaaaaaaaaaaaaa\u4e2d"}]}

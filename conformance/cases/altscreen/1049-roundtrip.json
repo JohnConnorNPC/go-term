@@ -1,0 +1,1 @@
+{"id": "altscreen/1049-roundtrip", "desc": "1049 enter + exit restores the normal screen and cursor", "steps": [{"w": "normal\u001b[2;3H"}, {"w": "\u001b[?1049halt"}, {"w": "\u001b[?1049lX"}]}

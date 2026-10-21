@@ -1,0 +1,1 @@
+{"id": "decmodes/mouse-sgr-1006", "desc": "?1006 SGR encoding (B probe)", "steps": [{"w": "\u001b[?1006hx"}]}

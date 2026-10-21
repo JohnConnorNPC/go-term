@@ -1,0 +1,1 @@
+{"id": "wide/overwrite-left-half", "desc": "ASCII over the left half of a wide char", "steps": [{"w": "\u4e2d\u001b[1;1Ha"}]}

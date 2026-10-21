@@ -1,0 +1,1 @@
+{"id": "csi/decstbm-basic", "desc": "DECSTBM sets a region and homes the cursor", "steps": [{"w": "\u001b[2;4rX"}]}

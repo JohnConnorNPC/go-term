@@ -1,0 +1,1 @@
+{"id": "scrollback/ed3", "desc": "ED 3 clears scrollback", "steps": [{"w": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12"}, {"w": "\u001b[3J"}]}

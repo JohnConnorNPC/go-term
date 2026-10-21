@@ -1,0 +1,1 @@
+{"id": "altscreen/47-content-kept", "desc": "47 keeps alt content on re-enter", "steps": [{"w": "\u001b[?47hone\u001b[?47l"}, {"w": "\u001b[?47hX"}]}

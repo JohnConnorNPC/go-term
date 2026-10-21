@@ -1,0 +1,1 @@
+{"id": "esc/decsc-decrc", "desc": "DECSC/DECRC restore position and pen", "steps": [{"w": "\u001b[1;31m\u001b[3;5H\u001b7\u001b[0m\u001b[H\u001b8X"}]}

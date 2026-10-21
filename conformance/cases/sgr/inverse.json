@@ -1,0 +1,1 @@
+{"id": "sgr/inverse", "desc": "SGR 7 on, 27 off", "steps": [{"w": "\u001b[7mX\u001b[27mY"}]}

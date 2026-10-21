@@ -1,0 +1,1 @@
+{"id": "osc/osc-can-abort", "desc": "CAN aborts an OSC", "steps": [{"w": "\u001b]0;ab\u0018X"}]}

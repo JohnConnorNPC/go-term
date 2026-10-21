@@ -1,0 +1,1 @@
+{"id": "decmodes/autowrap-pending", "desc": "?7: writing the last column leaves cursor.x == cols", "steps": [{"w": "aaaaaaaaaaaaaaaaaaaa"}]}

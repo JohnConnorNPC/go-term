@@ -1,0 +1,1 @@
+{"id": "scrollback/ed2-no-push", "desc": "ED 2 pushes nothing", "steps": [{"w": "1\r\n2\r\n3\r\n4\u001b[2J"}]}

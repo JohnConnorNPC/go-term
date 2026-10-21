@@ -1,0 +1,1 @@
+{"id": "altscreen/47-roundtrip", "desc": "47 enter and exit", "steps": [{"w": "normal"}, {"w": "\u001b[?47halt"}, {"w": "\u001b[?47lX"}]}

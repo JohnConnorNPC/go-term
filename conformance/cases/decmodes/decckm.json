@@ -1,0 +1,1 @@
+{"id": "decmodes/decckm", "desc": "?1 application cursor keys", "steps": [{"w": "\u001b[?1hx"}]}
