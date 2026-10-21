@@ -8,8 +8,8 @@ export const REFS = {
   x53: { pkg: 'xterm-headless', addon: 'xterm-addon-unicode11' },
   xcur: { pkg: '@xterm/headless', addon: '@xterm/addon-unicode11' },
 };
-// Both headless bundles gate `term.buffer` behind allowProposedApi; that option is read nowhere else (only in
-// _checkProposedApi), so setting it changes no terminal behaviour. Every other option stays at the headless default.
+// In both headless bundles allowProposedApi only gates the proposed getters buffer, parser, unicode and markers
+// (_checkProposedApi) and is read nowhere else: behaviour-neutral. The harness needs buffer; every other option stays default.
 export const API_OPTS = { allowProposedApi: true };
 export const DEFAULT_KEYS = ['cols', 'rows', 'scrollback', 'convertEol', 'windowsMode', 'allowProposedApi',
   'cursorStyle', 'cursorBlink', 'windowOptions'];
