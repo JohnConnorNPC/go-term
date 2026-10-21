@@ -23,3 +23,7 @@ go.work.sum
 .idea/
 .vscode/
 *.swp
+
+# conformance: installed and fetched npm packages (re-fetch with conformance/scripts/fetch-pins.sh)
+conformance/gen/node_modules/
+conformance/gen/vendor/
