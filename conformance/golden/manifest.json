@@ -89,6 +89,9 @@
 "csi/su-region": "85a21c2480b89e4be88e6a57a62cef12c8bb4f0be1db3e1b7a52f9254b546453",
 "csi/vpa": "3594c80d69cd3e26ff28a9500c508e9cbc878e9460375032aa44fa282469b10f",
 "csi/vpr": "ede53ded5057d4699214f149b8335915639522cacdc4f6c2d2e5b25a1133b009",
+"dcs/dcs-can-abort": "e592234f610533d86aaec831beb1ea6cb2a41ee1fd9bf4b4bc2f0c98a9093e9a",
+"dcs/dcs-long-64k": "c8c33b20cfbdbe7214af3bc197a18fbc6fd8a8211cbc22c8a850fe5743dc2210",
+"dcs/dcs-sixel-ignored": "f9315e325f3d4f9b92e5f6cc80f0752fb3a7dcc28f19221b682e964da826d968",
 "dcs/dcs-unknown-swallowed": "3004279d0e2a1eb03002b8b903db32d217f85a45c6900885f39449039abde703",
 "dcs/decrqss-dq-p": "ba5d1f5705c56a9efd061d1aa623e77326eff1a2a795f562b0b87dab5c2cdd42",
 "dcs/decrqss-dq-q": "1daccb243cfc165f08eedbaf0366bd7028414ec67fe7eb515876ca56dd1a9d75",
@@ -215,5 +218,5 @@
 "image": "sha256:7cd3fbc830c75c92256fe1122002add9a1c025831af8770cd0bf8e45688ef661",
 "pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
 "sensitive": [],
-"variants": 7416
+"variants": 7466
 }
