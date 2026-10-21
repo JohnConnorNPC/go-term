@@ -44,3 +44,16 @@ func fixture(t *testing.T) (*Probes, *Golden) {
 	}
 	return pr, g
 }
+
+// TestSkippedReported (S2): the variants headless itself is sensitive to are named in the result, not silently passed.
+func TestSkippedReported(t *testing.T) {
+	pr, _ := fixture(t)
+	g, err := Load("../golden/x53/wide/zwsp.json")
+	if err != nil || len(g.Sensitive) == 0 {
+		t.Fatalf("zwsp golden: %v, sensitive %v", err, g.Sensitive)
+	}
+	r := RunCase(g, Oracle(pr), pr, Options{Splits: true})
+	if r.Status != PASS || strings.Join(r.Skipped, ",") != strings.Join(g.Sensitive, ",") {
+		t.Fatalf("status %s skipped %v, want PASS with %v", r.Status, r.Skipped, g.Sensitive)
+	}
+}

@@ -21,11 +21,13 @@ const (
 	SPLIT Status = "SPLIT" // whole writes pass, a split variant differs
 )
 
-// Result is one case's score; Diff is the first mismatch.
+// Result is one case's score; Diff is the first mismatch. Skipped names the split variants not scored because headless
+// itself is sensitive to them (S2): they are reported, never a silent PASS.
 type Result struct {
 	ID, Category string
 	Status       Status
 	Diff         string
+	Skipped      []string
 }
 
 // Options select what RunCase scores beyond the whole-write run and the probes.
@@ -144,6 +146,9 @@ func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 		skip[id] = true
 	}
 	for _, v := range variants(g) {
+		if opt.Splits && skip[v.id] {
+			r.Skipped = append(r.Skipped, v.id)
+		}
 		if !opt.Splits || skip[v.id] {
 			continue
 		}

@@ -41,10 +41,14 @@ func main() {
 		fmt.Printf("UNMEASURED engine=%s found=%v goldens=%d err=%v\n", *engine, ok, len(gs), err)
 		os.Exit(2)
 	}
-	pass, total := map[string]int{}, map[string]int{}
+	pass, total, skipped := map[string]int{}, map[string]int{}, 0
 	for _, g := range gs {
 		r := runner.RunCase(g, f, pr, runner.Options{Splits: *splits})
 		total[r.Category]++
+		if len(r.Skipped) > 0 {
+			skipped += len(r.Skipped)
+			fmt.Println("SKIP", r.ID, strings.Join(r.Skipped, ","), "(headless itself is split-sensitive)")
+		}
 		if r.Status == runner.PASS {
 			pass[r.Category]++
 			fmt.Println("PASS", r.ID)
@@ -70,7 +74,7 @@ func main() {
 	if all != len(gs) {
 		verdict = "FAIL"
 	}
-	fmt.Printf("TOTAL %d/%d %s\n", all, len(gs), verdict)
+	fmt.Printf("TOTAL %d/%d %s skipped=%d\n", all, len(gs), verdict, skipped)
 	exit(all == len(gs) && sum == len(gs), unmeasured)
 }
 
