@@ -1,0 +1,1 @@
+{"id": "c0/smoke-sgr", "desc": "bold red then reset", "steps": [{"w": "\u001b[1;31mR\u001b[0mN"}]}

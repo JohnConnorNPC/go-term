@@ -1,0 +1,1 @@
+{"id": "c0/smoke-crlf", "desc": "CR LF moves to the next line start", "steps": [{"w": "a\r\nb\r\nc"}]}
