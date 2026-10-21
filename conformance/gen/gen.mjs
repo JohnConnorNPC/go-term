@@ -53,6 +53,7 @@ for (const f of files) {
 }
 const genShas = Object.fromEntries(['gen.mjs', ...readdirSync(GEN + 'lib').map((f) => 'lib/' + f).sort()]
   .map((f) => [f, sha256(readFileSync(GEN + f))]));
+mkdirSync(out, { recursive: true }); // also when there are no cases
 writeFileSync(out + 'diff.json', formatGolden({ cases: diffs, id: 'diff' }));
 writeFileSync(out + 'manifest.json', formatGolden({ cases: caseShas, gen: genShas, id: 'manifest', image, pins: pinsSha, sensitive: sens, variants: nv }));
 console.log(`gen ok cases=${files.length} refs=${Object.keys(REFS).length} variants=${nv} sensitive=${sens.length} diffs=${diffs.length}${sens.length ? ' ' + sens.join(',') : ''}`);
