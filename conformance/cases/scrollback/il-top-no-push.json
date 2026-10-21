@@ -1,0 +1,1 @@
+{"id": "scrollback/il-top-no-push", "desc": "IL at the top pushes nothing", "steps": [{"w": "1\r\n2\r\n3\r\n4\r\n5\r\n6\u001b[H\u001b[2L"}]}
