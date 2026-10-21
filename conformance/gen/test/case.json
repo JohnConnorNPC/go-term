@@ -1,0 +1,202 @@
+[
+ {
+  "name": "p1",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "hello"
+    }
+   ]
+  },
+  "expect": {
+   "ops": [
+    "w:68656c6c6f"
+   ]
+  }
+ },
+ {
+  "name": "p2",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "\u001b[1m\u00e9\u4e2d"
+    }
+   ]
+  },
+  "expect": {
+   "ops": [
+    "w:1b5b316dc3a9e4b8ad"
+   ]
+  }
+ },
+ {
+  "name": "p3",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "x": "ff9b1b"
+    }
+   ]
+  },
+  "expect": {
+   "ops": [
+    "w:ff9b1b"
+   ]
+  }
+ },
+ {
+  "name": "p4",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "resize": [
+      10,
+      4
+     ]
+    },
+    {
+     "reset": true
+    }
+   ]
+  },
+  "expect": {
+   "ops": [
+    "r:10,4",
+    "x"
+   ]
+  }
+ },
+ {
+  "name": "p5",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "a\u001b[1m"
+    },
+    {
+     "x": "ff"
+    },
+    {
+     "resize": [
+      10,
+      4
+     ]
+    },
+    {
+     "reset": true
+    }
+   ]
+  },
+  "expect": {
+   "ops": [
+    "w:611b5b316d",
+    "w:ff",
+    "r:10,4",
+    "x"
+   ],
+   "inSha": "4843d07dd5fbb7716b36708c30802b462bbb212d5317d870383b714d8c4fbc1f"
+  }
+ },
+ {
+  "name": "n1",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "a"
+    }
+   ],
+   "wx": "x"
+  },
+  "expect": {
+   "error": "unknown key wx"
+  }
+ },
+ {
+  "name": "n2",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "\ud800"
+    }
+   ]
+  },
+  "expect": {
+   "error": "lone surrogate"
+  }
+ },
+ {
+  "name": "n3",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "x": "fff"
+    }
+   ]
+  },
+  "expect": {
+   "error": "odd length"
+  }
+ },
+ {
+  "name": "n4",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "x": "zz"
+    }
+   ]
+  },
+  "expect": {
+   "error": "not hex"
+  }
+ },
+ {
+  "name": "n5",
+  "path": "c0/other",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "a"
+    }
+   ]
+  },
+  "expect": {
+   "error": "!= path"
+  }
+ },
+ {
+  "name": "n6",
+  "path": "c0/t",
+  "case": {
+   "id": "c0/t",
+   "steps": [
+    {
+     "w": "a"
+    }
+   ],
+   "unicode": "11"
+  },
+  "expect": {
+   "error": "unicode 11"
+  }
+ }
+]
