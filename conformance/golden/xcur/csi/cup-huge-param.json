@@ -8,7 +8,7 @@
 "id": "csi/cup-huge-param",
 "inSha": "eb5bbede2df9e766e061b80f5a2f8fdb65b018c3fe294ab6c4b8e25be7353e8b",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":14},
 "steps": [

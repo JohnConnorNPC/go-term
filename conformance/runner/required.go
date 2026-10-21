@@ -9,7 +9,7 @@ import (
 // RequiredCategories maps every category issue #1 requires to its minimum case count; MinTotal is the overall bar.
 // The -count CLI and TestCounts both use these (one list, S9).
 var RequiredCategories = map[string]int{
-	"c0": 22, "esc": 25, "csi": 60, "sgr": 40, "osc": 20, "dcs": 10, "decmodes": 40, "altscreen": 20, "scrollback": 20, "wide": 30, "resize": 26,
+	"c0": 22, "esc": 25, "csi": 60, "sgr": 40, "osc": 20, "dcs": 11, "decmodes": 40, "altscreen": 20, "scrollback": 20, "wide": 30, "resize": 26,
 }
 
 const MinTotal = 300

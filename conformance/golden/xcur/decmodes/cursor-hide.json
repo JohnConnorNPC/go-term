@@ -8,7 +8,7 @@
 "id": "decmodes/cursor-hide",
 "inSha": "0a61633e2e69b7ae2506d9efb9f592747d16722f8cd99fe0ab9949140b382b9b",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":7},
 "steps": [

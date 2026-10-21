@@ -8,7 +8,7 @@
 "id": "csi/cub-clamp",
 "inSha": "c1c8c004fce95e2721cc34e1005a4eb8c05d67965ceec8734f6e5a2e1d43019e",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":13},
 "steps": [

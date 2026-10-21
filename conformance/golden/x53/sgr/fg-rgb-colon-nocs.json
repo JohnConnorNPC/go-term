@@ -8,7 +8,7 @@
 "id": "sgr/fg-rgb-colon-nocs",
 "inSha": "01b6021c88f91b4fd272d2ccbcfe4c2364a947580e74efe776db8af1e1dcecc6",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "x53",
 "split": {"sensitive":[],"variants":14},
 "steps": [

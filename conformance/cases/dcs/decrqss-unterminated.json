@@ -1,0 +1,1 @@
+{"id": "dcs/decrqss-unterminated", "desc": "an unterminated DECRQSS: without the probes CAN prefix the probe ESC would end it and it would reply (M2)", "tags": ["noop-ok"], "steps": [{"w": "\u001bP$qm"}]}

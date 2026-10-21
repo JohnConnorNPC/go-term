@@ -8,7 +8,7 @@
 "id": "wide/cjk-at-last-col",
 "inSha": "ef3d26916b0329ccdd2b303e2c02159cc62c26228757b99869f961794453a691",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":22},
 "steps": [

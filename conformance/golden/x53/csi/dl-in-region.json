@@ -8,7 +8,7 @@
 "id": "csi/dl-in-region",
 "inSha": "6616c74d1b8fd76ec3b9e7570180c8d39af4693dda4a615f62b691aefc4611f5",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "x53",
 "split": {"sensitive":[],"variants":56},
 "steps": [

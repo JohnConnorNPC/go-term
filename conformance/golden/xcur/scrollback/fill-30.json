@@ -8,7 +8,7 @@
 "id": "scrollback/fill-30",
 "inSha": "7ab3a4cc1cb8fd5967c4ee08a3f32cc14458a94c4e8237a634180b814f5599c6",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":109},
 "steps": [

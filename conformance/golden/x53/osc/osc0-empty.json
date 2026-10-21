@@ -8,7 +8,7 @@
 "id": "osc/osc0-empty",
 "inSha": "20bbc85fb07a60a6962b5846751e8fb9148a01865d7393e7f9a407d65b2c1e74",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "x53",
 "split": {"sensitive":[],"variants":12},
 "steps": [

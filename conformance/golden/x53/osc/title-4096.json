@@ -8,7 +8,7 @@
 "id": "osc/title-4096",
 "inSha": "48f518cc8eecc11cc7304366f9f92a0a4dc7f21a62b3a6a4da804a8f38aa9694",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "x53",
 "split": {"sensitive":[],"variants":1},
 "steps": [

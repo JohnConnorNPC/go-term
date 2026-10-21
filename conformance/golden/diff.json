@@ -112,6 +112,7 @@
 {"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"dcs/decrqss-m"},
 {"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"dcs/decrqss-r"},
 {"B":["B.t1.?12","B.t1.?2026","B.t1.rqss-sp-q"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode","steps.0.P.opts.cursorBlink","steps.0.P.opts.cursorStyle","steps.0.P.replies.0"],"id":"dcs/decrqss-sp-q"},
+{"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"dcs/decrqss-unterminated"},
 {"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"decmodes/ansi-irm"},
 {"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"decmodes/ansi-lnm"},
 {"B":["B.t1.?2026"],"I":[],"P":["steps.0.P.modes.synchronizedOutputMode"],"id":"decmodes/autowrap-pending"},

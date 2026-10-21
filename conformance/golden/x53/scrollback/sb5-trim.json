@@ -8,7 +8,7 @@
 "id": "scrollback/sb5-trim",
 "inSha": "951057fab09828928138571b1b396b6ccc5dbef8c7a05e107813d9dac69f09a8",
 "init": {"cols":20,"rows":6,"scrollback":5,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "x53",
 "split": {"sensitive":[],"variants":69},
 "steps": [

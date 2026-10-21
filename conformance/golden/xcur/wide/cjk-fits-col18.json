@@ -8,7 +8,7 @@
 "id": "wide/cjk-fits-col18",
 "inSha": "69b2361f1d12d5797d74a207cbd8c2fba87317bb3a2e9239a5c3e3bb2ac281f8",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":21},
 "steps": [

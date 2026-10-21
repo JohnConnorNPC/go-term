@@ -8,7 +8,7 @@
 "id": "altscreen/resize-in-alt",
 "inSha": "1474ab572e1ee9d78f0f6825eda08d9e3307eab062eeacd056a53e2c2e416574",
 "init": {"cols":20,"rows":6,"scrollback":1000,"unicode":"6"},
-"pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
+"pins": "1581ec70540eb81630b170a95b670f3fbff914b7d9d110a334e4624182c7645a",
 "ref": "xcur",
 "split": {"sensitive":[],"variants":47},
 "steps": [
