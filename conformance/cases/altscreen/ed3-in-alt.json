@@ -1,0 +1,1 @@
+{"id": "altscreen/ed3-in-alt", "desc": "ED 3 in alt", "steps": [{"w": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9"}, {"w": "\u001b[?1049ha\u001b[3J"}]}

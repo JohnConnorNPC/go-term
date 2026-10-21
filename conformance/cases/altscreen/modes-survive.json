@@ -1,0 +1,1 @@
+{"id": "altscreen/modes-survive", "desc": "modes survive alt", "steps": [{"w": "\u001b[?1;2004h\u001b[?1049ha\u001b[?1049lb"}]}

@@ -1,0 +1,1 @@
+{"id": "altscreen/1047-exit-clears", "desc": "1047 exit clears the alt screen", "steps": [{"w": "\u001b[?1047hone\u001b[?1047l\u001b[?47h"}]}

@@ -1,12 +1,25 @@
 {
 "cases": {
+"altscreen/1047-exit-clears": "13f246bd1acbb8771295193803091d5ab879b8971600150ebe9b13233818cdd1",
 "altscreen/1047-roundtrip": "7f2b1317ca4da44177ff68323db80608f4d9e6144ba77215c61c334da142182f",
+"altscreen/1048-47-combo": "49e72578fab461a9436d159f26e9bb7983d7a6439bf739f4834b98ff5610e8dc",
 "altscreen/1049-alt-cleared-on-reenter": "0a85d15ff2d6c4cd5c86230ba33ec065a3672279f9a3179b670d02c9e59cf2f8",
+"altscreen/1049-bg-at-enter": "b181fc425083145dcd7d9602bae511ff752417708eb9d3802af70e7b746edaab",
+"altscreen/1049-cursor-hidden": "d892cba35061526cbe222a1882ee5bb1c354721e7bb5c18f0d6c609feef9994e",
 "altscreen/1049-roundtrip": "5cae689c2358dd4aad4f5271851c4ee170032e2a44ffee7ad7ca49726b1a65d1",
 "altscreen/47-content-kept": "59a50929167f9c513b119b38c47cb49f2290f25057abdc8aa8208f5d0ac4e285",
 "altscreen/47-roundtrip": "dacd2632bbb6f7beed69d2d1526318bd762880d5dfc14800a3aebdf71743fc47",
 "altscreen/alt-no-scrollback": "02ca9bcc327e37607d71edf2e4f58842047d3a78ddc9e99277ad352c01c3b466",
+"altscreen/alt-wrapped-lines": "ca376b5b27193d3d825938e716ca4d8a65dd504fd09eb98e9bfe4f92b811c34d",
+"altscreen/ed3-in-alt": "d37b8370adf8a0f726ca49e0a217bb91ce32103f7f71871beda64d99dc938dd7",
+"altscreen/enter-twice": "bc545ef7aebbaf3e2497d2c493f1e7001d6595d0971f705708923027519a896e",
+"altscreen/exit-without-enter": "8b5a2ab034519f8ad5d60a41415f358d265f24966231a3c1fff0741cede9b076",
+"altscreen/modes-survive": "8a70b721393c20a18ff4f7c598fe505288903c56ac6cb621728ee8c71f972032",
 "altscreen/normal-scrollback-kept": "6ea1e8131fa14d7ed3e89aa5d73fc837d1bef184d758c2be8236b4e05524446d",
+"altscreen/region-in-alt": "8486215a5f8bd411b5eb81a3ca70bac55e2cd0110a87a3dd0137918f0fbd6cb1",
+"altscreen/resize-in-alt": "c34378b004a83eec1715f6ffe739a342f8b50d66a0dc5792c2145df5ca1f6550",
+"altscreen/ris-in-alt": "64e976cd8c6af252b3a2f293cab21efcef6f5b92a4b100956435c45b3df81b98",
+"altscreen/title-survives": "9897910735040c4e9578fc13d222add4fee39f2e3dcd48861af7a23c8eaaa715",
 "c0/bel": "d8b03f5d27a40e6c9b4cb763be1f13e1e6d7dc00fa411b78613f4211488a1da5",
 "c0/bs-col0": "0b061aff9b0adbd7ac9ee340cbf39106ffebd7032ca45ad4eeb6ddc9fdc2b579",
 "c0/bs-mid": "e767d5f6aafa3d92262edf97f5bfb8f3acebd658db714be9775dd12d14db039a",
@@ -251,5 +264,5 @@
 "image": "sha256:7cd3fbc830c75c92256fe1122002add9a1c025831af8770cd0bf8e45688ef661",
 "pins": "856c599c215e64cc8f524415e13e6f214578217ad3b005a6b27b46e675c289e6",
 "sensitive": [],
-"variants": 8458
+"variants": 9152
 }

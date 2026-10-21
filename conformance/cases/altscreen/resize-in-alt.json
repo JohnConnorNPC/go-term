@@ -1,0 +1,1 @@
+{"id": "altscreen/resize-in-alt", "desc": "resize while alt is active, then exit", "steps": [{"w": "normal text that wraps around"}, {"w": "\u001b[?1049halt"}, {"resize": [10, 6]}, {"w": "\u001b[?1049lX"}]}

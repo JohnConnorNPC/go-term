@@ -1,0 +1,1 @@
+{"id": "altscreen/enter-twice", "desc": "entering 1049 twice", "steps": [{"w": "n\u001b[?1049ha\u001b[?1049hb"}]}

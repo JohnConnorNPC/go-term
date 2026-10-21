@@ -1,0 +1,1 @@
+{"id": "altscreen/1048-47-combo", "desc": "?1048 save + ?47", "steps": [{"w": "\u001b[3;3H\u001b[?1048h\u001b[?47ha\u001b[?47l\u001b[?1048lX"}]}

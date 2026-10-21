@@ -1,0 +1,1 @@
+{"id": "altscreen/ris-in-alt", "desc": "RIS while alt is active", "steps": [{"w": "\u001b[?1049halt\u001bcx"}]}

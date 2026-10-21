@@ -1,0 +1,1 @@
+{"id": "altscreen/1049-bg-at-enter", "desc": "1049 entered with a bg colour set", "steps": [{"w": "\u001b[44m\u001b[?1049hx"}]}

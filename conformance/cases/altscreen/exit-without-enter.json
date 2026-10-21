@@ -1,0 +1,1 @@
+{"id": "altscreen/exit-without-enter", "desc": "leaving 1049 when not in alt", "steps": [{"w": "n\u001b[2;2H\u001b[?1049lX"}]}
