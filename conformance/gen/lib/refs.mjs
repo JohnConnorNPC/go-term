@@ -7,6 +7,9 @@ export const REFS = {
   x53: { pkg: 'xterm-headless', addon: 'xterm-addon-unicode11' },
   xcur: { pkg: '@xterm/headless', addon: '@xterm/addon-unicode11' },
 };
+// Both headless bundles gate `term.buffer` behind allowProposedApi; that option is read nowhere else (only in
+// _checkProposedApi), so setting it changes no terminal behaviour. Every other option stays at the headless default.
+export const API_OPTS = { allowProposedApi: true };
 export const DEFAULT_KEYS = ['cols', 'rows', 'scrollback', 'convertEol', 'windowsMode', 'allowProposedApi',
   'cursorStyle', 'cursorBlink', 'windowOptions'];
 const require = createRequire(GEN + 'package.json');
