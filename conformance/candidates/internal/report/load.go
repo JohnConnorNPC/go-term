@@ -59,11 +59,9 @@ func Load(dir, root string) (map[Run]summary.Summary, error) {
 	return out, nil
 }
 
-// goldens counts ref's golden files, root/golden/<ref>/<category>/*.json; none is an error.
+// goldens counts ref's golden files, root/golden/<ref>/<category>/*.json (none: every summary's total differs, since
+// an empty summary is already UNMEASURED).
 func goldens(root, ref string) (int, error) {
 	gs, err := filepath.Glob(filepath.Join(root, "golden", ref, "*", "*.json"))
-	if err == nil && len(gs) == 0 {
-		err = fmt.Errorf("no goldens under %s", filepath.Join(root, "golden", ref))
-	}
 	return len(gs), err
 }
