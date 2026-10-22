@@ -7,13 +7,17 @@ import (
 	"strings"
 )
 
-var getter = regexp.MustCompile(`^func \(\w+ \*?\w+\) (DecPrivateModes|Modes|CoreService)\(\)|^\s+(DecPrivateModes)\s+DecPrivateModes$`)
+var (
+	getter = regexp.MustCompile(`^func \(\w+ \*?\w+\) (DecPrivateModes|Modes|CoreService)\(\)|^\s+(DecPrivateModes)\s+DecPrivateModes$`)
+	setter = regexp.MustCompile(`^func \(\w+ \*?(\w+)\) (Set\w*Mode\w*)\(`)
+)
 
-// modeAPI is `MODEAPI <e> get=<symbols> replay=yes`: the exported mode getters (a method or an exported
-// DecPrivateModes field) in the module's non-test Go files, listed as found. replay (re-writing the bytes) works for
+// modeAPI is `MODEAPI <e> get=<symbols> set=<symbols> replay=yes`: the exported mode getters (a method or an exported
+// DecPrivateModes field) and every exported Set*Mode* method in the module's non-test Go files, listed as found, not
+// judged (gitpod's BufferSet.SetWindowsPtyMode is not a DEC mode setter). replay (re-writing the bytes) works for
 // every engine.
 func modeAPI(engine string, fsys fs.FS) (string, error) {
-	gets := map[string]bool{}
+	gets, sets := map[string]bool{}, map[string]bool{}
 	err := fs.WalkDir(fsys, ".", func(p string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() || !strings.HasSuffix(p, ".go") || strings.HasSuffix(p, "_test.go") {
 			return err
@@ -23,10 +27,13 @@ func modeAPI(engine string, fsys fs.FS) (string, error) {
 			if m := getter.FindStringSubmatch(l); m != nil {
 				gets[m[1]+m[2]] = true
 			}
+			if m := setter.FindStringSubmatch(l); m != nil {
+				sets[m[1]+"."+m[2]] = true
+			}
 		}
 		return err
 	})
-	return "MODEAPI " + engine + " get=" + names(gets) + " replay=yes", err
+	return "MODEAPI " + engine + " get=" + names(gets) + " set=" + names(sets) + " replay=yes", err
 }
 
 func names(set map[string]bool) string {
