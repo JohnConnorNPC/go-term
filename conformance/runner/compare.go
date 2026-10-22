@@ -26,24 +26,21 @@ func sameStrings(a, b []string) bool {
 	return true
 }
 
+// compareMap walks the golden's keys only (E3): an engine key the golden lacks is ignored, and a golden key the
+// engine lacks is unobserved.
 func compareMap(path string, want, got map[string]any) string {
-	keys := map[string]bool{}
-	for k := range want {
-		keys[k] = true
-	}
-	for k := range got {
-		keys[k] = true
-	}
 	var ks []string
-	for k := range keys {
+	for k := range want {
 		ks = append(ks, k)
 	}
 	sort.Strings(ks)
 	for _, k := range ks {
-		w, wok := want[k]
-		g, gok := got[k]
-		if wok != gok || show(w) != show(g) {
-			return mismatch(path+"."+k, w, g)
+		g, ok := got[k]
+		if !ok {
+			return "unobserved " + path + "." + k
+		}
+		if show(want[k]) != show(g) {
+			return mismatch(path+"."+k, want[k], g)
 		}
 	}
 	return ""
