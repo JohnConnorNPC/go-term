@@ -55,3 +55,15 @@ func TestUnobserved(t *testing.T) {
 		t.Errorf("RunCase with lineFeeds unobserved: %s %q, want FAIL", r.Status, r.Diff)
 	}
 }
+
+// TestUnobservedCells: w and attrs name the golden's first row and first cell; a golden with no rows passes.
+func TestUnobservedCells(t *testing.T) {
+	diffs(t, map[string]string{
+		"w":     "unobserved step[0].normal[0].wrapped",
+		"attrs": "unobserved step[0].normal[0][0].attr",
+	})
+	empty := State{P: golden().P}
+	if d := Compare("step[0]", empty, State{P: empty.P, Unobserved: []string{"w", "attrs"}}); d != "" {
+		t.Errorf("w/attrs with no golden rows: diff %q, want PASS", d)
+	}
+}

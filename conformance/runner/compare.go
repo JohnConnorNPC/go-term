@@ -66,13 +66,15 @@ func unobserved(prefix string, want State, list []string) string {
 }
 
 // goldenPath is entry u's path in want, in Compare's diff form; "" when the golden has nothing there (an absent key,
-// an empty map). An entry outside the vocabulary is always a path, marked unknown.
+// an empty map, no rows). An entry outside the vocabulary is always a path, marked unknown.
 func goldenPath(prefix string, want State, u string) string {
 	name, key, sub := strings.Cut(u, ".")
 	var m map[string]any
 	switch {
 	case unobservedScalars[u]:
 		return prefix + ".P." + u
+	case u == "w" || u == "attrs":
+		return firstCell(prefix, want, u == "w")
 	case name == "modes":
 		m = want.P.Modes
 	case name == "opts":
@@ -82,6 +84,25 @@ func goldenPath(prefix string, want State, u string) string {
 	}
 	if _, has := m[key]; (sub && has) || (!sub && len(m) > 0) {
 		return prefix + ".P." + u
+	}
+	return ""
+}
+
+// firstCell is the golden's first row path (wrapped) or first cell path (attr), normal buffer first; "" when it has none.
+func firstCell(prefix string, want State, wrapped bool) string {
+	bufs := []struct {
+		name string
+		rows []Row
+	}{{"normal", want.Normal}, {"alt", want.Alt}}
+	for _, b := range bufs {
+		for y, r := range b.rows {
+			if wrapped {
+				return fmt.Sprintf("%s.%s[%d].wrapped", prefix, b.name, y)
+			}
+			if len(r.Cells) > 0 {
+				return fmt.Sprintf("%s.%s[%d][0].attr", prefix, b.name, y)
+			}
+		}
 	}
 	return ""
 }
