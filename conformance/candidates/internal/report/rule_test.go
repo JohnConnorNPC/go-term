@@ -12,7 +12,8 @@ import (
 const okLic = "LIC gitpod L1 OK x\nLIC gitpod L2 OK x\nLIC gitpod L3 OK x\nLIC gitpod L4 OK x\nLIC gitpod L11 OK x\nLIC gitpod L6 INFO 0/3\n"
 
 // TestRule: fork needs the full gate, the licence lines and SAME; a licence FAIL, a missing L11 or a moved pin changes
-// the verdict, and a missing PIN line is UNMEASURED.
+// the verdict; a summary pin that is not pin.txt's sha12 for its engine (any engine) is rescore-required; a missing
+// PIN line for any engine is UNMEASURED.
 func TestRule(t *testing.T) {
 	pass := func(r Run, s *summary.Summary) { s.Passed = 290 }
 	for _, c := range []struct {
@@ -21,7 +22,11 @@ func TestRule(t *testing.T) {
 		{strings.Replace(okLic, "L2 OK", "L2 FAIL", 1), okPin, "VERDICT survey-decides"},
 		{strings.Replace(okLic, "LIC gitpod L11 OK x\n", "", 1), okPin, "VERDICT survey-decides"},
 		{okLic, strings.Replace(okPin, "head=dae5128cb6b3 SAME", "head=000000000000 MOVED", 1), "VERDICT rescore-required"},
-		{okLic, "PIN magnet pinned=aa0a32cd702b head=aa0a32cd702b SAME\n", "UNMEASURED"}} {
+		{okLic, strings.ReplaceAll(okPin, "dae5128cb6b3", "111111111111"), "VERDICT rescore-required"},
+		{okLic, strings.ReplaceAll(okPin, "aa0a32cd702b", "222222222222"), "VERDICT rescore-required"},
+		{okLic, strings.Replace(okPin, "pinned=cb897cb4ed72", "pinned=333333333333", 1), "VERDICT rescore-required"},
+		{okLic, "PIN magnet pinned=aa0a32cd702b head=aa0a32cd702b SAME\n", "UNMEASURED"},
+		{okLic, strings.Replace(okPin, "PIN xvt", "PIN xxx", 1), "UNMEASURED"}} {
 		dir := fixture(t, pass)
 		if os.WriteFile(filepath.Join(dir, "lic.txt"), []byte(c.lic), 0o644) != nil ||
 			os.WriteFile(filepath.Join(dir, "pin.txt"), []byte(c.pin), 0o644) != nil {

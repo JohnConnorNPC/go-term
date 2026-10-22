@@ -71,7 +71,8 @@ func TestVerdict(t *testing.T) {
 	}
 }
 
-// TestForeign (M1): the xcur file copied into the x53 slot is UNMEASURED, exit 2, no verdict.
+// TestForeign (M1, M3): the xcur file copied into the x53 slot is UNMEASURED, exit 2, no verdict; a pin.txt whose
+// gitpod sha12 is not the summaries' is rescore-required.
 func TestForeign(t *testing.T) {
 	dir := scores(t)
 	b, err := os.ReadFile(filepath.Join(dir, "gitpod-xcur-full.json"))
@@ -82,5 +83,14 @@ func TestForeign(t *testing.T) {
 	if code := run([]string{"-scores", dir, "-root", "../../..", "-diff", "../../../golden/diff.json"}, &out); err != nil || code != 2 ||
 		!strings.HasPrefix(out.String(), "UNMEASURED x53 full gitpod") || strings.Contains(out.String(), "VERDICT") {
 		t.Errorf("xcur in the x53 slot: %v exit %d:\n%s", err, code, out.String())
+	}
+	dir = scores(t)
+	pin := "PIN gitpod pinned=111111111111 head=111111111111 SAME\nPIN magnet pinned=aa0a32cd702b head=aa0a32cd702b SAME\n" +
+		"PIN xvt pinned=cb897cb4ed72 head=67fa755d101a SAME\n"
+	err = os.WriteFile(filepath.Join(dir, "pin.txt"), []byte(pin), 0o644)
+	out.Reset()
+	if code := run([]string{"-scores", dir, "-root", "../../..", "-diff", "../../../golden/diff.json"}, &out); err != nil || code != 0 ||
+		!strings.HasSuffix(out.String(), "VERDICT rescore-required\n") {
+		t.Errorf("pin.txt at another sha: %v exit %d:\n%s", err, code, out.String())
 	}
 }
