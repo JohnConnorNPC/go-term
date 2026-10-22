@@ -12,7 +12,8 @@ import (
 
 // Engine is one gitpod terminal.
 type Engine struct {
-	t *xterm.Terminal
+	t  *xterm.Terminal
+	ev events
 }
 
 // New is the runner.Factory. gitpod has no unicode-version option, so only the goldens' default "6" is accepted.
@@ -20,7 +21,9 @@ func New(c runner.Config) (runner.Engine, error) {
 	if c.Unicode != "6" {
 		return nil, fmt.Errorf("gitpod has no unicode %q option", c.Unicode)
 	}
-	return &Engine{t: xterm.New(xterm.WithCols(c.Cols), xterm.WithRows(c.Rows), xterm.WithScrollback(c.Scrollback))}, nil
+	e := &Engine{t: xterm.New(xterm.WithCols(c.Cols), xterm.WithRows(c.Rows), xterm.WithScrollback(c.Scrollback))}
+	e.ev.listen(e.t)
+	return e, nil
 }
 
 func (e *Engine) Write(p []byte) error {
@@ -42,6 +45,7 @@ func (e *Engine) Reset() error {
 func (e *Engine) Snapshot() (runner.State, error) {
 	var st runner.State
 	e.grid(&st)
+	e.ev.fill(&st)
 	return st, nil
 }
 
