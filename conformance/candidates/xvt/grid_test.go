@@ -1,6 +1,7 @@
 package xvt
 
 import (
+	"sort"
 	"strings"
 	"testing"
 
@@ -36,5 +37,19 @@ func TestGrid(t *testing.T) {
 	}
 	if st := snap(t, "x\x1b[?1049h"); st.P.Buffer != "alternate" || st.Normal != nil || !strings.Contains(strings.Join(st.Unobserved, " "), "normalLength") {
 		t.Errorf("alt: buffer %q normal %v unobserved %v, want alternate, no normal rows, normalLength unobserved", st.P.Buffer, st.Normal != nil, st.Unobserved)
+	}
+}
+
+// TestEvents: a DA1 write returns (the reply pipe is drained), titles and bells by identity, and the exact list of
+// paths x/vt can't show (GO S-3: modes too).
+func TestEvents(t *testing.T) {
+	st := snap(t, "\x1b[c\x1b]2;a\a\a")
+	if st.P.Title != "a" || st.P.Bells != 1 {
+		t.Errorf("title %q bells %d, want a 1", st.P.Title, st.P.Bells)
+	}
+	u := append([]string{}, st.Unobserved...)
+	sort.Strings(u)
+	if strings.Join(u, " ") != "attrs lineFeeds modes opts replies viewportY w" {
+		t.Errorf("Unobserved %v", u)
 	}
 }

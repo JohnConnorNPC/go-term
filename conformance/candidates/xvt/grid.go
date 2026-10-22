@@ -1,5 +1,5 @@
 // Package xvt adapts github.com/charmbracelet/x/vt to the conformance runner (#1 D7). It reports only what the
-// emulator's public API returns (E3). The paths that API can't show are listed in State.Unobserved.
+// emulator's public API returns (E3). Every path that API can't show is listed in State.Unobserved.
 package xvt
 
 import (
@@ -15,7 +15,8 @@ var gridUnobserved = []string{"attrs", "viewportY", "w"}
 
 // Engine is one x/vt emulator.
 type Engine struct {
-	e *vt.Emulator
+	e  *vt.Emulator
+	ev events
 }
 
 // New is the runner.Factory. x/vt has no unicode-version option, so only the goldens' default "6" is accepted.
@@ -25,6 +26,7 @@ func New(c runner.Config) (runner.Engine, error) {
 	}
 	e := &Engine{e: vt.NewEmulator(c.Cols, c.Rows)}
 	e.e.SetScrollbackSize(c.Scrollback)
+	e.ev.listen(e.e)
 	return e, nil
 }
 
@@ -47,6 +49,7 @@ func (e *Engine) Reset() error {
 func (e *Engine) Snapshot() (runner.State, error) {
 	var st runner.State
 	err := e.grid(&st)
+	e.ev.fill(&st)
 	return st, err
 }
 
