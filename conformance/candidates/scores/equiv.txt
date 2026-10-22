@@ -1,0 +1,28 @@
+EQUIV gitpod G1 "" => none @ count(MouseTrackingMode *= )=5,count(MouseTrackingMode:)=0,coreservice.go:13,count(DecPrivateModes *= |DecPrivateModes: )=2,coreservice.go:45,coreservice.go:54
+EQUIV gitpod G2 "NONE" => none @ inputhandler_csi.go:721
+EQUIV gitpod G3 "X10" => x10 @ inputhandler_csi.go:655
+EQUIV gitpod G4 "VT200" => vt200 @ inputhandler_csi.go:657
+EQUIV gitpod G5 "DRAG" => drag @ inputhandler_csi.go:659
+EQUIV gitpod G6 "ANY" => any @ inputhandler_csi.go:661
+EQUIV gitpod G7 "override=nil" => block @ options.go:209,types.go:46,count(Options\.CursorStyle *= )=2,count(Options\.CursorStyle *= )=2,inputhandler_csi.go:550
+EQUIV gitpod G8 "override=set" => @override @ inputhandler_csi.go:564
+EQUIV gitpod G9 "override=nil" => false @ options.go:208,count(\.CursorBlink *= )=2,count(\.CursorBlink *= )=2,inputhandler_csi.go:551
+EQUIV gitpod G10 "override=set" => @override @ inputhandler_csi.go:566
+EQUIV magnet M1 "NONE" => none @ vt/mouse.go:230,vt/mouse.go:192,vt/inputhandler.go:1391,vt/mouse.go:212,count(activeProtocol = )=1
+EQUIV magnet M2 "X10" => x10 @ vt/inputhandler.go:1304
+EQUIV magnet M3 "VT200" => vt200 @ vt/inputhandler.go:1306
+EQUIV magnet M4 "DRAG" => drag @ vt/inputhandler.go:1308
+EQUIV magnet M5 "ANY" => any @ vt/inputhandler.go:1310
+EQUIV magnet M6 "override=nil" => @Options.CursorStyle @ vt/inputhandler.go:1788,vt/options.go:168,vt/terminal.go:81
+EQUIV magnet M7 "override=set" => @override @ vt/inputhandler.go:1801
+EQUIV magnet M8 "override=nil" => @Options.CursorBlink @ vt/inputhandler.go:1789,vt/inputhandler.go:1295,vt/inputhandler.go:1382,vt/terminal.go:81
+EQUIV magnet M9 "override=set" => @override @ vt/inputhandler.go:1804
+ENC gitpod gitpod-CMMask @ constants.go:33 0x3000000 == norm.CMMask
+ENC gitpod gitpod-CMP16 @ constants.go:35 0x1000000 == norm.CMP16
+ENC gitpod gitpod-CMP256 @ constants.go:36 0x2000000 == norm.CMP256
+ENC gitpod gitpod-CMRGB @ constants.go:37 0x3000000 == norm.CMRGB
+ENC magnet magnet-CMMask @ vt/attributes.go:39 0x3000000 == norm.CMMask
+ENC magnet magnet-CMP16 @ vt/attributes.go:41 0x1000000 == norm.CMP16
+ENC magnet magnet-CMP256 @ vt/attributes.go:42 0x2000000 == norm.CMP256
+ENC magnet magnet-CMRGB @ vt/attributes.go:43 0x3000000 == norm.CMRGB
+EQUIV OK 27/27

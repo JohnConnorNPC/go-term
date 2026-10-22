@@ -1,0 +1,1978 @@
+{
+ "cases": [
+  {
+   "detail": "",
+   "id": "altscreen/1047-exit-clears",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1047-roundtrip",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1048-47-combo",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1049-alt-cleared-on-reenter",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1049-bg-at-enter",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1049-cursor-hidden",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/1049-roundtrip",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/47-content-kept",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/47-roundtrip",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/alt-no-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/alt-wrapped-lines",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/ed3-in-alt",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/enter-twice",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/exit-without-enter",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/modes-survive",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/normal-scrollback-kept",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/region-in-alt",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/resize-in-alt",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/ris-in-alt",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "altscreen/title-survives",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/bel",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/bs-col0",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/bs-mid",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/bs-no-reverse-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/bs-pending-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/c0-inside-csi",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/can-aborts-csi",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/cr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/del-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/ht-default",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/ht-last-stop",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/ht-pending-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/lf-bottom-scroll",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/lf-keeps-col",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/nul-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/raw-bytes",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/smoke-crlf",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/smoke-sgr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/smoke-text",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/so-si",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/sub-aborts-csi",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "c0/vt-ff-as-lf",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/bce-ech",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/bce-ed",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/bce-el",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cbt",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cha",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cht",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cnl",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cpl",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cub-clamp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cud-clamp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cuf-clamp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-clamp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-home",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-huge-param",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-row-only",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-semicolons",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cup-zero",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cuu-clamp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cuu-default",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/cuu-zero",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/dch",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/dch-beyond",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decsed-protected",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decsel-protected",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decslrm-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decstbm-basic",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decstbm-default",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/decstbm-invalid",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/dl-in-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ech",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ech-beyond",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ed0",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ed1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ed2",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ed2-keeps-cursor",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/el-pending-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/el0",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/el1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/el2",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/hpa",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/hpr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/hvp",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ich",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ich-overflow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/il-in-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/il-outside-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/ind-ri-at-margins",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/irm-insert",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/lf-at-bottom-margin",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/lf-below-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/region-cursor-outside",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/region-partial-no-push",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/rep",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/rep-after-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/scosc-scorc",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/sd-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/su-count",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/su-region",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/vpa",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "csi/vpr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/dcs-can-abort",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/dcs-long-64k",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/dcs-sixel-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/dcs-unknown-swallowed",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-dq-p",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-dq-q",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-invalid",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-m",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-r",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got true",
+   "id": "dcs/decrqss-sp-q",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "dcs/decrqss-unterminated",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/ansi-irm",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/ansi-lnm",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/autowrap-pending",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/autowrap-then-char",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/autowrap-then-cr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/autowrap-then-cup",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/autowrap-then-lf",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/bracketed-paste",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want true got false",
+   "id": "decmodes/cursor-blink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/cursor-hide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/cursor-show",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/decckm",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/deccolm-no-effect",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/decscnm",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorStyle: want \"block\" got \"bar\"",
+   "id": "decmodes/decscusr-bar",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/decscusr-reset",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/decstr",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/focus-1004",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/keypad-66",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-1000",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-1000-to-1002",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-1002",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-1003",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-enc-survives",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-pixels-1016",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-sgr-1006",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-urxvt-1015",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-utf8-1005",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/mouse-x10",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/multi-param",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/nowrap-overwrite",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "B.t3: want \"\\u001b[2;1R\" got \"\\u001b[1;1R\"",
+   "id": "decmodes/origin-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "B.t3: want \"\\u001b[2;1R\" got \"\\u001b[1;1R\"",
+   "id": "decmodes/origin-cpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "B.t3: want \"\\u001b[2;1R\" got \"\\u001b[1;1R\"",
+   "id": "decmodes/origin-cup",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "B.t3: want \"\\u001b[3;1R\" got \"\\u001b[1;1R\"",
+   "id": "decmodes/origin-homes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/reverse-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/ris-resets-modes",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/save-1048",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/sync-2026",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "decmodes/unknown-mode",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/dec-dhl-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/decaln",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/deckpam",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/deckpnm",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/decrc-nosave",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/decsc-decrc",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.originMode: want false got true",
+   "id": "esc/decsc-origin",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/esc-esc",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/esc-intermediate-garbage",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/esc-percent",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/g0-dec",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/g0-uk",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/g1-so",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/g2-ss2",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/g3-ss3",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/hts-tbc",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/ind-bottom",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/ind-mid",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/nel",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/ri-mid",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/ri-top",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/ris",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/s7c1t",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/stray-st",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "esc/unknown-esc-z",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc-can-abort",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc-raw-9c-terminator",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc-titles-seq",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc-unterminated",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc-utf8",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc0-bel",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc0-empty",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc1-icon-only",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc10-query",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc104-reset",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc11-query",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc12-query",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc2-st",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc4-query",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc52-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc7-ignored",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/osc8-link",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/title-1024",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/title-1025",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "osc/title-4096",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/80x24-default-size",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/alt-no-reflow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/cjk-reflow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/cols-1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/cols-2000",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/cursor-clamp-shrink",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/extreme-2000x1000",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/grow-cols-unwrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/grow-rows-from-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/grow-then-write",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/origin-after-resize",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/region-after-resize",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/resize-pending-wrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/roundtrip-down-up",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/rows-1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/rows-1000",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/same-size-noop",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/sb-trim-on-resize",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/shrink-cols-rewrap",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/shrink-rows-to-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/split-utf8-across-resize",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/tabs-after-grow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/to-1x1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/trailing-empty-lines",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/wide-at-reflow-boundary",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "resize/wrapped-chain-3",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/attrs-in-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/cursor-after-scroll",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/default-limit",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/ed2-no-push",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/ed3",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/fill-30",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/full-region-pushes",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/il-top-no-push",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/lf-flood",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/partial-region-no-push",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/ri-top-no-push",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/ris-clears",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/sb-after-shrink",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.baseY: want 0 got 4",
+   "id": "scrollback/sb0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/sb1",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/sb5-trim",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/su-full-screen",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/viewport-follows",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/wide-in-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "scrollback/wrapped-in-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/22-clears-bold-dim",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/38-truncated",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/38-unknown-mode",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/bg-16",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/bg-256",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/bg-bright",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/bg-rgb-colon",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/blink",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/bold",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/combined",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/dim",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/double-underline",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/erase-bce-not-bold",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-16",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-256",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-256-colon",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-bright",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-rgb-colon",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-rgb-colon-nocs",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/fg-rgb-semi",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/inverse",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/inverse-default",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/invisible",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/italic",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/many-params",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/overline",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/p256-overflow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/rgb-overflow",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/sgr-empty",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/sgr-in-scrollback",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/sgr0",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/strike",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-colour-256",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-colour-reset",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-colour-rgb",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-curly",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-dashed",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/ul-off-colon",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/underline",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "sgr/unknown-99",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/cjk-at-last-col",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/cjk-basic",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/cjk-ext-b",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/cjk-fits-col18",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/combining-acute",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/combining-after-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/combining-col0",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/combining-multi",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/dch-half-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/el-partial-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/emoji-1f600",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/emoji-2705",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/flags-regional",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/fullwidth-a",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/hangul-jamo",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/ich-on-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/invalid-above-max",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/invalid-c3-28",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/invalid-overlong",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/invalid-surrogate",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/overwrite-left-half",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/overwrite-right-half",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.cursor.x: want 3 got 2",
+   "id": "wide/soft-hyphen",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/split-utf8",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/tab-over-wide",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "bytes: step[0].P.cursor.x: want 2 got 1",
+   "id": "wide/ufffd",
+   "result": "SPLIT",
+   "variant": "bytes"
+  },
+  {
+   "detail": "",
+   "id": "wide/vs15",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/vs16-heart",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/zwj-family",
+   "result": "PASS",
+   "variant": ""
+  },
+  {
+   "detail": "",
+   "id": "wide/zwsp",
+   "result": "PASS",
+   "variant": ""
+  }
+ ],
+ "categories": {
+  "altscreen": {
+   "passed": 20,
+   "total": 20
+  },
+  "c0": {
+   "passed": 22,
+   "total": 22
+  },
+  "csi": {
+   "passed": 60,
+   "total": 60
+  },
+  "dcs": {
+   "passed": 10,
+   "total": 11
+  },
+  "decmodes": {
+   "passed": 34,
+   "total": 40
+  },
+  "esc": {
+   "passed": 24,
+   "total": 25
+  },
+  "osc": {
+   "passed": 20,
+   "total": 20
+  },
+  "resize": {
+   "passed": 26,
+   "total": 26
+  },
+  "scrollback": {
+   "passed": 19,
+   "total": 20
+  },
+  "sgr": {
+   "passed": 40,
+   "total": 40
+  },
+  "wide": {
+   "passed": 28,
+   "total": 30
+  }
+ },
+ "engine": "gitpod",
+ "equiv": "full",
+ "goldenManifestSha": "7342faa15ca46e9eebebb04bb651eab374770e7acc8662fe2ffd3933daa121fe",
+ "passed": 303,
+ "pin": "github.com/gitpod-io/xterm-go@v0.0.0-20260907130418-dae5128cb6b3",
+ "ref": "xcur",
+ "skipped": [
+  {
+   "complete": true,
+   "id": "wide/cjk-ext-b",
+   "variant": "bytes"
+  },
+  {
+   "complete": true,
+   "id": "wide/cjk-ext-b",
+   "variant": "s0k3"
+  },
+  {
+   "complete": true,
+   "id": "wide/zwj-family",
+   "variant": "bytes"
+  },
+  {
+   "complete": true,
+   "id": "wide/zwj-family",
+   "variant": "s0k6"
+  },
+  {
+   "complete": true,
+   "id": "wide/zwj-family",
+   "variant": "s0k13"
+  },
+  {
+   "complete": true,
+   "id": "wide/zwsp",
+   "variant": "bytes"
+  },
+  {
+   "complete": true,
+   "id": "wide/zwsp",
+   "variant": "s0k3"
+  }
+ ],
+ "total": 314
+}

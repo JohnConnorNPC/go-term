@@ -1,0 +1,57 @@
+LIC gitpod L1 OK LICENSE
+LIC gitpod L2 OK Permission is hereby granted, free of charge
+LIC gitpod L3 OK The above copyright notice and this permission notice shall be included
+LIC gitpod L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC gitpod L5 INFO Copyright (c) 2026 Ona
+LIC gitpod L6 INFO 0/3
+LIC gitpod L10 INFO e625cb3be4cc
+LIC gitpod L7 INFO files none
+LIC gitpod L7 OK copyleft none
+LIC gitpod L7 INFO copyleft-quoted none
+LIC gitpod L8 INFO spdx none
+LIC gitpod L9 OK no non-test dependencies
+LIC gitpod L9 INFO test-only github.com/google/go-cmp
+LIC magnet L1 OK LICENSE
+LIC magnet L2 OK Permission is hereby granted, free of charge
+LIC magnet L3 OK The above copyright notice and this permission notice shall be included
+LIC magnet L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC magnet L5 INFO Copyright (c) 2017-2019, The xterm.js authors (https://github.com/xtermjs/xterm.js) | Copyright (c) 2014-2016, SourceLair Private Company (https://www.sourcelair.com) | Copyright (c) 2012-2013, Christopher Jeffrey (https://github.com/chjj/)
+LIC magnet L6 INFO 3/3
+LIC magnet L10 INFO b569f629d00f
+LIC magnet L7 INFO files none
+LIC magnet L7 OK copyleft none
+LIC magnet L7 INFO copyleft-quoted none
+LIC magnet L8 INFO spdx none
+LIC magnet L9 OK no non-test dependencies
+LIC magnet L9 INFO test-only none
+LIC xvt L1 OK LICENSE
+LIC xvt L2 OK Permission is hereby granted, free of charge
+LIC xvt L3 OK The above copyright notice and this permission notice shall be included
+LIC xvt L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC xvt L5 INFO Copyright (c) 2023 Charmbracelet, Inc.
+LIC xvt L6 INFO 0/3
+LIC xvt L10 INFO 0baa4a5942a8
+LIC xvt L7 INFO files none
+LIC xvt L7 OK copyleft none
+LIC xvt L7 INFO copyleft-quoted none
+LIC xvt L8 INFO spdx none
+LIC xvt L9 OK github.com/charmbracelet/colorprofile not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/ultraviolet not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/x/ansi not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/x/exp/ordered not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/x/term not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/x/termios not-mit=none
+LIC xvt L9 OK github.com/charmbracelet/x/windows not-mit=none
+LIC xvt L9 OK github.com/clipperhouse/displaywidth not-mit=none
+LIC xvt L9 OK github.com/clipperhouse/uax29/v2 not-mit=none
+LIC xvt L9 OK github.com/lucasb-eyer/go-colorful not-mit=none
+LIC xvt L9 OK github.com/mattn/go-runewidth not-mit=none
+LIC xvt L9 OK github.com/muesli/cancelreader not-mit=none
+LIC xvt L9 INFO github.com/rivo/uniseg not-mit=L1
+LIC xvt L9 OK github.com/xo/terminfo not-mit=none
+LIC xvt L9 INFO golang.org/x/sync not-mit=L2,L3,L4
+LIC xvt L9 INFO golang.org/x/sys not-mit=L2,L3,L4
+LIC xvt L9 INFO test-only golang.org/x/exp
+LIC gitpod gh-spdx INFO MIT
+LIC magnet gh-spdx INFO MIT
+LIC xvt gh-spdx INFO MIT

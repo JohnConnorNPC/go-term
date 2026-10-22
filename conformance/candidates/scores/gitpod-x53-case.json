@@ -1,0 +1,1942 @@
+{
+ "cases": [
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1047-exit-clears",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1047-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1048-47-combo",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1049-alt-cleared-on-reenter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1049-bg-at-enter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1049-cursor-hidden",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/1049-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/47-content-kept",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/47-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/alt-no-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/alt-wrapped-lines",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/ed3-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/enter-twice",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/exit-without-enter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/modes-survive",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/normal-scrollback-kept",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/region-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/resize-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/ris-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "altscreen/title-survives",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/bel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/bs-col0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/bs-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/bs-no-reverse-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/bs-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/c0-inside-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/can-aborts-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/cr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/del-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/ht-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/ht-last-stop",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/ht-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/lf-bottom-scroll",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/lf-keeps-col",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/nul-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/raw-bytes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/smoke-crlf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/smoke-sgr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/smoke-text",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/so-si",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/sub-aborts-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "c0/vt-ff-as-lf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/bce-ech",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/bce-ed",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/bce-el",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cbt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cha",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cht",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cnl",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cpl",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cub-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cud-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cuf-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-home",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-huge-param",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-row-only",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-semicolons",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cup-zero",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cuu-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cuu-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/cuu-zero",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/dch",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/dch-beyond",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decsed-protected",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decsel-protected",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decslrm-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decstbm-basic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decstbm-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/decstbm-invalid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/dl-in-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ech",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ech-beyond",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ed0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ed1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ed2",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ed2-keeps-cursor",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/el-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/el0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/el1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/el2",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/hpa",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/hpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/hvp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ich",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ich-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/il-in-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/il-outside-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/ind-ri-at-margins",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/irm-insert",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/lf-at-bottom-margin",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/lf-below-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/region-cursor-outside",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/region-partial-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/rep",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.cursor.x: want 2 got 6",
+   "id": "csi/rep-after-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/scosc-scorc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/sd-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/su-count",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/su-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/vpa",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "csi/vpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/dcs-can-abort",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/dcs-long-64k",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/dcs-sixel-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/dcs-unknown-swallowed",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-dq-p",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-dq-q",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-invalid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-m",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-r",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.replies: want [\"\\u001bP1$r5 q\\u001b\\\\\"] got [\"\\u001bP1$r2 q\\u001b\\\\\"]",
+   "id": "dcs/decrqss-sp-q",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "dcs/decrqss-unterminated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/ansi-irm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/ansi-lnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/autowrap-pending",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/autowrap-then-char",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/autowrap-then-cr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/autowrap-then-cup",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/autowrap-then-lf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/bracketed-paste",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/cursor-blink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/cursor-hide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/cursor-show",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/decckm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/deccolm-no-effect",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/decscnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/decscusr-bar",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/decscusr-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/decstr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/focus-1004",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/keypad-66",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-1000-to-1002",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-1002",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-1003",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-enc-survives",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/mouse-pixels-1016",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/mouse-sgr-1006",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/mouse-urxvt-1015",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/mouse-utf8-1005",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.opts.cursorBlink: want false got null",
+   "id": "decmodes/mouse-x10",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/multi-param",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/nowrap-overwrite",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/origin-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/origin-cpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/origin-cup",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/origin-homes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/reverse-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/ris-resets-modes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/save-1048",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/sync-2026",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "decmodes/unknown-mode",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/dec-dhl-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/decaln",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/deckpam",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/deckpnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/decrc-nosave",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/decsc-decrc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/decsc-origin",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/esc-esc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/esc-intermediate-garbage",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/esc-percent",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/g0-dec",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/g0-uk",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/g1-so",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/g2-ss2",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/g3-ss3",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/hts-tbc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/ind-bottom",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/ind-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/nel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/ri-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/ri-top",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/ris",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/s7c1t",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/stray-st",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "esc/unknown-esc-z",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc-can-abort",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc-raw-9c-terminator",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc-titles-seq",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc-unterminated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc-utf8",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc0-bel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc0-empty",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc1-icon-only",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc10-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc104-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc11-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc12-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc2-st",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc4-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc52-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc7-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/osc8-link",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/title-1024",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/title-1025",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "osc/title-4096",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/80x24-default-size",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/alt-no-reflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/cjk-reflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/cols-1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/cols-2000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/cursor-clamp-shrink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/extreme-2000x1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/grow-cols-unwrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/grow-rows-from-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/grow-then-write",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/origin-after-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/region-after-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/resize-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/roundtrip-down-up",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/rows-1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/rows-1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/same-size-noop",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/sb-trim-on-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/shrink-cols-rewrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/shrink-rows-to-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/split-utf8-across-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/tabs-after-grow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/to-1x1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/trailing-empty-lines",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/wide-at-reflow-boundary",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "resize/wrapped-chain-3",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/attrs-in-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/cursor-after-scroll",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/default-limit",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/ed2-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/ed3",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/fill-30",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/full-region-pushes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/il-top-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/lf-flood",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/partial-region-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/ri-top-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/ris-clears",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/sb-after-shrink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.baseY: want 0 got 4",
+   "id": "scrollback/sb0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/sb1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/sb5-trim",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/su-full-screen",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/viewport-follows",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/wide-in-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "scrollback/wrapped-in-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/22-clears-bold-dim",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/38-truncated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/38-unknown-mode",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/bg-16",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/bg-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/bg-bright",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/bg-rgb-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/blink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/bold",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/combined",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/dim",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/double-underline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/erase-bce-not-bold",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-16",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-256-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-bright",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-rgb-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-rgb-colon-nocs",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/fg-rgb-semi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/inverse",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/inverse-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/invisible",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/italic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/many-params",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/overline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/p256-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/rgb-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/sgr-empty",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/sgr-in-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/sgr0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/strike",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-colour-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-colour-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-colour-rgb",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-curly",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-dashed",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/ul-off-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/underline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "sgr/unknown-99",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/cjk-at-last-col",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/cjk-basic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/cjk-ext-b",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/cjk-fits-col18",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/combining-acute",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/combining-after-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/combining-col0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/combining-multi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/dch-half-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/el-partial-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/emoji-1f600",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/emoji-2705",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/flags-regional",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/fullwidth-a",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/hangul-jamo",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/ich-on-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/invalid-above-max",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/invalid-c3-28",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/invalid-overlong",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/invalid-surrogate",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/overwrite-left-half",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/overwrite-right-half",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.cursor.x: want 3 got 2",
+   "id": "wide/soft-hyphen",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/split-utf8",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/tab-over-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/ufffd",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/vs15",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/vs16-heart",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/zwj-family",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0].P.modes.mouseTrackingMode: want \"none\" got \"\"",
+   "id": "wide/zwsp",
+   "result": "FAIL",
+   "variant": ""
+  }
+ ],
+ "categories": {
+  "altscreen": {
+   "passed": 0,
+   "total": 20
+  },
+  "c0": {
+   "passed": 0,
+   "total": 22
+  },
+  "csi": {
+   "passed": 0,
+   "total": 60
+  },
+  "dcs": {
+   "passed": 0,
+   "total": 11
+  },
+  "decmodes": {
+   "passed": 0,
+   "total": 40
+  },
+  "esc": {
+   "passed": 0,
+   "total": 25
+  },
+  "osc": {
+   "passed": 0,
+   "total": 20
+  },
+  "resize": {
+   "passed": 0,
+   "total": 26
+  },
+  "scrollback": {
+   "passed": 0,
+   "total": 20
+  },
+  "sgr": {
+   "passed": 0,
+   "total": 40
+  },
+  "wide": {
+   "passed": 0,
+   "total": 30
+  }
+ },
+ "engine": "gitpod",
+ "equiv": "case",
+ "goldenManifestSha": "7342faa15ca46e9eebebb04bb651eab374770e7acc8662fe2ffd3933daa121fe",
+ "passed": 0,
+ "pin": "github.com/gitpod-io/xterm-go@v0.0.0-20260907130418-dae5128cb6b3",
+ "ref": "x53",
+ "skipped": [],
+ "total": 314
+}

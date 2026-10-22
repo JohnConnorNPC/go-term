@@ -1,0 +1,3 @@
+PIN gitpod pinned=dae5128cb6b3 head=dae5128cb6b3 SAME
+PIN magnet pinned=aa0a32cd702b head=aa0a32cd702b SAME
+PIN xvt pinned=cb897cb4ed72 head=67fa755d101a SAME

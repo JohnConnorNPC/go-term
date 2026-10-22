@@ -1,0 +1,1942 @@
+{
+ "cases": [
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1047-exit-clears",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1047-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1048-47-combo",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1049-alt-cleared-on-reenter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1049-bg-at-enter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1049-cursor-hidden",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/1049-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/47-content-kept",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/47-roundtrip",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/alt-no-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/alt-wrapped-lines",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "altscreen/ed3-in-alt",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/enter-twice",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/exit-without-enter",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/modes-survive",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "altscreen/normal-scrollback-kept",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/region-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/resize-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/ris-in-alt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "altscreen/title-survives",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/bel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/bs-col0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/bs-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/bs-no-reverse-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/bs-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/c0-inside-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/can-aborts-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/cr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/del-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/ht-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/ht-last-stop",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/ht-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "c0/lf-bottom-scroll",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/lf-keeps-col",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/nul-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/raw-bytes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/smoke-crlf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/smoke-sgr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/smoke-text",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/so-si",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/sub-aborts-csi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "c0/vt-ff-as-lf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/bce-ech",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 10,0",
+   "id": "csi/bce-ed",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/bce-el",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cbt",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cha",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cht",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cnl",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cpl",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cub-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cud-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cuf-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-home",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-huge-param",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-row-only",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-semicolons",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cup-zero",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cuu-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cuu-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/cuu-zero",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/dch",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/dch-beyond",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decsed-protected",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decsel-protected",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decslrm-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decstbm-basic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decstbm-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/decstbm-invalid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/dl-in-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ech",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ech-beyond",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ed0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ed1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 10,0",
+   "id": "csi/ed2",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 10,0",
+   "id": "csi/ed2-keeps-cursor",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/el-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/el0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/el1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/el2",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/hpa",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/hpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/hvp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ich",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/ich-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/il-in-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/il-outside-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 3,0",
+   "id": "csi/ind-ri-at-margins",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/irm-insert",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 0,0",
+   "id": "csi/lf-at-bottom-margin",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/lf-below-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/region-cursor-outside",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 0,0",
+   "id": "csi/region-partial-no-push",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/rep",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/rep-after-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/scosc-scorc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/sd-region",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 5,0",
+   "id": "csi/su-count",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 5,0",
+   "id": "csi/su-region",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/vpa",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "csi/vpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/dcs-can-abort",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/dcs-long-64k",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/dcs-sixel-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/dcs-unknown-swallowed",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-dq-p",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-dq-q",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-invalid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-m",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-r",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-sp-q",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "dcs/decrqss-unterminated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/ansi-irm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/ansi-lnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/autowrap-pending",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/autowrap-then-char",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/autowrap-then-cr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/autowrap-then-cup",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/autowrap-then-lf",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/bracketed-paste",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/cursor-blink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/cursor-hide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/cursor-show",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/decckm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/deccolm-no-effect",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/decscnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/decscusr-bar",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/decscusr-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/decstr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/focus-1004",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/keypad-66",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-1000-to-1002",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-1002",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-1003",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-enc-survives",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-pixels-1016",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-sgr-1006",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-urxvt-1015",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-utf8-1005",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/mouse-x10",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/multi-param",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/nowrap-overwrite",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/origin-clamp",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/origin-cpr",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/origin-cup",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/origin-homes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/reverse-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/ris-resets-modes",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/save-1048",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/sync-2026",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "decmodes/unknown-mode",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/dec-dhl-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/decaln",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/deckpam",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/deckpnm",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/decrc-nosave",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/decsc-decrc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/decsc-origin",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/esc-esc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/esc-intermediate-garbage",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/esc-percent",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/g0-dec",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/g0-uk",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/g1-so",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/g2-ss2",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/g3-ss3",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/hts-tbc",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "esc/ind-bottom",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/ind-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/nel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/ri-mid",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/ri-top",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/ris",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/s7c1t",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/stray-st",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "esc/unknown-esc-z",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc-can-abort",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc-raw-9c-terminator",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc-titles-seq",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc-unterminated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc-utf8",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc0-bel",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc0-empty",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc1-icon-only",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc10-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc104-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc11-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc12-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc2-st",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc4-query",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc52-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc7-ignored",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/osc8-link",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/title-1024",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/title-1025",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "osc/title-4096",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "resize/80x24-default-size",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/alt-no-reflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/cjk-reflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/cols-1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/cols-2000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/cursor-clamp-shrink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/extreme-2000x1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/grow-cols-unwrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "resize/grow-rows-from-scrollback",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/grow-then-write",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/origin-after-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/region-after-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/resize-pending-wrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/roundtrip-down-up",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "resize/rows-1",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/rows-1000",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/same-size-noop",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "resize/sb-trim-on-resize",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/shrink-cols-rewrap",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/shrink-rows-to-scrollback",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/split-utf8-across-resize",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/tabs-after-grow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/to-1x1",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/trailing-empty-lines",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/wide-at-reflow-boundary",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "resize/wrapped-chain-3",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 3,0",
+   "id": "scrollback/attrs-in-scrollback",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/cursor-after-scroll",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 2,0",
+   "id": "scrollback/default-limit",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/ed2-no-push",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/ed3",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/fill-30",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/full-region-pushes",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "scrollback/il-top-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 0,0",
+   "id": "scrollback/lf-flood",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 0,0",
+   "id": "scrollback/partial-region-no-push",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "scrollback/ri-top-no-push",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/ris-clears",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "scrollback/sb-after-shrink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/sb0",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/sb1",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 2,0",
+   "id": "scrollback/sb5-trim",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/su-full-screen",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 1,0",
+   "id": "scrollback/viewport-follows",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 5,0",
+   "id": "scrollback/wide-in-scrollback",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 5,2",
+   "id": "scrollback/wrapped-in-scrollback",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/22-clears-bold-dim",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/38-truncated",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/38-unknown-mode",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/bg-16",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/bg-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/bg-bright",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/bg-rgb-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/blink",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/bold",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/combined",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/dim",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/double-underline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/erase-bce-not-bold",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-16",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-256-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-bright",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-rgb-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-rgb-colon-nocs",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/fg-rgb-semi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/inverse",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/inverse-default",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/invisible",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/italic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/many-params",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/overline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/p256-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/rgb-overflow",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/sgr-empty",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "step[0]: snapshot error: x/vt returned no cell at 3,0",
+   "id": "sgr/sgr-in-scrollback",
+   "result": "ERROR",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/sgr0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/strike",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-colour-256",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-colour-reset",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-colour-rgb",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-curly",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-dashed",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/ul-off-colon",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/underline",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "sgr/unknown-99",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/cjk-at-last-col",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/cjk-basic",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/cjk-ext-b",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/cjk-fits-col18",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/combining-acute",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/combining-after-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/combining-col0",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/combining-multi",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/dch-half-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/el-partial-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/emoji-1f600",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/emoji-2705",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/flags-regional",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/fullwidth-a",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/hangul-jamo",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/ich-on-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/invalid-above-max",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/invalid-c3-28",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/invalid-overlong",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/invalid-surrogate",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/overwrite-left-half",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/overwrite-right-half",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/soft-hyphen",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/split-utf8",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/tab-over-wide",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/ufffd",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/vs15",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/vs16-heart",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/zwj-family",
+   "result": "FAIL",
+   "variant": ""
+  },
+  {
+   "detail": "unobserved step[0].normal[0][0].attr",
+   "id": "wide/zwsp",
+   "result": "FAIL",
+   "variant": ""
+  }
+ ],
+ "categories": {
+  "altscreen": {
+   "passed": 0,
+   "total": 20
+  },
+  "c0": {
+   "passed": 0,
+   "total": 22
+  },
+  "csi": {
+   "passed": 0,
+   "total": 60
+  },
+  "dcs": {
+   "passed": 0,
+   "total": 11
+  },
+  "decmodes": {
+   "passed": 0,
+   "total": 40
+  },
+  "esc": {
+   "passed": 0,
+   "total": 25
+  },
+  "osc": {
+   "passed": 0,
+   "total": 20
+  },
+  "resize": {
+   "passed": 0,
+   "total": 26
+  },
+  "scrollback": {
+   "passed": 0,
+   "total": 20
+  },
+  "sgr": {
+   "passed": 0,
+   "total": 40
+  },
+  "wide": {
+   "passed": 0,
+   "total": 30
+  }
+ },
+ "engine": "xvt",
+ "equiv": "full",
+ "goldenManifestSha": "7342faa15ca46e9eebebb04bb651eab374770e7acc8662fe2ffd3933daa121fe",
+ "passed": 0,
+ "pin": "github.com/charmbracelet/x/vt@v0.1.1-0.20261018003744-cb897cb4ed72",
+ "ref": "x53",
+ "skipped": [],
+ "total": 314
+}

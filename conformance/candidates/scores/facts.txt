@@ -1,0 +1,8 @@
+GOLINE gitpod go 1.25 vs 1.23 ABOVE
+MODEAPI gitpod get=DecPrivateModes,Modes set=BufferSet.SetWindowsPtyMode replay=yes
+GOLINE magnet go 1.24 vs 1.23 ABOVE
+MODEAPI magnet get=CoreService,DecPrivateModes set=InputHandler.SetMode,InputHandler.SetModePrivate,Terminal.SetScreenReaderMode replay=yes
+GOLINE xvt go 1.24.2 vs 1.23 ABOVE
+MODEAPI xvt get=none set=none replay=yes
+GOLDEN-VOCAB mouseTrackingMode none|x10|vt200|drag|any (../gen/node_modules/xterm-headless/typings/xterm-headless.d.ts)
+GOLDEN-VOCAB cursorStyle block|underline|bar (../gen/node_modules/xterm-headless/typings/xterm-headless.d.ts)

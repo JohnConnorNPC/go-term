@@ -1,0 +1,250 @@
+SCORE gitpod x53 strict 0/314 0.00
+CAT gitpod x53 strict altscreen 0/20 0.00 FLAG<50
+CAT gitpod x53 strict c0 0/22 0.00 FLAG<50
+CAT gitpod x53 strict csi 0/60 0.00 FLAG<50
+CAT gitpod x53 strict dcs 0/11 0.00 FLAG<50
+CAT gitpod x53 strict decmodes 0/40 0.00 FLAG<50
+CAT gitpod x53 strict esc 0/25 0.00 FLAG<50
+CAT gitpod x53 strict osc 0/20 0.00 FLAG<50
+CAT gitpod x53 strict resize 0/26 0.00 FLAG<50
+CAT gitpod x53 strict scrollback 0/20 0.00 FLAG<50
+CAT gitpod x53 strict sgr 0/40 0.00 FLAG<50
+CAT gitpod x53 strict wide 0/30 0.00 FLAG<50
+SCORE gitpod x53 full 0/314 0.00
+CAT gitpod x53 full altscreen 0/20 0.00 FLAG<50
+CAT gitpod x53 full c0 0/22 0.00 FLAG<50
+CAT gitpod x53 full csi 0/60 0.00 FLAG<50
+CAT gitpod x53 full dcs 0/11 0.00 FLAG<50
+CAT gitpod x53 full decmodes 0/40 0.00 FLAG<50
+CAT gitpod x53 full esc 0/25 0.00 FLAG<50
+CAT gitpod x53 full osc 0/20 0.00 FLAG<50
+CAT gitpod x53 full resize 0/26 0.00 FLAG<50
+CAT gitpod x53 full scrollback 0/20 0.00 FLAG<50
+CAT gitpod x53 full sgr 0/40 0.00 FLAG<50
+CAT gitpod x53 full wide 0/30 0.00 FLAG<50
+SCORE gitpod xcur strict 0/314 0.00
+CAT gitpod xcur strict altscreen 0/20 0.00 FLAG<50
+CAT gitpod xcur strict c0 0/22 0.00 FLAG<50
+CAT gitpod xcur strict csi 0/60 0.00 FLAG<50
+CAT gitpod xcur strict dcs 0/11 0.00 FLAG<50
+CAT gitpod xcur strict decmodes 0/40 0.00 FLAG<50
+CAT gitpod xcur strict esc 0/25 0.00 FLAG<50
+CAT gitpod xcur strict osc 0/20 0.00 FLAG<50
+CAT gitpod xcur strict resize 0/26 0.00 FLAG<50
+CAT gitpod xcur strict scrollback 0/20 0.00 FLAG<50
+CAT gitpod xcur strict sgr 0/40 0.00 FLAG<50
+CAT gitpod xcur strict wide 0/30 0.00 FLAG<50
+SCORE gitpod xcur full 303/314 96.49
+CAT gitpod xcur full altscreen 20/20 100.00
+CAT gitpod xcur full c0 22/22 100.00
+CAT gitpod xcur full csi 60/60 100.00
+CAT gitpod xcur full dcs 10/11 90.90
+CAT gitpod xcur full decmodes 34/40 85.00
+CAT gitpod xcur full esc 24/25 96.00
+CAT gitpod xcur full osc 20/20 100.00
+CAT gitpod xcur full resize 26/26 100.00
+CAT gitpod xcur full scrollback 19/20 95.00
+CAT gitpod xcur full sgr 40/40 100.00
+CAT gitpod xcur full wide 28/30 93.33
+SCORE gitpod x53 case 0/314 0.00
+CAT gitpod x53 case altscreen 0/20 0.00 FLAG<50
+CAT gitpod x53 case c0 0/22 0.00 FLAG<50
+CAT gitpod x53 case csi 0/60 0.00 FLAG<50
+CAT gitpod x53 case dcs 0/11 0.00 FLAG<50
+CAT gitpod x53 case decmodes 0/40 0.00 FLAG<50
+CAT gitpod x53 case esc 0/25 0.00 FLAG<50
+CAT gitpod x53 case osc 0/20 0.00 FLAG<50
+CAT gitpod x53 case resize 0/26 0.00 FLAG<50
+CAT gitpod x53 case scrollback 0/20 0.00 FLAG<50
+CAT gitpod x53 case sgr 0/40 0.00 FLAG<50
+CAT gitpod x53 case wide 0/30 0.00 FLAG<50
+SCORE gitpod x53 default 0/314 0.00
+CAT gitpod x53 default altscreen 0/20 0.00 FLAG<50
+CAT gitpod x53 default c0 0/22 0.00 FLAG<50
+CAT gitpod x53 default csi 0/60 0.00 FLAG<50
+CAT gitpod x53 default dcs 0/11 0.00 FLAG<50
+CAT gitpod x53 default decmodes 0/40 0.00 FLAG<50
+CAT gitpod x53 default esc 0/25 0.00 FLAG<50
+CAT gitpod x53 default osc 0/20 0.00 FLAG<50
+CAT gitpod x53 default resize 0/26 0.00 FLAG<50
+CAT gitpod x53 default scrollback 0/20 0.00 FLAG<50
+CAT gitpod x53 default sgr 0/40 0.00 FLAG<50
+CAT gitpod x53 default wide 0/30 0.00 FLAG<50
+SCORE magnet x53 strict 0/314 0.00
+CAT magnet x53 strict altscreen 0/20 0.00 FLAG<50
+CAT magnet x53 strict c0 0/22 0.00 FLAG<50
+CAT magnet x53 strict csi 0/60 0.00 FLAG<50
+CAT magnet x53 strict dcs 0/11 0.00 FLAG<50
+CAT magnet x53 strict decmodes 0/40 0.00 FLAG<50
+CAT magnet x53 strict esc 0/25 0.00 FLAG<50
+CAT magnet x53 strict osc 0/20 0.00 FLAG<50
+CAT magnet x53 strict resize 0/26 0.00 FLAG<50
+CAT magnet x53 strict scrollback 0/20 0.00 FLAG<50
+CAT magnet x53 strict sgr 0/40 0.00 FLAG<50
+CAT magnet x53 strict wide 0/30 0.00 FLAG<50
+SCORE magnet x53 full 0/314 0.00
+CAT magnet x53 full altscreen 0/20 0.00 FLAG<50
+CAT magnet x53 full c0 0/22 0.00 FLAG<50
+CAT magnet x53 full csi 0/60 0.00 FLAG<50
+CAT magnet x53 full dcs 0/11 0.00 FLAG<50
+CAT magnet x53 full decmodes 0/40 0.00 FLAG<50
+CAT magnet x53 full esc 0/25 0.00 FLAG<50
+CAT magnet x53 full osc 0/20 0.00 FLAG<50
+CAT magnet x53 full resize 0/26 0.00 FLAG<50
+CAT magnet x53 full scrollback 0/20 0.00 FLAG<50
+CAT magnet x53 full sgr 0/40 0.00 FLAG<50
+CAT magnet x53 full wide 0/30 0.00 FLAG<50
+SCORE magnet xcur strict 0/314 0.00
+CAT magnet xcur strict altscreen 0/20 0.00 FLAG<50
+CAT magnet xcur strict c0 0/22 0.00 FLAG<50
+CAT magnet xcur strict csi 0/60 0.00 FLAG<50
+CAT magnet xcur strict dcs 0/11 0.00 FLAG<50
+CAT magnet xcur strict decmodes 0/40 0.00 FLAG<50
+CAT magnet xcur strict esc 0/25 0.00 FLAG<50
+CAT magnet xcur strict osc 0/20 0.00 FLAG<50
+CAT magnet xcur strict resize 0/26 0.00 FLAG<50
+CAT magnet xcur strict scrollback 0/20 0.00 FLAG<50
+CAT magnet xcur strict sgr 0/40 0.00 FLAG<50
+CAT magnet xcur strict wide 0/30 0.00 FLAG<50
+SCORE magnet xcur full 312/314 99.36
+CAT magnet xcur full altscreen 20/20 100.00
+CAT magnet xcur full c0 22/22 100.00
+CAT magnet xcur full csi 60/60 100.00
+CAT magnet xcur full dcs 10/11 90.90
+CAT magnet xcur full decmodes 39/40 97.50
+CAT magnet xcur full esc 25/25 100.00
+CAT magnet xcur full osc 20/20 100.00
+CAT magnet xcur full resize 26/26 100.00
+CAT magnet xcur full scrollback 20/20 100.00
+CAT magnet xcur full sgr 40/40 100.00
+CAT magnet xcur full wide 30/30 100.00
+SCORE magnet x53 case 0/314 0.00
+CAT magnet x53 case altscreen 0/20 0.00 FLAG<50
+CAT magnet x53 case c0 0/22 0.00 FLAG<50
+CAT magnet x53 case csi 0/60 0.00 FLAG<50
+CAT magnet x53 case dcs 0/11 0.00 FLAG<50
+CAT magnet x53 case decmodes 0/40 0.00 FLAG<50
+CAT magnet x53 case esc 0/25 0.00 FLAG<50
+CAT magnet x53 case osc 0/20 0.00 FLAG<50
+CAT magnet x53 case resize 0/26 0.00 FLAG<50
+CAT magnet x53 case scrollback 0/20 0.00 FLAG<50
+CAT magnet x53 case sgr 0/40 0.00 FLAG<50
+CAT magnet x53 case wide 0/30 0.00 FLAG<50
+SCORE magnet x53 default 0/314 0.00
+CAT magnet x53 default altscreen 0/20 0.00 FLAG<50
+CAT magnet x53 default c0 0/22 0.00 FLAG<50
+CAT magnet x53 default csi 0/60 0.00 FLAG<50
+CAT magnet x53 default dcs 0/11 0.00 FLAG<50
+CAT magnet x53 default decmodes 0/40 0.00 FLAG<50
+CAT magnet x53 default esc 0/25 0.00 FLAG<50
+CAT magnet x53 default osc 0/20 0.00 FLAG<50
+CAT magnet x53 default resize 0/26 0.00 FLAG<50
+CAT magnet x53 default scrollback 0/20 0.00 FLAG<50
+CAT magnet x53 default sgr 0/40 0.00 FLAG<50
+CAT magnet x53 default wide 0/30 0.00 FLAG<50
+SCORE xvt x53 strict 0/314 0.00
+CAT xvt x53 strict altscreen 0/20 0.00 FLAG<50
+CAT xvt x53 strict c0 0/22 0.00 FLAG<50
+CAT xvt x53 strict csi 0/60 0.00 FLAG<50
+CAT xvt x53 strict dcs 0/11 0.00 FLAG<50
+CAT xvt x53 strict decmodes 0/40 0.00 FLAG<50
+CAT xvt x53 strict esc 0/25 0.00 FLAG<50
+CAT xvt x53 strict osc 0/20 0.00 FLAG<50
+CAT xvt x53 strict resize 0/26 0.00 FLAG<50
+CAT xvt x53 strict scrollback 0/20 0.00 FLAG<50
+CAT xvt x53 strict sgr 0/40 0.00 FLAG<50
+CAT xvt x53 strict wide 0/30 0.00 FLAG<50
+SCORE xvt x53 full 0/314 0.00
+CAT xvt x53 full altscreen 0/20 0.00 FLAG<50
+CAT xvt x53 full c0 0/22 0.00 FLAG<50
+CAT xvt x53 full csi 0/60 0.00 FLAG<50
+CAT xvt x53 full dcs 0/11 0.00 FLAG<50
+CAT xvt x53 full decmodes 0/40 0.00 FLAG<50
+CAT xvt x53 full esc 0/25 0.00 FLAG<50
+CAT xvt x53 full osc 0/20 0.00 FLAG<50
+CAT xvt x53 full resize 0/26 0.00 FLAG<50
+CAT xvt x53 full scrollback 0/20 0.00 FLAG<50
+CAT xvt x53 full sgr 0/40 0.00 FLAG<50
+CAT xvt x53 full wide 0/30 0.00 FLAG<50
+SCORE xvt xcur strict 0/314 0.00
+CAT xvt xcur strict altscreen 0/20 0.00 FLAG<50
+CAT xvt xcur strict c0 0/22 0.00 FLAG<50
+CAT xvt xcur strict csi 0/60 0.00 FLAG<50
+CAT xvt xcur strict dcs 0/11 0.00 FLAG<50
+CAT xvt xcur strict decmodes 0/40 0.00 FLAG<50
+CAT xvt xcur strict esc 0/25 0.00 FLAG<50
+CAT xvt xcur strict osc 0/20 0.00 FLAG<50
+CAT xvt xcur strict resize 0/26 0.00 FLAG<50
+CAT xvt xcur strict scrollback 0/20 0.00 FLAG<50
+CAT xvt xcur strict sgr 0/40 0.00 FLAG<50
+CAT xvt xcur strict wide 0/30 0.00 FLAG<50
+SCORE xvt xcur full 0/314 0.00
+CAT xvt xcur full altscreen 0/20 0.00 FLAG<50
+CAT xvt xcur full c0 0/22 0.00 FLAG<50
+CAT xvt xcur full csi 0/60 0.00 FLAG<50
+CAT xvt xcur full dcs 0/11 0.00 FLAG<50
+CAT xvt xcur full decmodes 0/40 0.00 FLAG<50
+CAT xvt xcur full esc 0/25 0.00 FLAG<50
+CAT xvt xcur full osc 0/20 0.00 FLAG<50
+CAT xvt xcur full resize 0/26 0.00 FLAG<50
+CAT xvt xcur full scrollback 0/20 0.00 FLAG<50
+CAT xvt xcur full sgr 0/40 0.00 FLAG<50
+CAT xvt xcur full wide 0/30 0.00 FLAG<50
+SCORE xvt x53 case 0/314 0.00
+CAT xvt x53 case altscreen 0/20 0.00 FLAG<50
+CAT xvt x53 case c0 0/22 0.00 FLAG<50
+CAT xvt x53 case csi 0/60 0.00 FLAG<50
+CAT xvt x53 case dcs 0/11 0.00 FLAG<50
+CAT xvt x53 case decmodes 0/40 0.00 FLAG<50
+CAT xvt x53 case esc 0/25 0.00 FLAG<50
+CAT xvt x53 case osc 0/20 0.00 FLAG<50
+CAT xvt x53 case resize 0/26 0.00 FLAG<50
+CAT xvt x53 case scrollback 0/20 0.00 FLAG<50
+CAT xvt x53 case sgr 0/40 0.00 FLAG<50
+CAT xvt x53 case wide 0/30 0.00 FLAG<50
+SCORE xvt x53 default 0/314 0.00
+CAT xvt x53 default altscreen 0/20 0.00 FLAG<50
+CAT xvt x53 default c0 0/22 0.00 FLAG<50
+CAT xvt x53 default csi 0/60 0.00 FLAG<50
+CAT xvt x53 default dcs 0/11 0.00 FLAG<50
+CAT xvt x53 default decmodes 0/40 0.00 FLAG<50
+CAT xvt x53 default esc 0/25 0.00 FLAG<50
+CAT xvt x53 default osc 0/20 0.00 FLAG<50
+CAT xvt x53 default resize 0/26 0.00 FLAG<50
+CAT xvt x53 default scrollback 0/20 0.00 FLAG<50
+CAT xvt x53 default sgr 0/40 0.00 FLAG<50
+CAT xvt x53 default wide 0/30 0.00 FLAG<50
+ABLATE gitpod x53 strict=0 case=0 default=0 full=0
+EQUIV-DELTA gitpod x53 0
+SKIP gitpod x53 pass=0 nonpass>=0
+SPLITS gitpod x53 whole-pass=0 split-fail=0
+DIAG gitpod x53 unobserved-first 0/314
+EQUIV-DELTA gitpod xcur 303
+SKIP gitpod xcur pass=7 nonpass>=0
+SPLITS gitpod xcur whole-pass=304 split-fail=1
+DIAG gitpod xcur unobserved-first 0/314
+GATE gitpod x53 0/314 >=90% FAIL
+ABLATE magnet x53 strict=0 case=0 default=0 full=0
+EQUIV-DELTA magnet x53 0
+SKIP magnet x53 pass=0 nonpass>=0
+SPLITS magnet x53 whole-pass=0 split-fail=0
+DIAG magnet x53 unobserved-first 0/314
+EQUIV-DELTA magnet xcur 312
+SKIP magnet xcur pass=7 nonpass>=0
+SPLITS magnet xcur whole-pass=312 split-fail=0
+DIAG magnet xcur unobserved-first 0/314
+GATE magnet x53 0/314 >=90% FAIL
+ABLATE xvt x53 strict=0 case=0 default=0 full=0
+EQUIV-DELTA xvt x53 0
+SKIP xvt x53 pass=0 nonpass>=0
+SPLITS xvt x53 whole-pass=0 split-fail=0
+DIAG xvt x53 unobserved-first 280/314
+EQUIV-DELTA xvt xcur 0
+SKIP xvt xcur pass=0 nonpass>=0
+SPLITS xvt xcur whole-pass=0 split-fail=0
+DIAG xvt xcur unobserved-first 280/314
+GATE xvt x53 0/314 >=90% FAIL
+SKIP-NOTE SKIP-SENSITIVE lists are complete for PASS cases and a lower bound for SPLIT-FAIL cases
+DIAG-NOTE n cases fail first on a path the engine cannot observe; their later paths were not compared
+XCUR-NOTE opts 3 dcs/decrqss-sp-q decmodes/decscusr-bar decmodes/decscusr-reset
+VERDICT survey-decides
