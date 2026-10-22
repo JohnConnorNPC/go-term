@@ -1,6 +1,6 @@
 // Package equiv is the closed equivalence table (E10): the only place an adapter may turn a candidate value that the
 // golden spells differently into the golden's value. Every row is data in equiv/table.json, each one cited in the
-// candidate's source (cmd/equivcheck proves the citations).
+// candidate's source (cmd/equivcheck proves the citations). The table is chosen once per process by Load.
 package equiv
 
 import (
@@ -21,6 +21,8 @@ type Row struct {
 
 // Accessors is the closed set of read-through golden values.
 var Accessors = map[string]bool{"@override": true, "@Options.CursorStyle": true, "@Options.CursorBlink": true}
+
+var active []Row
 
 // Read parses a table file strictly: unknown keys, an unknown class or an accessor outside Accessors are errors.
 func Read(path string) ([]Row, error) {
@@ -46,4 +48,33 @@ func Read(path string) ([]Row, error) {
 		}
 	}
 	return f.Rows, nil
+}
+
+// Load makes the rows of path that mode keeps the active table: strict none, case/default only that class, full all.
+func Load(path, mode string) error {
+	rows, err := Read(path)
+	if err != nil {
+		return err
+	}
+	if mode != "strict" && mode != "case" && mode != "default" && mode != "full" {
+		return fmt.Errorf("equiv mode %q is not strict|case|default|full", mode)
+	}
+	active = nil
+	for _, r := range rows {
+		if mode == "full" || r.Class == mode {
+			active = append(active, r)
+		}
+	}
+	return nil
+}
+
+// Map returns the golden value of the active row for (engine, field, key); ok is false when no row applies, and
+// the adapter then reports the candidate's raw value.
+func Map(engine, field, key string) (golden any, ok bool) {
+	for _, r := range active {
+		if r.Engine == engine && r.Field == field && r.Key == key {
+			return r.Golden, true
+		}
+	}
+	return nil, false
 }

@@ -28,3 +28,23 @@ func TestRead(t *testing.T) {
 		}
 	}
 }
+
+// TestModes: strict applies no row; case and default keep only their own class; full keeps every row (the gate).
+func TestModes(t *testing.T) {
+	for _, c := range []struct {
+		mode, key string
+		want      any
+		ok        bool
+	}{{"full", "", "none", true}, {"strict", "", nil, false}, {"case", "NONE", "none", true}, {"case", "", nil, false},
+		{"default", "", "none", true}, {"default", "NONE", nil, false}} {
+		if err := Load("../../equiv/table.json", c.mode); err != nil {
+			t.Fatal(err)
+		}
+		if got, ok := Map("gitpod", "modes.mouseTrackingMode", c.key); got != c.want || ok != c.ok {
+			t.Errorf("%s %q: %v %v, want %v %v", c.mode, c.key, got, ok, c.want, c.ok)
+		}
+	}
+	if err := Load("../../equiv/table.json", "loose"); err == nil {
+		t.Error("mode loose loaded")
+	}
+}
