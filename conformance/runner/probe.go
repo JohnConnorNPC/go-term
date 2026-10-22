@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -51,16 +52,32 @@ func twin(f Factory, g *Golden, pr *Probes) (Engine, error) {
 	return e, e.Write([]byte(pr.Prefix))
 }
 
-// reply writes s and returns the replies the engine emitted during that write.
-func reply(e Engine, s string) (string, error) {
-	before, err := e.Snapshot()
+// unobservedErr is a probe twin that read a path its engine lists in State.Unobserved: a FAIL, never a "B: " error.
+type unobservedErr string
+
+func (u unobservedErr) Error() string { return string(u) }
+
+// snapshot is a probe twin's e.Snapshot: path is the B result it builds, reads the State paths it uses.
+func snapshot(e Engine, path string, reads ...string) (State, error) {
+	st, err := e.Snapshot()
+	for _, u := range st.Unobserved {
+		if err == nil && slices.Contains(reads, u) {
+			err = unobservedErr("unobserved " + path + ": " + u)
+		}
+	}
+	return st, err
+}
+
+// reply writes s and returns the replies the engine emitted during that write; path names the B result.
+func reply(e Engine, s, path string) (string, error) {
+	before, err := snapshot(e, path, "replies")
 	if err != nil {
 		return "", err
 	}
 	if err := e.Write([]byte(s)); err != nil {
 		return "", err
 	}
-	after, err := e.Snapshot()
+	after, err := snapshot(e, path, "replies")
 	if err != nil || len(after.P.Replies) < len(before.P.Replies) {
 		return "", fmt.Errorf("replies shrank or %v", err)
 	}
@@ -84,7 +101,7 @@ func probe(f Factory, g *Golden, pr *Probes) (B, error) {
 	e, err := twin(f, g, pr)
 	for _, p := range pr.T1 {
 		if err == nil {
-			out.T1[p[0]], err = reply(e, p[1])
+			out.T1[p[0]], err = reply(e, p[1], "B.t1."+p[0])
 		}
 	}
 	if err == nil {
@@ -93,14 +110,14 @@ func probe(f Factory, g *Golden, pr *Probes) (B, error) {
 	var st State
 	if err == nil {
 		if err = e.Write([]byte(pr.T2.Start)); err == nil {
-			st, err = e.Snapshot()
+			st, err = snapshot(e, "B.t2", "cols")
 		}
 	}
 	// T2: cursorX after each HT, starting from CR (the start is not in the list), at most Max HTs.
 	for i := 0; err == nil && i < min(st.P.Cols, pr.T2.Max); i++ {
 		var s State
 		if err = e.Write([]byte(pr.T2.Step)); err == nil {
-			if s, err = e.Snapshot(); err == nil {
+			if s, err = snapshot(e, "B.t2", "cursor.x"); err == nil {
 				out.T2 = append(out.T2, s.P.Cursor[0])
 			}
 		}
@@ -109,13 +126,16 @@ func probe(f Factory, g *Golden, pr *Probes) (B, error) {
 		e, err = twin(f, g, pr)
 	}
 	if err == nil {
-		out.T3, err = reply(e, pr.T3)
+		out.T3, err = reply(e, pr.T3, "B.t3")
 	}
 	if err == nil {
 		out.T4.Pen, out.T4.Glyphs, err = penGlyphs(f, g, pr)
 	}
 	return out, err
 }
+
+// t4reads are the State paths T4 reads: the cursor row of the active buffer, its first cell's attr, and cols.
+var t4reads = []string{"buffer", "baseY", "cursor.y", "cols", "attrs"}
 
 func penGlyphs(f Factory, g *Golden, pr *Probes) (Attr, []string, error) {
 	e, err := twin(f, g, pr)
@@ -125,7 +145,10 @@ func penGlyphs(f Factory, g *Golden, pr *Probes) (Attr, []string, error) {
 	if err := e.Write([]byte(pr.T4.Pen)); err != nil {
 		return Attr{}, nil, err
 	}
-	st, err := e.Snapshot()
+	st, err := snapshot(e, "B.t4.pen", t4reads...)
+	if _, ok := err.(unobservedErr); ok {
+		return Attr{}, nil, err
+	}
 	row, err2 := activeRow(st)
 	if err != nil || err2 != nil || len(row.Cells) == 0 {
 		return Attr{}, nil, fmt.Errorf("pen: %v %v", err, err2)
@@ -135,7 +158,7 @@ func penGlyphs(f Factory, g *Golden, pr *Probes) (Attr, []string, error) {
 	if err := e.Write([]byte(gl)); err != nil {
 		return pen, nil, err
 	}
-	if st, err = e.Snapshot(); err != nil {
+	if st, err = snapshot(e, "B.t4.glyphs", t4reads...); err != nil {
 		return pen, nil, err
 	}
 	if row, err = activeRow(st); err != nil || len(row.Cells) < len(gl)-1 {

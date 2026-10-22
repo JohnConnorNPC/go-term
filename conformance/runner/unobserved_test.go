@@ -2,15 +2,24 @@ package runner
 
 import "testing"
 
-// unobs is the oracle with State.Unobserved set to paths.
+// unobs is the oracle with State.Unobserved set to paths; with afterCAN it lists them only once the probe prefix is
+// written, so the whole-write steps pass and only the probe twins see the list.
 type unobs struct {
 	*oracle
-	paths []string
+	paths         []string
+	afterCAN, can bool
+}
+
+func (u *unobs) Write(p []byte) error {
+	u.can = u.can || string(p) == u.pr.Prefix
+	return u.oracle.Write(p)
 }
 
 func (u *unobs) Snapshot() (State, error) {
 	st, err := u.oracle.Snapshot()
-	st.Unobserved = u.paths
+	if !u.afterCAN || u.can {
+		st.Unobserved = u.paths
+	}
 	return st, err
 }
 
@@ -65,5 +74,29 @@ func TestUnobservedCells(t *testing.T) {
 	empty := State{P: golden().P}
 	if d := Compare("step[0]", empty, State{P: empty.P, Unobserved: []string{"w", "attrs"}}); d != "" {
 		t.Errorf("w/attrs with no golden rows: diff %q, want PASS", d)
+	}
+}
+
+// TestUnobservedProbe: a probe twin that reads a listed path (listed only after the CAN prefix, so every whole-write
+// step passes) is a FAIL in the B diff form, even when the golden reply is "", and never a "B: " error.
+func TestUnobservedProbe(t *testing.T) {
+	pr, g := fixture(t)
+	cp := *g
+	cp.B.T1 = map[string]string{}
+	for k, v := range g.B.T1 {
+		cp.B.T1[k] = v
+	}
+	cp.B.T1[pr.T1[0][0]] = ""
+	for entry, want := range map[string]string{
+		"replies":  "unobserved B.t1." + pr.T1[0][0] + ": replies",
+		"cursor.x": "unobserved B.t2: cursor.x",
+		"attrs":    "unobserved B.t4.pen: attrs",
+	} {
+		f := func(Config) (Engine, error) {
+			return &unobs{oracle: &oracle{pr: pr, step: -1}, paths: []string{entry}, afterCAN: true}, nil
+		}
+		if r := RunCase(&cp, f, pr, Options{}); r.Status != FAIL || r.Diff != want {
+			t.Errorf("%s after CAN: %s %q, want FAIL %q", entry, r.Status, r.Diff, want)
+		}
 	}
 }

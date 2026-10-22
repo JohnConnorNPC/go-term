@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -135,6 +136,10 @@ func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 		return fail(FAIL, d)
 	}
 	b, err := probe(f, g, pr)
+	var u unobservedErr
+	if errors.As(err, &u) {
+		return fail(FAIL, u.Error())
+	}
 	if err != nil {
 		return fail(FAIL, "B: "+err.Error())
 	}
