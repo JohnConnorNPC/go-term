@@ -31,3 +31,18 @@ func TestModes(t *testing.T) {
 		t.Errorf("modes %v, want insertMode, originMode and wraparoundMode true", m)
 	}
 }
+
+// TestOpts: the cursor options through M6-M9; strict reports the raw override (nil when unset); DECSCUSR's override
+// is reported in every mode; ?12h writes magnet's Options, read through M8, and a later DECSCUSR overrides it (M9).
+func TestOpts(t *testing.T) {
+	for _, c := range []struct {
+		mode, in     string
+		style, blink any
+	}{{"full", "", "block", false}, {"strict", "", nil, nil}, {"full", "\x1b[4 q", "underline", false},
+		{"strict", "\x1b[4 q", "underline", false}, {"case", "\x1b[4 q", "underline", false}, {"full", "\x1b[?12h", "block", true},
+		{"full", "\x1b[?12h\x1b[2 q", "block", false}} {
+		if _, o := read(t, c.mode, c.in); o["cursorStyle"] != c.style || o["cursorBlink"] != c.blink {
+			t.Errorf("%s %q: opts %v, want cursorStyle %v cursorBlink %v", c.mode, c.in, o, c.style, c.blink)
+		}
+	}
+}
