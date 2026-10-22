@@ -2,6 +2,7 @@
 # cand.sh <run|tidy|run123> '<sh command>': the candidates module (conformance/candidates) in the pinned golang image, offline.
 # Modules come only from the host-fetched file proxy ${CACHE}/goproxy (fetch-mods.sh); go.sum verifies every hash.
 # run123 is run on the pinned golang:1.23 image (rulings-4). TMO (default 1800 s) bounds the command: exit 124 = UNMEASURED.
+# The container is ${GOTERM_NAME:-goterm-$USER}-<pid>, labelled gm.project=goterm (container.sh).
 set -euo pipefail
 : "${REPO:?repo root}" "${CACHE:?cache dir (outside the repo)}"
 case ${1:?mode} in
@@ -13,4 +14,4 @@ mod=readonly; [ "$1" = tidy ] && mod=mod
 ENVS=(-e GOTOOLCHAIN=local -e GOPROXY=file:///cache/goproxy -e GOFLAGS=-mod=$mod -e GOSUMDB=off -e GOCACHE=/cache/go-build
       -e GOPATH=/cache/gopath -e "TMO=${TMO:-1800}" -e "CAND_CMD=${2:?command}")
 . "${REPO:?}/conformance/scripts/container.sh"
-CACHE=${CACHE:?} GOTERM_NAME=goterm-w3-$$ run_container "$IMAGE" conformance/candidates 'exec timeout "$TMO" sh -c "$CAND_CMD"'
+CACHE=${CACHE:?} GOTERM_NAME=${GOTERM_NAME:-goterm-$USER}-$$ run_container "$IMAGE" conformance/candidates 'exec timeout "$TMO" sh -c "$CAND_CMD"'
