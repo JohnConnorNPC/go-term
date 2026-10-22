@@ -38,7 +38,7 @@ func TestWrite(t *testing.T) {
 	path := filepath.Join(dir, "s.json")
 	var out bytes.Buffer
 	all := results(t, runner.PASS)
-	if code := Write(&out, summary.Summary{Engine: "e"}, "../../..", path, all); code != 0 {
+	if code := Write(&out, summary.Summary{Engine: "e", Equiv: "full"}, "../../..", path, all); code != 0 {
 		t.Fatalf("all pass: exit %d\n%s", code, out.String())
 	}
 	if b, err := os.ReadFile(path); err != nil || !strings.Contains(string(b), `"engine": "e"`) || strings.Contains(out.String(), "mapping cost") {
