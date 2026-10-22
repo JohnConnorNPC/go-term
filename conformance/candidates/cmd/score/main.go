@@ -3,8 +3,8 @@
 //
 //	go run ./cmd/score -engine gitpod -ref x53 -equiv full -out scores/gitpod-x53-full.json
 //
-// Exit status: 0 every case passes, 1 a case fails, 2 something is UNMEASURED (no file is written then): an unknown
-// engine or equiv mode, unreadable probes or goldens, no output path. An unobserved path is a FAIL line, never
+// Exit status: 0 every case passes, 1 a case fails, 2 something is UNMEASURED (no file is written then): a STALE
+// golden, a golden or category missing, an unknown engine or equiv mode. An unobserved path is a FAIL line, never
 // UNMEASURED.
 package main
 
@@ -37,9 +37,16 @@ func run(args []string, out io.Writer) int {
 	pr, err := runner.LoadProbes(filepath.Join(*root, "probes.json"))
 	f, ok := scoring.Lookup(*engine, pr)
 	gs, gerr := runner.LoadAll(*root, *ref)
-	if eerr := equiv.Load(*table, *mode); !ok || err != nil || gerr != nil || eerr != nil || *outPath == "" {
-		fmt.Fprintf(out, "UNMEASURED engine=%s found=%v probes=%v goldens=%v equiv=%v out=%q\n", *engine, ok, err, gerr, eerr, *outPath)
+	lines, counted := runner.CheckCounts(*root, []string{*ref})
+	if eerr := equiv.Load(*table, *mode); !ok || err != nil || gerr != nil || eerr != nil || !counted || *outPath == "" {
+		fmt.Fprintf(out, "UNMEASURED engine=%s found=%v probes=%v goldens=%v equiv=%v counts=%v out=%q\n", *engine, ok, err, gerr, eerr, lines, *outPath)
 		return 2
+	}
+	for _, g := range gs {
+		if g.Stale() {
+			fmt.Fprintln(out, "UNMEASURED STALE", g.ID)
+			return 2
+		}
 	}
 	id := summary.Summary{Engine: *engine, Ref: *ref, Equiv: *mode, Pin: scoring.Pin(*engine)}
 	return scoring.Score(out, id, *root, *outPath, gs, f, pr)
