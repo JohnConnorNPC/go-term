@@ -70,8 +70,8 @@ func goldenPath(prefix string, want State, u string) string {
 	switch {
 	case unobservedScalars[u]:
 		return prefix + ".P." + u
-	case u == "w" || u == "attrs":
-		return firstCell(prefix, want, u == "w")
+	case u == "wrapped" || u == "attrs":
+		return firstCell(prefix, want, u == "wrapped")
 	case name == "modes":
 		m = want.P.Modes
 	case name == "opts":

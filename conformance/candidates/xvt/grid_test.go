@@ -33,7 +33,7 @@ func TestGrid(t *testing.T) {
 	if c := st.Normal[0].Cells; c[0].Ch != "a" || c[1].Ch != "b" || c[0].W != 1 || st.P.Cols != 10 || st.P.Rows != 3 {
 		t.Errorf("cells %+v cols %d rows %d, want a b width 1, 10x3", c[:2], st.P.Cols, st.P.Rows)
 	}
-	for _, u := range []string{"attrs", "viewportY", "w"} {
+	for _, u := range []string{"attrs", "viewportY", "wrapped"} {
 		if !slices.Contains(st.Unobserved, u) {
 			t.Errorf("Unobserved %v lacks %s", st.Unobserved, u)
 		}
@@ -52,7 +52,7 @@ func TestEvents(t *testing.T) {
 	}
 	u := append([]string{}, st.Unobserved...)
 	sort.Strings(u)
-	if strings.Join(u, " ") != "attrs lineFeeds modes opts replies viewportY w" {
+	if strings.Join(u, " ") != "attrs lineFeeds modes opts replies viewportY wrapped" {
 		t.Errorf("Unobserved %v", u)
 	}
 }

@@ -10,8 +10,8 @@ import (
 	vt "github.com/charmbracelet/x/vt"
 )
 
-// gridUnobserved: x/vt has no wrap flag (w), no viewport (viewportY), and no table rows for its colours (attrs, E10).
-var gridUnobserved = []string{"attrs", "viewportY", "w"}
+// gridUnobserved: x/vt has no wrap flag (wrapped), no viewport (viewportY), and no table rows for its colours (attrs, E10).
+var gridUnobserved = []string{"attrs", "viewportY", "wrapped"}
 
 // Engine is one x/vt emulator.
 type Engine struct {

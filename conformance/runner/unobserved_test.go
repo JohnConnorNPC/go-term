@@ -65,15 +65,17 @@ func TestUnobserved(t *testing.T) {
 	}
 }
 
-// TestUnobservedCells: w and attrs name the golden's first row and first cell; a golden with no rows passes.
+// TestUnobservedCells: wrapped and attrs name the golden's first row and first cell (w is no name: in Compare's diffs
+// ".w" is a cell's width); a golden with no rows passes.
 func TestUnobservedCells(t *testing.T) {
 	diffs(t, map[string]string{
-		"w":     "unobserved step[0].normal[0].wrapped",
-		"attrs": "unobserved step[0].normal[0][0].attr",
+		"wrapped": "unobserved step[0].normal[0].wrapped",
+		"attrs":   "unobserved step[0].normal[0][0].attr",
+		"w":       "unobserved step[0].P.w (unknown path)",
 	})
 	empty := State{P: golden().P}
-	if d := Compare("step[0]", empty, State{P: empty.P, Unobserved: []string{"w", "attrs"}}); d != "" {
-		t.Errorf("w/attrs with no golden rows: diff %q, want PASS", d)
+	if d := Compare("step[0]", empty, State{P: empty.P, Unobserved: []string{"wrapped", "attrs"}}); d != "" {
+		t.Errorf("wrapped/attrs with no golden rows: diff %q, want PASS", d)
 	}
 }
 

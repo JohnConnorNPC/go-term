@@ -87,7 +87,7 @@ type P struct {
 
 // State is what an engine reports after a step: P, the normal buffer (scrollback + screen), the alternate screen
 // while it is active (nil otherwise), and optional internal values (tier I, reported, never scored). Unobserved lists
-// the paths the engine cannot observe (unobservedScalars, modes, opts, modes.<k>, opts.<k>, w, attrs): each one the
+// the paths the engine cannot observe (unobservedScalars, modes, opts, modes.<k>, opts.<k>, wrapped, attrs): each one the
 // golden has is a FAIL, whatever value the engine reports there.
 type State struct {
 	P           P
