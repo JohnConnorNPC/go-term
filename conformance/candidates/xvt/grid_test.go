@@ -1,6 +1,7 @@
 package xvt
 
 import (
+	"io"
 	"slices"
 	"sort"
 	"strings"
@@ -56,13 +57,14 @@ func TestEvents(t *testing.T) {
 	}
 }
 
-// TestDrainEnd: once the reply pipe ends (here the emulator is closed), every snapshot is an error, not a state.
+// TestDrainEnd: once the reply pipe ends, every snapshot is an error, not a state. The test ends the pipe through its
+// writer (InputPipe), which is safe beside the drain's Read; Emulator.Close would race on x/vt's unguarded closed flag.
 func TestDrainEnd(t *testing.T) {
 	e, err := New(runner.Config{Cols: 10, Rows: 3, Scrollback: 100, Unicode: "6"})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := e.(*Engine).e.Close(); err != nil {
+	if err := e.(*Engine).e.InputPipe().(*io.PipeWriter).CloseWithError(io.EOF); err != nil {
 		t.Fatal(err)
 	}
 	for i := 0; i < 100; i++ {
