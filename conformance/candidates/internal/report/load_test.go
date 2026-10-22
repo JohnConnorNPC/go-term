@@ -30,11 +30,20 @@ func fixture(t *testing.T, edit func(Run, *summary.Summary)) string {
 	return dir
 }
 
-// TestLoad: the 18 runs load; a missing xcur or default summary is UNMEASURED, named by ref and mode.
+// TestLoad: the 18 runs load; an empty summary (0 cases) or a missing xcur or default one is UNMEASURED, named by
+// ref and mode.
 func TestLoad(t *testing.T) {
 	dir := fixture(t, nil)
 	if runs, err := Load(dir); err != nil || len(runs) != 18 || len(Runs()) != 18 {
 		t.Fatalf("%d runs, %v", len(runs), err)
+	}
+	empty := fixture(t, func(r Run, s *summary.Summary) {
+		if r == (Run{"magnet", "x53", "case"}) {
+			s.Total, s.Passed = 0, 0
+		}
+	})
+	if _, err := Load(empty); err == nil || !strings.HasPrefix(err.Error(), "UNMEASURED x53 case magnet") {
+		t.Errorf("an empty summary: %v, want UNMEASURED x53 case magnet", err)
 	}
 	for name, want := range map[string]string{"magnet-xcur-full.json": "UNMEASURED xcur full", "xvt-x53-default.json": "UNMEASURED x53 default"} {
 		dir := fixture(t, nil)
