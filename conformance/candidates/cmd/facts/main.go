@@ -3,7 +3,9 @@
 //
 //	go run ./cmd/facts > scores/facts.txt
 //
-// Exit 2 when a module or the typings can't be read.
+// Exit 2 when a module or the typings can't be read. The typings are #1's build output, ../gen/node_modules (not in a
+// fresh checkout: conformance/scripts/fetch-pins.sh on the host, then npm ci --offline in node.sh); the tests read a
+// vendored excerpt (cmd/facts/testdata) instead.
 package main
 
 import (
