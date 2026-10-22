@@ -29,3 +29,19 @@ func TestSplits(t *testing.T) {
 		t.Errorf("rulings-8 vector:\n%s", out.String())
 	}
 }
+
+// TestStatus (round 1 S3): the STATUS line counts each class of the full run's cases (distinct counts, so a swap shows)
+// out of the run's total.
+func TestStatus(t *testing.T) {
+	var cases []summary.Case
+	for class, n := range map[string]int{"PASS": 1, "FAIL": 2, "SPLIT": 3, "ERROR": 4} {
+		for i := 0; i < n; i++ {
+			cases = append(cases, summary.Case{Result: class})
+		}
+	}
+	var out bytes.Buffer
+	Splits(&out, "e", "xcur", summary.Summary{Total: 10, Passed: 1, Cases: cases})
+	if !strings.Contains(out.String(), "STATUS e xcur full PASS=1 FAIL=2 SPLIT=3 ERROR=4 of 10\n") {
+		t.Errorf("no STATUS line in\n%s", out.String())
+	}
+}

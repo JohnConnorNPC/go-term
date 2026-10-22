@@ -9,7 +9,7 @@ import (
 )
 
 // PerEngine prints, for each engine, ABLATE (x53, the four modes), EQUIV-DELTA per ref (full - strict), the
-// per-ref split lines (Splits), then GATE: x53 full, the only line that decides (rulings-6).
+// per-ref split, DIAG and STATUS lines (Splits), then GATE: x53 full, the only line that decides (rulings-6).
 func PerEngine(out io.Writer, runs map[Run]summary.Summary) {
 	for _, e := range Engines {
 		p := func(ref, mode string) int { return runs[Run{e, ref, mode}].Passed }
