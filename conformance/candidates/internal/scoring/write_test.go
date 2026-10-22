@@ -31,8 +31,8 @@ func results(t *testing.T, c0 runner.Status) []runner.Result {
 	return rs
 }
 
-// TestWrite: an all-pass run exits 0 and writes the summary; a failing case exits 1; a run that misses a required
-// category is UNMEASURED: exit 2 and no file.
+// TestWrite: an all-pass run exits 0 and writes the summary; a failing case exits 1; a run with one result dropped
+// (internal/count) or without a required category is UNMEASURED: exit 2 and no file.
 func TestWrite(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "s.json")
@@ -46,6 +46,11 @@ func TestWrite(t *testing.T) {
 	}
 	if code := Write(&out, summary.Summary{}, "../../..", path, results(t, runner.FAIL)); code != 1 {
 		t.Errorf("one FAIL: exit %d, want 1", code)
+	}
+	dropped := filepath.Join(dir, "d.json")
+	if code := Write(&out, summary.Summary{}, "../../..", dropped, all[1:]); code != 2 || fileExists(dropped) ||
+		!strings.Contains(out.String(), "UNMEASURED count") {
+		t.Errorf("one result dropped: exit %d file %v, want 2 UNMEASURED count and no file", code, fileExists(dropped))
 	}
 	var noC0 []runner.Result
 	for _, r := range all {

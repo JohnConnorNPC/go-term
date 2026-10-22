@@ -9,12 +9,18 @@ import (
 	"path/filepath"
 	"sort"
 
+	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/count"
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/summary"
 	"github.com/JohnConnorNPC/go-term/conformance/runner"
 )
 
-// Write builds the summary of rs over the required categories and writes it to path. Exit 0 every case passes, 1 a case fails, 2 UNMEASURED (no summary, no file).
+// Write checks the denominator (internal/count), builds the summary of rs over the required categories and writes
+// it to path. Exit 0 every case passes, 1 a case fails, 2 UNMEASURED (no summary, no file).
 func Write(out io.Writer, id summary.Summary, root, path string, rs []runner.Result) int {
+	if err := count.Check(root, rs); err != nil {
+		fmt.Fprintln(out, err)
+		return 2
+	}
 	var cats []string
 	for c := range runner.RequiredCategories {
 		cats = append(cats, c)
