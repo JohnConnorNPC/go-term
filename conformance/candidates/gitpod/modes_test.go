@@ -31,3 +31,17 @@ func TestModes(t *testing.T) {
 		t.Errorf("modes %v, want insertMode, originMode and wraparoundMode true", m)
 	}
 }
+
+// TestOpts: the cursor options through G7-G10; strict reports the raw override (nil when unset); DECSCUSR's override
+// is reported in every mode; ?12h writes nothing in gitpod, so cursorBlink stays the G9 default.
+func TestOpts(t *testing.T) {
+	for _, c := range []struct {
+		mode, in     string
+		style, blink any
+	}{{"full", "", "block", false}, {"strict", "", nil, nil}, {"full", "\x1b[4 q", "underline", false},
+		{"strict", "\x1b[4 q", "underline", false}, {"case", "\x1b[4 q", "underline", false}, {"full", "\x1b[?12h", "block", false}} {
+		if _, o := read(t, c.mode, c.in); o["cursorStyle"] != c.style || o["cursorBlink"] != c.blink {
+			t.Errorf("%s %q: opts %v, want cursorStyle %v cursorBlink %v", c.mode, c.in, o, c.style, c.blink)
+		}
+	}
+}
