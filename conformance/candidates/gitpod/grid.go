@@ -1,5 +1,5 @@
 // Package gitpod adapts github.com/gitpod-io/xterm-go to the conformance runner (#1 D7). It reports only what the
-// terminal's public API returns (E3): attributes go through norm.
+// terminal's public API returns (E3): attributes go through norm, spellings the golden doesn't share through equiv.
 package gitpod
 
 import (
@@ -46,6 +46,7 @@ func (e *Engine) Snapshot() (runner.State, error) {
 	var st runner.State
 	e.grid(&st)
 	e.ev.fill(&st)
+	e.modes(&st)
 	return st, nil
 }
 
