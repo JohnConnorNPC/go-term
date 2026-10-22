@@ -1,9 +1,12 @@
 package gitpod
 
 import (
+	"maps"
+	"strings"
 	"testing"
 
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/equiv"
+	"github.com/JohnConnorNPC/go-term/conformance/runner"
 )
 
 // read returns modes and opts after writing in with the equiv table in mode.
@@ -42,6 +45,35 @@ func TestOpts(t *testing.T) {
 		{"strict", "\x1b[4 q", "underline", false}, {"case", "\x1b[4 q", "underline", false}, {"full", "\x1b[?12h", "block", false}} {
 		if _, o := read(t, c.mode, c.in); o["cursorStyle"] != c.style || o["cursorBlink"] != c.blink {
 			t.Errorf("%s %q: opts %v, want cursorStyle %v cursorBlink %v", c.mode, c.in, o, c.style, c.blink)
+		}
+	}
+}
+
+// TestStrictNeverUnobserved (rulings-6): strict has no table, so no path is unobserved, and a golden that differs from
+// the raw value is a FAIL that shows both raw values.
+func TestStrictNeverUnobserved(t *testing.T) {
+	if err := equiv.Load("../equiv/table.json", "strict"); err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range []struct {
+		in, path string
+		golden   any
+		diff     string
+	}{{"", "modes.mouseTrackingMode", "none", `step[0].P.modes.mouseTrackingMode: want "none" got ""`},
+		{"\x1b[?1000h", "modes.mouseTrackingMode", "vt200", `step[0].P.modes.mouseTrackingMode: want "vt200" got "VT200"`},
+		{"", "opts.cursorStyle", "block", `step[0].P.opts.cursorStyle: want "block" got null`},
+		{"", "opts.cursorBlink", false, `step[0].P.opts.cursorBlink: want false got null`}} {
+		st := snap(t, engine(t, 20, 3, "6"), c.in)
+		want := st
+		want.P.Modes, want.P.Opts = maps.Clone(st.P.Modes), maps.Clone(st.P.Opts)
+		name, key, _ := strings.Cut(c.path, ".")
+		m := want.P.Modes
+		if name == "opts" {
+			m = want.P.Opts
+		}
+		m[key] = c.golden
+		if d := runner.Compare("step[0]", want, st); len(st.Unobserved) != 0 || d != c.diff {
+			t.Errorf("strict %q %s: unobserved %v, diff %q, want %q", c.in, c.path, st.Unobserved, d, c.diff)
 		}
 	}
 }
