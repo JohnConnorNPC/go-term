@@ -1,0 +1,84 @@
+{
+ "entries": [
+  {
+   "id": "gitpod-CMMask",
+   "engine": "gitpod",
+   "const": "CMMask",
+   "cite": {
+    "module": "github.com/gitpod-io/xterm-go",
+    "file": "constants.go",
+    "line": "AttrCMMask     uint32 = 0x3000000"
+   }
+  },
+  {
+   "id": "gitpod-CMP16",
+   "engine": "gitpod",
+   "const": "CMP16",
+   "cite": {
+    "module": "github.com/gitpod-io/xterm-go",
+    "file": "constants.go",
+    "line": "AttrCMP16      uint32 = 0x1000000"
+   }
+  },
+  {
+   "id": "gitpod-CMP256",
+   "engine": "gitpod",
+   "const": "CMP256",
+   "cite": {
+    "module": "github.com/gitpod-io/xterm-go",
+    "file": "constants.go",
+    "line": "AttrCMP256     uint32 = 0x2000000"
+   }
+  },
+  {
+   "id": "gitpod-CMRGB",
+   "engine": "gitpod",
+   "const": "CMRGB",
+   "cite": {
+    "module": "github.com/gitpod-io/xterm-go",
+    "file": "constants.go",
+    "line": "AttrCMRGB      uint32 = 0x3000000"
+   }
+  },
+  {
+   "id": "magnet-CMMask",
+   "engine": "magnet",
+   "const": "CMMask",
+   "cite": {
+    "module": "github.com/0magnet/xterm-go",
+    "file": "vt/attributes.go",
+    "line": "AttrCMMask    uint32 = 0x3000000"
+   }
+  },
+  {
+   "id": "magnet-CMP16",
+   "engine": "magnet",
+   "const": "CMP16",
+   "cite": {
+    "module": "github.com/0magnet/xterm-go",
+    "file": "vt/attributes.go",
+    "line": "AttrCMP16     uint32 = 0x1000000"
+   }
+  },
+  {
+   "id": "magnet-CMP256",
+   "engine": "magnet",
+   "const": "CMP256",
+   "cite": {
+    "module": "github.com/0magnet/xterm-go",
+    "file": "vt/attributes.go",
+    "line": "AttrCMP256    uint32 = 0x2000000"
+   }
+  },
+  {
+   "id": "magnet-CMRGB",
+   "engine": "magnet",
+   "const": "CMRGB",
+   "cite": {
+    "module": "github.com/0magnet/xterm-go",
+    "file": "vt/attributes.go",
+    "line": "AttrCMRGB     uint32 = 0x3000000"
+   }
+  }
+ ]
+}

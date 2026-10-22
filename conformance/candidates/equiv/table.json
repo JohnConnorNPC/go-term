@@ -1,0 +1,402 @@
+{
+ "rows": [
+  {
+   "id": "G1",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "",
+   "golden": "none",
+   "class": "default",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "*",
+     "pattern": "MouseTrackingMode *= ",
+     "count": 5
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "*",
+     "pattern": "MouseTrackingMode:",
+     "count": 0
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "coreservice.go",
+     "line": "Wraparound: true, // xterm default"
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "*",
+     "pattern": "DecPrivateModes *= |DecPrivateModes: ",
+     "count": 2
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "coreservice.go",
+     "line": "DecPrivateModes:     defaultDecPrivateModes(),"
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "coreservice.go",
+     "line": "cs.DecPrivateModes = defaultDecPrivateModes()"
+    }
+   ]
+  },
+  {
+   "id": "G2",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "NONE",
+   "golden": "none",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.MouseTrackingMode = \"NONE\""
+    }
+   ]
+  },
+  {
+   "id": "G3",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "X10",
+   "golden": "x10",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.MouseTrackingMode = \"X10\""
+    }
+   ]
+  },
+  {
+   "id": "G4",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "VT200",
+   "golden": "vt200",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.MouseTrackingMode = \"VT200\""
+    }
+   ]
+  },
+  {
+   "id": "G5",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "DRAG",
+   "golden": "drag",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.MouseTrackingMode = \"DRAG\""
+    }
+   ]
+  },
+  {
+   "id": "G6",
+   "engine": "gitpod",
+   "field": "modes.mouseTrackingMode",
+   "key": "ANY",
+   "golden": "any",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.MouseTrackingMode = \"ANY\""
+    }
+   ]
+  },
+  {
+   "id": "G7",
+   "engine": "gitpod",
+   "field": "opts.cursorStyle",
+   "key": "override=nil",
+   "golden": "block",
+   "class": "default",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "options.go",
+     "line": "CursorStyle:                CursorStyleBlock,"
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "types.go",
+     "line": "CursorStyleBlock     CursorStyle = \"block\""
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "*",
+     "pattern": "Options\\.CursorStyle *= ",
+     "count": 2
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "options.go",
+     "pattern": "Options\\.CursorStyle *= ",
+     "count": 2
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.CursorStyle = nil"
+    }
+   ]
+  },
+  {
+   "id": "G8",
+   "engine": "gitpod",
+   "field": "opts.cursorStyle",
+   "key": "override=set",
+   "golden": "@override",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.CursorStyle = &style"
+    }
+   ]
+  },
+  {
+   "id": "G9",
+   "engine": "gitpod",
+   "field": "opts.cursorBlink",
+   "key": "override=nil",
+   "golden": false,
+   "class": "default",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "options.go",
+     "line": "CursorBlink:                false,"
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "*",
+     "pattern": "\\.CursorBlink *= ",
+     "count": 2
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "files": "options.go",
+     "pattern": "\\.CursorBlink *= ",
+     "count": 2
+    },
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.CursorBlinkOverride = nil"
+    }
+   ]
+  },
+  {
+   "id": "G10",
+   "engine": "gitpod",
+   "field": "opts.cursorBlink",
+   "key": "override=set",
+   "golden": "@override",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/gitpod-io/xterm-go",
+     "file": "inputhandler_csi.go",
+     "line": "h.coreService.DecPrivateModes.CursorBlinkOverride = &isBlinking"
+    }
+   ]
+  },
+  {
+   "id": "M1",
+   "engine": "magnet",
+   "field": "modes.mouseTrackingMode",
+   "key": "NONE",
+   "golden": "none",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/mouse.go",
+     "line": "s.SetActiveProtocol(\"NONE\")"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/mouse.go",
+     "line": "s.Reset()"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.mouseService.SetActiveProtocol(\"NONE\")"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/mouse.go",
+     "line": "panic(\"unknown protocol \\\"\" + name + \"\\\"\")"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "files": "*",
+     "pattern": "activeProtocol = ",
+     "count": 1
+    }
+   ]
+  },
+  {
+   "id": "M2",
+   "engine": "magnet",
+   "field": "modes.mouseTrackingMode",
+   "key": "X10",
+   "golden": "x10",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.mouseService.SetActiveProtocol(\"X10\")"
+    }
+   ]
+  },
+  {
+   "id": "M3",
+   "engine": "magnet",
+   "field": "modes.mouseTrackingMode",
+   "key": "VT200",
+   "golden": "vt200",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.mouseService.SetActiveProtocol(\"VT200\")"
+    }
+   ]
+  },
+  {
+   "id": "M4",
+   "engine": "magnet",
+   "field": "modes.mouseTrackingMode",
+   "key": "DRAG",
+   "golden": "drag",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.mouseService.SetActiveProtocol(\"DRAG\")"
+    }
+   ]
+  },
+  {
+   "id": "M5",
+   "engine": "magnet",
+   "field": "modes.mouseTrackingMode",
+   "key": "ANY",
+   "golden": "any",
+   "class": "case",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.mouseService.SetActiveProtocol(\"ANY\")"
+    }
+   ]
+  },
+  {
+   "id": "M6",
+   "engine": "magnet",
+   "field": "opts.cursorStyle",
+   "key": "override=nil",
+   "golden": "@Options.CursorStyle",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.coreService.DecPrivateModes.CursorStyle = nil"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/options.go",
+     "line": "CursorStyle:           \"block\","
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/terminal.go",
+     "line": "t := &Terminal{Options: options}"
+    }
+   ]
+  },
+  {
+   "id": "M7",
+   "engine": "magnet",
+   "field": "opts.cursorStyle",
+   "key": "override=set",
+   "golden": "@override",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.coreService.DecPrivateModes.CursorStyle = &style"
+    }
+   ]
+  },
+  {
+   "id": "M8",
+   "engine": "magnet",
+   "field": "opts.cursorBlink",
+   "key": "override=nil",
+   "golden": "@Options.CursorBlink",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.coreService.DecPrivateModes.CursorBlink = nil"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.options.CursorBlink = true"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.options.CursorBlink = false"
+    },
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/terminal.go",
+     "line": "t := &Terminal{Options: options}"
+    }
+   ]
+  },
+  {
+   "id": "M9",
+   "engine": "magnet",
+   "field": "opts.cursorBlink",
+   "key": "override=set",
+   "golden": "@override",
+   "class": "source",
+   "cite": [
+    {
+     "module": "github.com/0magnet/xterm-go",
+     "file": "vt/inputhandler.go",
+     "line": "h.coreService.DecPrivateModes.CursorBlink = &isBlinking"
+    }
+   ]
+  }
+ ]
+}
