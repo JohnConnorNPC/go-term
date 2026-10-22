@@ -10,12 +10,14 @@ import (
 	"sort"
 
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/count"
+	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/equiv"
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/summary"
 	"github.com/JohnConnorNPC/go-term/conformance/runner"
 )
 
 // Write checks the denominator (internal/count), builds the summary of rs over the required categories and writes
-// it to path. Exit 0 every case passes, 1 a case fails, 2 UNMEASURED (no summary, no file).
+// it to path, then prints TOTAL <passed>/<total> (a strict run labelled equiv.StrictLabel). Exit 0 every case passes,
+// 1 a case fails, 2 UNMEASURED (no summary, no file).
 func Write(out io.Writer, id summary.Summary, root, path string, rs []runner.Result) int {
 	if err := count.Check(root, rs); err != nil {
 		fmt.Fprintln(out, err)
@@ -39,7 +41,7 @@ func Write(out io.Writer, id summary.Summary, root, path string, rs []runner.Res
 		fmt.Fprintln(out, "UNMEASURED write", err)
 		return 2
 	}
-	fmt.Fprintf(out, "TOTAL %d/%d\n", s.Passed, s.Total)
+	fmt.Fprintf(out, "TOTAL %d/%d%s\n", s.Passed, s.Total, equiv.Label(s.Equiv))
 	if s.Passed != s.Total {
 		return 1
 	}

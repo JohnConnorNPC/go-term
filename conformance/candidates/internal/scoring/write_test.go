@@ -31,8 +31,8 @@ func results(t *testing.T, c0 runner.Status) []runner.Result {
 	return rs
 }
 
-// TestWrite: an all-pass run exits 0 and writes the summary; a failing case exits 1; a run with one result dropped
-// (internal/count) or without a required category is UNMEASURED: exit 2 and no file.
+// TestWrite: an all-pass run exits 0 and writes the summary (TOTAL labelled for strict only); a failing case exits 1;
+// a run with one result dropped (internal/count) or without a required category is UNMEASURED: exit 2 and no file.
 func TestWrite(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "s.json")
@@ -41,8 +41,13 @@ func TestWrite(t *testing.T) {
 	if code := Write(&out, summary.Summary{Engine: "e"}, "../../..", path, all); code != 0 {
 		t.Fatalf("all pass: exit %d\n%s", code, out.String())
 	}
-	if b, err := os.ReadFile(path); err != nil || !strings.Contains(string(b), `"engine": "e"`) {
-		t.Fatalf("summary %s %v", b, err)
+	if b, err := os.ReadFile(path); err != nil || !strings.Contains(string(b), `"engine": "e"`) || strings.Contains(out.String(), "mapping cost") {
+		t.Fatalf("summary %s %v, output %s", b, err, out.String())
+	}
+	out.Reset()
+	if code := Write(&out, summary.Summary{Equiv: "strict"}, "../../..", path, all); code != 0 ||
+		!strings.HasSuffix(out.String(), "/"+fmt.Sprint(len(all))+" strict=raw-encoding (mapping cost, not a quality score)\n") {
+		t.Errorf("strict: exit %d, output %s", code, out.String())
 	}
 	if code := Write(&out, summary.Summary{}, "../../..", path, results(t, runner.FAIL)); code != 1 {
 		t.Errorf("one FAIL: exit %d, want 1", code)

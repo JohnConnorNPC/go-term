@@ -24,6 +24,18 @@ var Accessors = map[string]bool{"@override": true, "@Options.CursorStyle": true,
 
 var active []Row
 
+// StrictLabel goes on every strict score line (go-v4 item 4, rulings-6): strict has no table, so it measures how far
+// the raw encodings are from the golden's, the mapping cost, not the engine's quality.
+const StrictLabel = "strict=raw-encoding (mapping cost, not a quality score)"
+
+// Label is " "+StrictLabel for the strict mode, else "": the suffix of a score line.
+func Label(mode string) string {
+	if mode == "strict" {
+		return " " + StrictLabel
+	}
+	return ""
+}
+
 // Read parses a table file strictly: unknown keys, an unknown class or an accessor outside Accessors are errors.
 func Read(path string) ([]Row, error) {
 	b, err := os.ReadFile(path)
