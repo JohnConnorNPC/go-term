@@ -49,7 +49,9 @@ func (e *Engine) Reset() error {
 func (e *Engine) Snapshot() (runner.State, error) {
 	var st runner.State
 	err := e.grid(&st)
-	e.ev.fill(&st)
+	if ferr := e.ev.fill(&st); err == nil {
+		err = ferr
+	}
 	return st, err
 }
 

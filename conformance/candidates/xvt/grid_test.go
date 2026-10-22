@@ -4,6 +4,7 @@ import (
 	"sort"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/JohnConnorNPC/go-term/conformance/runner"
 )
@@ -52,4 +53,25 @@ func TestEvents(t *testing.T) {
 	if strings.Join(u, " ") != "attrs lineFeeds modes opts replies viewportY w" {
 		t.Errorf("Unobserved %v", u)
 	}
+}
+
+// TestDrainEnd: once the reply pipe ends (here the emulator is closed), every snapshot is an error, not a state.
+func TestDrainEnd(t *testing.T) {
+	e, err := New(runner.Config{Cols: 10, Rows: 3, Scrollback: 100, Unicode: "6"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := e.(*Engine).e.Close(); err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 100; i++ {
+		if _, err := e.Snapshot(); err != nil {
+			if !strings.Contains(err.Error(), "reply drain ended") {
+				t.Fatalf("snapshot error %v, want the drain's end", err)
+			}
+			return
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+	t.Fatal("snapshots after the drain ended still succeed")
 }
