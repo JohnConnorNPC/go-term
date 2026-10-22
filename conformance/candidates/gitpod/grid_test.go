@@ -40,3 +40,20 @@ func TestGrid(t *testing.T) {
 		t.Error("unicode 11 accepted")
 	}
 }
+
+// TestGridCells: cell text, width and attributes through norm; the wrap flag of the continuation line; the normal
+// buffer kept while the alternate one is active.
+func TestGridCells(t *testing.T) {
+	st := snap(t, engine(t, 20, 3, "6"), "a\x1b[31mb")
+	a, b := st.Normal[0].Cells[0], st.Normal[0].Cells[1]
+	if a.Ch != "a" || a.W != 1 || a.A.FG != (runner.Color{Mode: "d"}) || b.Ch != "b" || b.A.FG != (runner.Color{Mode: "p16", Value: 1}) {
+		t.Errorf("cells %+v %+v, want a default, b p16 1", a, b)
+	}
+	if st := snap(t, engine(t, 20, 3, "6"), "012345678901234567890"); st.Normal[0].Wrapped || !st.Normal[1].Wrapped {
+		t.Errorf("wrapped %v %v, want false true", st.Normal[0].Wrapped, st.Normal[1].Wrapped)
+	}
+	st = snap(t, engine(t, 20, 3, "6"), "x\x1b[?1049h")
+	if st.Alt == nil || len(st.Normal) == 0 || st.Normal[0].Cells[0].Ch != "x" {
+		t.Errorf("alt %v normal %v, want both, normal keeping x", st.Alt != nil, st.Normal)
+	}
+}
