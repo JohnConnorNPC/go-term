@@ -16,7 +16,8 @@ func lines(fsys fstest.MapFS) string {
 	return strings.Join(out, "\n")
 }
 
-// TestTree: the licence files other than the root LICENSE are listed.
+// TestTree: a GPL licence file or a GPL Go source fails L7; a GPL quote in a README or a test file is INFO only; the
+// other licence files are listed.
 func TestTree(t *testing.T) {
 	base := func() fstest.MapFS {
 		return fstest.MapFS{"LICENSE": {Data: []byte(mitText)}, "a.go": {Data: []byte("package a\n// SPDX-License-Identifier: MIT\n")}}
@@ -25,8 +26,11 @@ func TestTree(t *testing.T) {
 		file, body string
 		want       []string
 	}{
-		"clean":       {"b.go", "package a\n", []string{"L7 INFO files none"}},
-		"sub/COPYING": {"sub/COPYING", gpl, []string{"L7 INFO files sub/COPYING"}},
+		"clean":       {"b.go", "package a\n", []string{"L7 INFO files none", "L7 OK copyleft none"}},
+		"sub/COPYING": {"sub/COPYING", gpl, []string{"L7 INFO files sub/COPYING", "L7 FAIL copyleft sub/COPYING"}},
+		"go source":   {"b.go", "package a\n// " + gpl, []string{"L7 FAIL copyleft b.go"}},
+		"readme":      {"README.md", "unlike the " + gpl, []string{"L7 OK copyleft none", "L7 INFO copyleft-quoted README.md"}},
+		"test file":   {"b_test.go", "package a\n// " + gpl, []string{"L7 OK copyleft none", "L7 INFO copyleft-quoted b_test.go"}},
 	} {
 		fsys := base()
 		fsys[c.file] = &fstest.MapFile{Data: []byte(c.body)}
