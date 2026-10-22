@@ -19,14 +19,19 @@ var stepPrefix = regexp.MustCompile(`^step\[[0-9]+\]: `)
 // Classify is a non-STALE result's E6 class, PASS|FAIL|SPLIT|ERROR, and the variant a split diff names (ruling B).
 // Only a SPLIT diff starts with "<vid>: " (the runner's v.id+": "); it is cut, then an optional "step[i]: ", and
 // the rest is matched against errPrefixes: an engine error inside a split variant is an ERROR, not a split mismatch.
-// "unobserved …" and every other diff are FAIL (SPLIT when a variant was cut).
+// "unobserved …" and every other diff are FAIL (SPLIT when a variant was cut); a SPLIT diff without its "<vid>: "
+// names no variant, so it is a FAIL.
 func Classify(r runner.Result) (class, variant string) {
 	if r.Status == runner.PASS {
 		return "PASS", ""
 	}
 	d := r.Diff
 	if r.Status == runner.SPLIT {
-		variant, d, _ = strings.Cut(d, ": ")
+		vid, rest, found := strings.Cut(d, ": ")
+		if !found {
+			return "FAIL", ""
+		}
+		variant, d = vid, rest
 	}
 	d = Rest(d)
 	for _, p := range errPrefixes {

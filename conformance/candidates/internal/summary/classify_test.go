@@ -24,6 +24,7 @@ func TestClassify(t *testing.T) {
 		{F, "step[0].P.cursor.x: want 1 got 2", "FAIL", ""},
 		{F, "boom: x", "FAIL", ""},
 		{F, "unobserved B.t1.?1: replies", "FAIL", ""},
+		{S, "no variant prefix", "FAIL", ""},
 		{runner.PASS, "", "PASS", ""},
 	} {
 		if class, v := Classify(runner.Result{Status: c.status, Diff: c.diff}); class != c.class || v != c.variant {
