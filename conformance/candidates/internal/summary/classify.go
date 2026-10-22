@@ -28,7 +28,7 @@ func Classify(r runner.Result) (class, variant string) {
 	if r.Status == runner.SPLIT {
 		variant, d, _ = strings.Cut(d, ": ")
 	}
-	d = stepPrefix.ReplaceAllString(d, "")
+	d = Rest(d)
 	for _, p := range errPrefixes {
 		if strings.HasPrefix(d, p) {
 			return "ERROR", variant
@@ -39,3 +39,6 @@ func Classify(r runner.Result) (class, variant string) {
 	}
 	return "FAIL", ""
 }
+
+// Rest is a diff without its optional leading "step[i]: ", the form errPrefixes (and verdict's DIAG count) match.
+func Rest(diff string) string { return stepPrefix.ReplaceAllString(diff, "") }
