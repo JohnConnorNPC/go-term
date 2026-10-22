@@ -1,12 +1,14 @@
 # 0002 Engine: adopt, fork or port (issue #2)
 
-Status: decided by the rule below, from the numbers below. **VERDICT survey-decides**
+Status: **Verdict recorded: survey-decides. The engine choice stays open and is made in #3 (survey path); this record
+decides no engine.** The rule below, applied to the numbers below, gives `VERDICT survey-decides`; the owner kept the 5.3.0 gate
+(owner decision 2026-10-22, ask 20261022-160630-72c13f, 2/rulings-9), so no candidate passes it.
 
 ## Why the 5.3.0 gate fails (2/rulings-9)
 Every case runs the probe twin B.t1, which asks DECRQM `\x1b[?2026$p` (synchronized output). The Go ports answer
 `\x1b[?2026;2$y` (known, reset), as xterm.js 6.x does; xterm-headless@5.3.0 answers `\x1b[?2026;0$y` (not recognised).
 Cases whose first failing path is that probe, x53 full (`grep -c '"detail": "B.t1.?2026:' scores/<e>-x53-full.json`):
-gitpod 307, magnet 311, xvt 0 (xvt fails earlier, on paths it cannot observe).
+gitpod 307, magnet 311, xvt 0 (xvt fails earlier, before B.t1: see "xvt" below).
 
 The 6.0.0 (xcur) full scores, **reported, not gating**:
 ```
@@ -31,8 +33,12 @@ additions)"): a mode setter is a Studio addition, not a gate.
 
 In words (E8): **fork gitpod** if and only if (1) its x53 score with the full equivalence table is at least 90 %
 (`p*10 >= t*9`, integers; x53 = xterm-headless@5.3.0, the version Studio renders against, 2/rulings-1 Q1), (2) every
-required licence line (L1-L4) is OK and no LIC line is FAIL, and (3) the pin is still upstream's HEAD (SAME). A pin that
-MOVED means rescore first (2/rulings-2 #2). Anything else: the survey decides, with every candidate's numbers below.
+required gitpod licence line (L1-L4, and L11: no restriction added to MIT) is OK and no gitpod LIC line is FAIL (L7
+fails on a copyleft name or SPDX id, any case, in any file but documentation), and (3) the pin is still upstream's HEAD
+(SAME; a `replace` of a candidate in go.mod is REPLACED) and every summary's pin ends in its engine's pinned sha. A pin
+that MOVED, or a summary scored at another pin, means rescore first (2/rulings-2 #2, 2/rulings-10). Anything else: the
+survey decides, with every candidate's numbers below. A summary that is not its run's (engine, ref, mode, a total
+other than the ref's goldens counted, passed outside 0..total, an unset or mixed pin) is UNMEASURED: no verdict.
 
 How a case is scored (E5, 2/rulings-1 Q2-Q3): a case PASSes only if its whole-write run, its four probe twins and every
 2-chunk and bytewise split variant all match the golden on every public (tier P and B) field; tier I is never scored.
@@ -41,16 +47,18 @@ against the case files before any summary is written. An engine reports only wha
 cannot observe is listed as unobserved and is a FAIL, never a guess.
 
 What the modes mean (go-v4 item 4, corrected by 2/rulings-6): **strict** = no equivalence table, raw candidate values
-(a nil override is JSON null): a raw-encoding agreement, i.e. the mapping cost, **not a quality score**. **case** and
+(a nil override is JSON null): a raw-encoding agreement, i.e. the mapping cost, **not a quality score**; every strict
+SCORE line below carries `strict=raw-encoding (mapping cost, not a quality score)`. **case** and
 **default** = only the rows of that class (the ablation). **full** = the whole table = the **gate**. Only GATE decides.
 
 DIAG (2/rulings-8): n cases fail first on a path the engine cannot observe; their later paths were not compared.
+STATUS: the cases of each full run per class (PASS, FAIL, SPLIT, ERROR), out of the run's total.
 SKIP-SENSITIVE lists are complete for PASS cases and a lower bound for SPLIT-FAIL cases (2/rulings-5 #5): a SPLIT
 returns at its first failing variant, before the later sensitive ones.
 
 ## Scores and verdict (`go run ./cmd/verdict`, verbatim)
 ```
-SCORE gitpod x53 strict 0/314 0.00
+SCORE gitpod x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT gitpod x53 strict altscreen 0/20 0.00 FLAG<50
 CAT gitpod x53 strict c0 0/22 0.00 FLAG<50
 CAT gitpod x53 strict csi 0/60 0.00 FLAG<50
@@ -74,7 +82,7 @@ CAT gitpod x53 full resize 0/26 0.00 FLAG<50
 CAT gitpod x53 full scrollback 0/20 0.00 FLAG<50
 CAT gitpod x53 full sgr 0/40 0.00 FLAG<50
 CAT gitpod x53 full wide 0/30 0.00 FLAG<50
-SCORE gitpod xcur strict 0/314 0.00
+SCORE gitpod xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT gitpod xcur strict altscreen 0/20 0.00 FLAG<50
 CAT gitpod xcur strict c0 0/22 0.00 FLAG<50
 CAT gitpod xcur strict csi 0/60 0.00 FLAG<50
@@ -122,7 +130,7 @@ CAT gitpod x53 default resize 0/26 0.00 FLAG<50
 CAT gitpod x53 default scrollback 0/20 0.00 FLAG<50
 CAT gitpod x53 default sgr 0/40 0.00 FLAG<50
 CAT gitpod x53 default wide 0/30 0.00 FLAG<50
-SCORE magnet x53 strict 0/314 0.00
+SCORE magnet x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT magnet x53 strict altscreen 0/20 0.00 FLAG<50
 CAT magnet x53 strict c0 0/22 0.00 FLAG<50
 CAT magnet x53 strict csi 0/60 0.00 FLAG<50
@@ -146,7 +154,7 @@ CAT magnet x53 full resize 0/26 0.00 FLAG<50
 CAT magnet x53 full scrollback 0/20 0.00 FLAG<50
 CAT magnet x53 full sgr 0/40 0.00 FLAG<50
 CAT magnet x53 full wide 0/30 0.00 FLAG<50
-SCORE magnet xcur strict 0/314 0.00
+SCORE magnet xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT magnet xcur strict altscreen 0/20 0.00 FLAG<50
 CAT magnet xcur strict c0 0/22 0.00 FLAG<50
 CAT magnet xcur strict csi 0/60 0.00 FLAG<50
@@ -194,7 +202,7 @@ CAT magnet x53 default resize 0/26 0.00 FLAG<50
 CAT magnet x53 default scrollback 0/20 0.00 FLAG<50
 CAT magnet x53 default sgr 0/40 0.00 FLAG<50
 CAT magnet x53 default wide 0/30 0.00 FLAG<50
-SCORE xvt x53 strict 0/314 0.00
+SCORE xvt x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT xvt x53 strict altscreen 0/20 0.00 FLAG<50
 CAT xvt x53 strict c0 0/22 0.00 FLAG<50
 CAT xvt x53 strict csi 0/60 0.00 FLAG<50
@@ -218,7 +226,7 @@ CAT xvt x53 full resize 0/26 0.00 FLAG<50
 CAT xvt x53 full scrollback 0/20 0.00 FLAG<50
 CAT xvt x53 full sgr 0/40 0.00 FLAG<50
 CAT xvt x53 full wide 0/30 0.00 FLAG<50
-SCORE xvt xcur strict 0/314 0.00
+SCORE xvt xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT xvt xcur strict altscreen 0/20 0.00 FLAG<50
 CAT xvt xcur strict c0 0/22 0.00 FLAG<50
 CAT xvt xcur strict csi 0/60 0.00 FLAG<50
@@ -271,36 +279,58 @@ EQUIV-DELTA gitpod x53 0
 SKIP gitpod x53 pass=0 nonpass>=0
 SPLITS gitpod x53 whole-pass=0 split-fail=0
 DIAG gitpod x53 unobserved-first 0/314
+STATUS gitpod x53 full PASS=0 FAIL=314 SPLIT=0 ERROR=0 of 314
 EQUIV-DELTA gitpod xcur 303
 SKIP gitpod xcur pass=7 nonpass>=0
 SPLITS gitpod xcur whole-pass=304 split-fail=1
 DIAG gitpod xcur unobserved-first 0/314
+STATUS gitpod xcur full PASS=303 FAIL=10 SPLIT=1 ERROR=0 of 314
 GATE gitpod x53 0/314 >=90% FAIL
 ABLATE magnet x53 strict=0 case=0 default=0 full=0
 EQUIV-DELTA magnet x53 0
 SKIP magnet x53 pass=0 nonpass>=0
 SPLITS magnet x53 whole-pass=0 split-fail=0
 DIAG magnet x53 unobserved-first 0/314
+STATUS magnet x53 full PASS=0 FAIL=314 SPLIT=0 ERROR=0 of 314
 EQUIV-DELTA magnet xcur 312
 SKIP magnet xcur pass=7 nonpass>=0
 SPLITS magnet xcur whole-pass=312 split-fail=0
 DIAG magnet xcur unobserved-first 0/314
+STATUS magnet xcur full PASS=312 FAIL=2 SPLIT=0 ERROR=0 of 314
 GATE magnet x53 0/314 >=90% FAIL
 ABLATE xvt x53 strict=0 case=0 default=0 full=0
 EQUIV-DELTA xvt x53 0
 SKIP xvt x53 pass=0 nonpass>=0
 SPLITS xvt x53 whole-pass=0 split-fail=0
 DIAG xvt x53 unobserved-first 280/314
+STATUS xvt x53 full PASS=0 FAIL=280 SPLIT=0 ERROR=34 of 314
 EQUIV-DELTA xvt xcur 0
 SKIP xvt xcur pass=0 nonpass>=0
 SPLITS xvt xcur whole-pass=0 split-fail=0
 DIAG xvt xcur unobserved-first 280/314
+STATUS xvt xcur full PASS=0 FAIL=280 SPLIT=0 ERROR=34 of 314
 GATE xvt x53 0/314 >=90% FAIL
 SKIP-NOTE SKIP-SENSITIVE lists are complete for PASS cases and a lower bound for SPLIT-FAIL cases
 DIAG-NOTE n cases fail first on a path the engine cannot observe; their later paths were not compared
 XCUR-NOTE opts 3 dcs/decrqss-sp-q decmodes/decscusr-bar decmodes/decscusr-reset
 VERDICT survey-decides
 ```
+
+## The failing cases
+x53 (the gate): no case passes for any engine (the STATUS lines above: PASS=0); the per-category counts are the CAT
+lines, and every case's id and first failing path are the `cases` of `scores/<e>-x53-full.json` (`"result"` other than
+`"PASS"`).
+xcur, reported (`scores/<e>-xcur-full.json`, cases whose `"result"` is not `"PASS"`):
+- gitpod 11: `dcs/decrqss-sp-q`, `decmodes/cursor-blink`, `decmodes/decscusr-bar`, `decmodes/origin-clamp`, `decmodes/origin-cpr`, `decmodes/origin-cup`, `decmodes/origin-homes`, `esc/decsc-origin`, `scrollback/sb0`, `wide/soft-hyphen`, `wide/ufffd`.
+- magnet 2: `dcs/decrqss-sp-q`, `decmodes/decscusr-bar`.
+- xvt: all 314, as on x53.
+
+**xvt** (x53 full; the same on xcur): 280 FAIL whose first path is one the adapter cannot observe
+(`grep -c '"detail": "unobserved' scores/xvt-x53-full.json`) plus 34 adapter ERROR
+(`grep -c '"result": "ERROR"' scores/xvt-x53-full.json`), each `snapshot error: x/vt returned no cell`
+(`grep -c 'x/vt returned no cell' scores/xvt-x53-full.json` = 34): x/vt's `ScrollbackCellAt` returns nil past the end of
+a short stored scrollback line, and the adapter reports that as an error, never as a blank cell. These are adapter
+errors, not paths x/vt cannot show: `altscreen/ed3-in-alt`, `altscreen/normal-scrollback-kept`, `c0/lf-bottom-scroll`, `csi/bce-ed`, `csi/ed2`, `csi/ed2-keeps-cursor`, `csi/ind-ri-at-margins`, `csi/lf-at-bottom-margin`, `csi/region-partial-no-push`, `csi/su-count`, `csi/su-region`, `esc/ind-bottom`, `resize/80x24-default-size`, `resize/grow-rows-from-scrollback`, `resize/rows-1`, `resize/sb-trim-on-resize`, `scrollback/attrs-in-scrollback`, `scrollback/cursor-after-scroll`, `scrollback/default-limit`, `scrollback/ed2-no-push`, `scrollback/ed3`, `scrollback/fill-30`, `scrollback/full-region-pushes`, `scrollback/lf-flood`, `scrollback/partial-region-no-push`, `scrollback/ris-clears`, `scrollback/sb0`, `scrollback/sb1`, `scrollback/sb5-trim`, `scrollback/su-full-screen`, `scrollback/viewport-follows`, `scrollback/wide-in-scrollback`, `scrollback/wrapped-in-scrollback`, `sgr/sgr-in-scrollback`.
 
 ## One documented command per candidate and run (atom 29; inside `cand.sh run`)
 ```
@@ -311,6 +341,7 @@ go run ./cmd/licheck > scores/lic.txt && bash scripts/gh-spdx.sh >> scores/lic.t
 go run ./cmd/facts > scores/facts.txt
 bash scripts/pin-check.sh > scores/pin.txt; bash scripts/activity.sh > scores/activity.txt   # host
 go run ./cmd/verdict > scores/verdict.txt
+bash scripts/record-check.sh   # host, CACHE set: every evidence line is in this record; verdict.txt re-derived
 ```
 The x53-vs-xcur split: x53 gates, xcur (@xterm/headless@6.0.0) is reported. XCUR-NOTE above names the cases whose xcur
 golden differs in an `opts.*` path.
@@ -354,6 +385,7 @@ LIC gitpod L1 OK LICENSE
 LIC gitpod L2 OK Permission is hereby granted, free of charge
 LIC gitpod L3 OK The above copyright notice and this permission notice shall be included
 LIC gitpod L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC gitpod L11 OK restrictions none
 LIC gitpod L5 INFO Copyright (c) 2026 Ona
 LIC gitpod L6 INFO 0/3
 LIC gitpod L10 INFO e625cb3be4cc
@@ -367,6 +399,7 @@ LIC magnet L1 OK LICENSE
 LIC magnet L2 OK Permission is hereby granted, free of charge
 LIC magnet L3 OK The above copyright notice and this permission notice shall be included
 LIC magnet L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC magnet L11 OK restrictions none
 LIC magnet L5 INFO Copyright (c) 2017-2019, The xterm.js authors (https://github.com/xtermjs/xterm.js) | Copyright (c) 2014-2016, SourceLair Private Company (https://www.sourcelair.com) | Copyright (c) 2012-2013, Christopher Jeffrey (https://github.com/chjj/)
 LIC magnet L6 INFO 3/3
 LIC magnet L10 INFO b569f629d00f
@@ -380,6 +413,7 @@ LIC xvt L1 OK LICENSE
 LIC xvt L2 OK Permission is hereby granted, free of charge
 LIC xvt L3 OK The above copyright notice and this permission notice shall be included
 LIC xvt L4 OK THE SOFTWARE IS PROVIDED "AS IS"
+LIC xvt L11 OK restrictions none
 LIC xvt L5 INFO Copyright (c) 2023 Charmbracelet, Inc.
 LIC xvt L6 INFO 0/3
 LIC xvt L10 INFO 0baa4a5942a8
