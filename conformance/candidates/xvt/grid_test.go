@@ -23,18 +23,18 @@ func snap(t *testing.T, in string) runner.State {
 	return st
 }
 
-// TestGrid: size, cursor and the active screen; the paths x/vt has no API for are listed, not made up.
+// TestGrid: cell text and width by identity; the paths x/vt has no API for are listed, not made up.
 func TestGrid(t *testing.T) {
 	st := snap(t, "ab")
-	if st.P.Cols != 10 || st.P.Rows != 3 || st.P.Cursor != [2]int{2, 0} {
-		t.Errorf("cols %d rows %d cursor %v, want 10x3 at [2 0]", st.P.Cols, st.P.Rows, st.P.Cursor)
+	if c := st.Normal[0].Cells; c[0].Ch != "a" || c[1].Ch != "b" || c[0].W != 1 || st.P.Cols != 10 || st.P.Rows != 3 {
+		t.Errorf("cells %+v cols %d rows %d, want a b width 1, 10x3", c[:2], st.P.Cols, st.P.Rows)
 	}
 	for _, u := range []string{"attrs", "viewportY", "w"} {
 		if !strings.Contains(strings.Join(st.Unobserved, " "), u) {
 			t.Errorf("Unobserved %v lacks %s", st.Unobserved, u)
 		}
 	}
-	if st := snap(t, "x\x1b[?1049h"); st.P.Buffer != "alternate" {
-		t.Errorf("alt: buffer %q, want alternate", st.P.Buffer)
+	if st := snap(t, "x\x1b[?1049h"); st.P.Buffer != "alternate" || st.Normal != nil || !strings.Contains(strings.Join(st.Unobserved, " "), "normalLength") {
+		t.Errorf("alt: buffer %q normal %v unobserved %v, want alternate, no normal rows, normalLength unobserved", st.P.Buffer, st.Normal != nil, st.Unobserved)
 	}
 }

@@ -5,13 +5,13 @@ go 1.25
 require (
 	github.com/0magnet/xterm-go v0.0.1-0.20261013223808-aa0a32cd702b
 	github.com/JohnConnorNPC/go-term v0.0.0-00010101000000-000000000000
+	github.com/charmbracelet/ultraviolet v0.0.0-20260303162955-0b88c25f3fff
 	github.com/charmbracelet/x/vt v0.1.1-0.20261018003744-cb897cb4ed72
 	github.com/gitpod-io/xterm-go v0.0.0-20260907130418-dae5128cb6b3
 )
 
 require (
 	github.com/charmbracelet/colorprofile v0.4.2 // indirect
-	github.com/charmbracelet/ultraviolet v0.0.0-20260303162955-0b88c25f3fff // indirect
 	github.com/charmbracelet/x/ansi v0.11.7 // indirect
 	github.com/charmbracelet/x/exp/ordered v0.1.0 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
