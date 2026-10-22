@@ -134,4 +134,11 @@ func TestIdentity(t *testing.T) {
 			t.Errorf("without %s: %v, want %s", rm, err, want)
 		}
 	}
+	dir = fixture(t, func(r Run, s *summary.Summary) { s.Total, s.Passed = 0, 0 })
+	if err := os.RemoveAll(filepath.Join(dir, "golden")); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Load(dir, dir); err == nil || !strings.HasPrefix(err.Error(), "UNMEASURED x53 strict gitpod") {
+		t.Errorf("no goldens and every summary empty (0 == 0): %v, want UNMEASURED", err)
+	}
 }
