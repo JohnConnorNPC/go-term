@@ -1,4 +1,4 @@
-SCORE gitpod x53 strict 0/314 0.00
+SCORE gitpod x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT gitpod x53 strict altscreen 0/20 0.00 FLAG<50
 CAT gitpod x53 strict c0 0/22 0.00 FLAG<50
 CAT gitpod x53 strict csi 0/60 0.00 FLAG<50
@@ -22,7 +22,7 @@ CAT gitpod x53 full resize 0/26 0.00 FLAG<50
 CAT gitpod x53 full scrollback 0/20 0.00 FLAG<50
 CAT gitpod x53 full sgr 0/40 0.00 FLAG<50
 CAT gitpod x53 full wide 0/30 0.00 FLAG<50
-SCORE gitpod xcur strict 0/314 0.00
+SCORE gitpod xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT gitpod xcur strict altscreen 0/20 0.00 FLAG<50
 CAT gitpod xcur strict c0 0/22 0.00 FLAG<50
 CAT gitpod xcur strict csi 0/60 0.00 FLAG<50
@@ -70,7 +70,7 @@ CAT gitpod x53 default resize 0/26 0.00 FLAG<50
 CAT gitpod x53 default scrollback 0/20 0.00 FLAG<50
 CAT gitpod x53 default sgr 0/40 0.00 FLAG<50
 CAT gitpod x53 default wide 0/30 0.00 FLAG<50
-SCORE magnet x53 strict 0/314 0.00
+SCORE magnet x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT magnet x53 strict altscreen 0/20 0.00 FLAG<50
 CAT magnet x53 strict c0 0/22 0.00 FLAG<50
 CAT magnet x53 strict csi 0/60 0.00 FLAG<50
@@ -94,7 +94,7 @@ CAT magnet x53 full resize 0/26 0.00 FLAG<50
 CAT magnet x53 full scrollback 0/20 0.00 FLAG<50
 CAT magnet x53 full sgr 0/40 0.00 FLAG<50
 CAT magnet x53 full wide 0/30 0.00 FLAG<50
-SCORE magnet xcur strict 0/314 0.00
+SCORE magnet xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT magnet xcur strict altscreen 0/20 0.00 FLAG<50
 CAT magnet xcur strict c0 0/22 0.00 FLAG<50
 CAT magnet xcur strict csi 0/60 0.00 FLAG<50
@@ -142,7 +142,7 @@ CAT magnet x53 default resize 0/26 0.00 FLAG<50
 CAT magnet x53 default scrollback 0/20 0.00 FLAG<50
 CAT magnet x53 default sgr 0/40 0.00 FLAG<50
 CAT magnet x53 default wide 0/30 0.00 FLAG<50
-SCORE xvt x53 strict 0/314 0.00
+SCORE xvt x53 strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT xvt x53 strict altscreen 0/20 0.00 FLAG<50
 CAT xvt x53 strict c0 0/22 0.00 FLAG<50
 CAT xvt x53 strict csi 0/60 0.00 FLAG<50
@@ -166,7 +166,7 @@ CAT xvt x53 full resize 0/26 0.00 FLAG<50
 CAT xvt x53 full scrollback 0/20 0.00 FLAG<50
 CAT xvt x53 full sgr 0/40 0.00 FLAG<50
 CAT xvt x53 full wide 0/30 0.00 FLAG<50
-SCORE xvt xcur strict 0/314 0.00
+SCORE xvt xcur strict 0/314 0.00 strict=raw-encoding (mapping cost, not a quality score)
 CAT xvt xcur strict altscreen 0/20 0.00 FLAG<50
 CAT xvt xcur strict c0 0/22 0.00 FLAG<50
 CAT xvt xcur strict csi 0/60 0.00 FLAG<50
@@ -219,30 +219,36 @@ EQUIV-DELTA gitpod x53 0
 SKIP gitpod x53 pass=0 nonpass>=0
 SPLITS gitpod x53 whole-pass=0 split-fail=0
 DIAG gitpod x53 unobserved-first 0/314
+STATUS gitpod x53 full PASS=0 FAIL=314 SPLIT=0 ERROR=0 of 314
 EQUIV-DELTA gitpod xcur 303
 SKIP gitpod xcur pass=7 nonpass>=0
 SPLITS gitpod xcur whole-pass=304 split-fail=1
 DIAG gitpod xcur unobserved-first 0/314
+STATUS gitpod xcur full PASS=303 FAIL=10 SPLIT=1 ERROR=0 of 314
 GATE gitpod x53 0/314 >=90% FAIL
 ABLATE magnet x53 strict=0 case=0 default=0 full=0
 EQUIV-DELTA magnet x53 0
 SKIP magnet x53 pass=0 nonpass>=0
 SPLITS magnet x53 whole-pass=0 split-fail=0
 DIAG magnet x53 unobserved-first 0/314
+STATUS magnet x53 full PASS=0 FAIL=314 SPLIT=0 ERROR=0 of 314
 EQUIV-DELTA magnet xcur 312
 SKIP magnet xcur pass=7 nonpass>=0
 SPLITS magnet xcur whole-pass=312 split-fail=0
 DIAG magnet xcur unobserved-first 0/314
+STATUS magnet xcur full PASS=312 FAIL=2 SPLIT=0 ERROR=0 of 314
 GATE magnet x53 0/314 >=90% FAIL
 ABLATE xvt x53 strict=0 case=0 default=0 full=0
 EQUIV-DELTA xvt x53 0
 SKIP xvt x53 pass=0 nonpass>=0
 SPLITS xvt x53 whole-pass=0 split-fail=0
 DIAG xvt x53 unobserved-first 280/314
+STATUS xvt x53 full PASS=0 FAIL=280 SPLIT=0 ERROR=34 of 314
 EQUIV-DELTA xvt xcur 0
 SKIP xvt xcur pass=0 nonpass>=0
 SPLITS xvt xcur whole-pass=0 split-fail=0
 DIAG xvt xcur unobserved-first 280/314
+STATUS xvt xcur full PASS=0 FAIL=280 SPLIT=0 ERROR=34 of 314
 GATE xvt x53 0/314 >=90% FAIL
 SKIP-NOTE SKIP-SENSITIVE lists are complete for PASS cases and a lower bound for SPLIT-FAIL cases
 DIAG-NOTE n cases fail first on a path the engine cannot observe; their later paths were not compared
