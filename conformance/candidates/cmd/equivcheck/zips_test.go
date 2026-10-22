@@ -43,7 +43,7 @@ func fixture(t *testing.T, files map[string]string) (proxy, gomod string) {
 }
 
 // TestModule: the zip's files are read by their path inside the module, at the go.mod version; a module without a
-// require line, or with an upper-case path, is an error.
+// require line (here also one that differs only in case) is an error.
 func TestModule(t *testing.T) {
 	proxy, gomod := fixture(t, map[string]string{"vt/a.go": "package vt\nx := 1\n"})
 	z := &zips{proxy: proxy, gomod: gomod, mods: map[string]map[string][]string{}}

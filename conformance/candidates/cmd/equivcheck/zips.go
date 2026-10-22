@@ -23,8 +23,8 @@ func (z *zips) module(mod string) (map[string][]string, error) {
 	}
 	gm, err := os.ReadFile(z.gomod)
 	m := regexp.MustCompile(`(?m)^\s*(?:require\s+)?` + regexp.QuoteMeta(mod) + `\s+(\S+)`).FindSubmatch(gm)
-	if err != nil || m == nil || strings.ToLower(mod) != mod {
-		return nil, fmt.Errorf("no lower-case require line for %s in %s (%v)", mod, z.gomod, err)
+	if err != nil || m == nil {
+		return nil, fmt.Errorf("no require line for %s in %s (%v)", mod, z.gomod, err)
 	}
 	r, err := zip.OpenReader(filepath.Join(z.proxy, mod, "@v", string(m[1])+".zip"))
 	if err != nil {
