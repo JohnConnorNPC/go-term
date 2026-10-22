@@ -1,6 +1,8 @@
 package lic
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"strings"
 	"testing"
 	"testing/fstest"
@@ -42,5 +44,19 @@ func TestRootMIT(t *testing.T) {
 	}
 	if got := status(Root(fstest.MapFS{"README": {Data: []byte("x")}})); !strings.HasPrefix(got["L1"], "FAIL") {
 		t.Errorf("no LICENSE: %v", got)
+	}
+}
+
+// TestRootInfo: the copyright lines verbatim, the xterm.js lines carried (0/3 gitpod-shaped, 3/3 xterm.js-shaped)
+// and the sha256 of the bytes as they are (not normalised).
+func TestRootInfo(t *testing.T) {
+	got := status(Root(fstest.MapFS{"LICENSE": {Data: []byte(mitText)}}))
+	sum := sha256.Sum256([]byte(mitText))
+	if got["L5"] != "INFO Copyright (c) 2026 Ona" || got["L6"] != "INFO 0/3" || got["L10"] != "INFO "+hex.EncodeToString(sum[:])[:12] {
+		t.Errorf("gitpod-shaped: %v", got)
+	}
+	xj := strings.Join(xtermjs, "\n") + "\n\n" + mitText
+	if got := status(Root(fstest.MapFS{"LICENSE": {Data: []byte(xj)}})); got["L6"] != "INFO 3/3" {
+		t.Errorf("xterm.js-shaped: %v", got)
 	}
 }
