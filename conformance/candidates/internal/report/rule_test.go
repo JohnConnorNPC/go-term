@@ -17,17 +17,17 @@ func TestRule(t *testing.T) {
 	pass := func(r Run, s *summary.Summary) { s.Passed = 290 }
 	for _, c := range []struct {
 		lic, pin, want string
-	}{{okLic, "PIN gitpod pinned=dae5128cb6b3 head=dae5128cb6b3 SAME\n", "VERDICT fork github.com/gitpod-io/xterm-go@dae5128cb6b3"},
-		{strings.Replace(okLic, "L2 OK", "L2 FAIL", 1), "PIN gitpod pinned=a head=a SAME\n", "VERDICT survey-decides"},
-		{strings.Replace(okLic, "LIC gitpod L11 OK x\n", "", 1), "PIN gitpod pinned=a head=a SAME\n", "VERDICT survey-decides"},
-		{okLic, "PIN gitpod pinned=a head=b MOVED\n", "VERDICT rescore-required"},
-		{okLic, "PIN magnet pinned=a head=a SAME\n", "UNMEASURED"}} {
+	}{{okLic, okPin, "VERDICT fork github.com/gitpod-io/xterm-go@dae5128cb6b3"},
+		{strings.Replace(okLic, "L2 OK", "L2 FAIL", 1), okPin, "VERDICT survey-decides"},
+		{strings.Replace(okLic, "LIC gitpod L11 OK x\n", "", 1), okPin, "VERDICT survey-decides"},
+		{okLic, strings.Replace(okPin, "head=dae5128cb6b3 SAME", "head=000000000000 MOVED", 1), "VERDICT rescore-required"},
+		{okLic, "PIN magnet pinned=aa0a32cd702b head=aa0a32cd702b SAME\n", "UNMEASURED"}} {
 		dir := fixture(t, pass)
 		if os.WriteFile(filepath.Join(dir, "lic.txt"), []byte(c.lic), 0o644) != nil ||
 			os.WriteFile(filepath.Join(dir, "pin.txt"), []byte(c.pin), 0o644) != nil {
 			t.Fatal("fixture write failed")
 		}
-		runs, err := Load(dir)
+		runs, err := Load(dir, dir)
 		got, err2 := Rule(runs, filepath.Join(dir, "lic.txt"), filepath.Join(dir, "pin.txt"))
 		if err != nil || (got != c.want && (err2 == nil || !strings.HasPrefix(err2.Error(), c.want))) {
 			t.Errorf("%q: %q %v %v, want %s", c.pin, got, err, err2, c.want)

@@ -12,7 +12,7 @@ import (
 // x53 full only (a strict or case score of 314 doesn't pass it).
 func TestPerEngine(t *testing.T) {
 	passed := map[string]int{"strict": 10, "case": 20, "default": 15, "full": 30}
-	runs, err := Load(fixture(t, func(r Run, s *summary.Summary) {
+	runs, err := load(t, func(r Run, s *summary.Summary) {
 		s.Passed = passed[r.Mode]
 		if r.Engine == "magnet" && r.Mode != "full" {
 			s.Passed = 314
@@ -20,7 +20,7 @@ func TestPerEngine(t *testing.T) {
 		if r.Engine == "gitpod" && r.Mode == "full" {
 			s.Passed = 283
 		}
-	}))
+	})
 	if err != nil {
 		t.Fatal(err)
 	}

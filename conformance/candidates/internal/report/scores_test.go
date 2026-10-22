@@ -10,11 +10,11 @@ import (
 
 // TestScores: one SCORE line per run (two-decimal truncated percent) and its CAT lines, a category under 50 % flagged.
 func TestScores(t *testing.T) {
-	runs, err := Load(fixture(t, func(r Run, s *summary.Summary) {
+	runs, err := load(t, func(r Run, s *summary.Summary) {
 		if r == (Run{"gitpod", "x53", "full"}) {
 			s.Passed, s.Categories = 301, map[string]summary.Cat{"c0": {Total: 100, Passed: 49}, "esc": {Total: 214, Passed: 214}}
 		}
-	}))
+	})
 	if err != nil {
 		t.Fatal(err)
 	}

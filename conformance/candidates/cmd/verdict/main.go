@@ -2,7 +2,8 @@
 //
 //	go run ./cmd/verdict > scores/verdict.txt
 //
-// Exit 2 (UNMEASURED) when a summary, golden/diff.json or a fact file is missing; no verdict is printed then.
+// Exit 2 (UNMEASURED) when a summary, golden/diff.json or a fact file is missing, or a summary is not its run's (engine,
+// ref, mode, total, pin: report.Load); no verdict is printed then.
 package main
 
 import (
@@ -24,10 +25,11 @@ func run(args []string, out io.Writer) int {
 	fs := flag.NewFlagSet("verdict", flag.ContinueOnError)
 	scores := fs.String("scores", "scores", "the summaries and lic.txt, pin.txt")
 	diff := fs.String("diff", "../golden/diff.json", "the x53-vs-xcur golden diff")
+	root := fs.String("root", "..", "the conformance directory: a summary's total must equal its ref's goldens there")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
-	runs, err := report.Load(*scores)
+	runs, err := report.Load(*scores, *root)
 	note, err2 := report.XcurNote(*diff)
 	var verdict string
 	err3 := err
