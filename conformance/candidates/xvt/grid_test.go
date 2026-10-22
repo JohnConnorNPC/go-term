@@ -1,6 +1,7 @@
 package xvt
 
 import (
+	"slices"
 	"sort"
 	"strings"
 	"testing"
@@ -32,11 +33,11 @@ func TestGrid(t *testing.T) {
 		t.Errorf("cells %+v cols %d rows %d, want a b width 1, 10x3", c[:2], st.P.Cols, st.P.Rows)
 	}
 	for _, u := range []string{"attrs", "viewportY", "w"} {
-		if !strings.Contains(strings.Join(st.Unobserved, " "), u) {
+		if !slices.Contains(st.Unobserved, u) {
 			t.Errorf("Unobserved %v lacks %s", st.Unobserved, u)
 		}
 	}
-	if st := snap(t, "x\x1b[?1049h"); st.P.Buffer != "alternate" || st.Normal != nil || !strings.Contains(strings.Join(st.Unobserved, " "), "normalLength") {
+	if st := snap(t, "x\x1b[?1049h"); st.P.Buffer != "alternate" || st.Normal != nil || !slices.Contains(st.Unobserved, "normalLength") {
 		t.Errorf("alt: buffer %q normal %v unobserved %v, want alternate, no normal rows, normalLength unobserved", st.P.Buffer, st.Normal != nil, st.Unobserved)
 	}
 }
