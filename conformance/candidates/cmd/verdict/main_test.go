@@ -15,7 +15,7 @@ import (
 func scores(t *testing.T) string {
 	t.Helper()
 	dir := t.TempDir()
-	files := map[string]string{"lic.txt": "LIC gitpod L1 OK x\nLIC gitpod L2 OK x\nLIC gitpod L3 OK x\nLIC gitpod L4 OK x\n",
+	files := map[string]string{"lic.txt": "LIC gitpod L1 OK x\nLIC gitpod L2 OK x\nLIC gitpod L3 OK x\nLIC gitpod L4 OK x\nLIC gitpod L11 OK x\n",
 		"pin.txt": "PIN gitpod pinned=dae5128cb6b3 head=dae5128cb6b3 SAME\n"}
 	for _, r := range report.Runs() {
 		b, err := summary.Summary{Total: 314, Passed: 300, Categories: map[string]summary.Cat{"c0": {Total: 314, Passed: 300}}}.JSON()

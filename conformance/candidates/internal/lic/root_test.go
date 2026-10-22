@@ -60,3 +60,20 @@ func TestRootInfo(t *testing.T) {
 		t.Errorf("xterm.js-shaped: %v", got)
 	}
 }
+
+// TestRootRestrictions (L11): MIT with a rider that takes rights away fails, in any case and across a line break;
+// plain MIT passes with no restriction named.
+func TestRootRestrictions(t *testing.T) {
+	for rider, want := range map[string]string{"": "OK restrictions none",
+		"\"Commons Clause\" License Condition v1.0": "FAIL restrictions commons clause",
+		"For NON-COMMERCIAL use only.":              "FAIL restrictions non-commercial",
+		"You may not\nsell the Software.":           "FAIL restrictions may not sell",
+		"Noncommercial":                             "FAIL restrictions noncommercial",
+		"It may not be sold.":                       "FAIL restrictions may not be sold",
+		"You shall not sell it.":                    "FAIL restrictions shall not sell",
+		"It may not be used for commercial gain.":   "FAIL restrictions not be used for commercial"} {
+		if got := status(Root(fstest.MapFS{"LICENSE": {Data: []byte(mitText + rider)}})); got["L11"] != want || got["L2"][:2] != "OK" {
+			t.Errorf("MIT + %q: L11 %q, want %q", rider, got["L11"], want)
+		}
+	}
+}

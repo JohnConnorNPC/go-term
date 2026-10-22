@@ -9,8 +9,8 @@ import (
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/summary"
 )
 
-// required are the licence lines that must be OK for a fork (atom 25; L5-L10 are INFO).
-var required = []string{"L1", "L2", "L3", "L4"}
+// required are the licence lines that must be OK for a fork (atom 25, L11 round 1; L5-L10 are INFO).
+var required = []string{"L1", "L2", "L3", "L4", "L11"}
 
 // Rule is the E8 verdict line for gitpod: the gate on x53 full, the licence lines of lic (every required id present
 // and OK, no FAIL anywhere) and the pin line of pin (`PIN gitpod pinned=<sha12> head=<sha12> SAME|MOVED`). No gitpod

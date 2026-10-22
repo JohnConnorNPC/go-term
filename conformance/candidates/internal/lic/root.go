@@ -17,13 +17,19 @@ type Line struct{ ID, Status, Value string }
 var mit = [][2]string{{"L2", "Permission is hereby granted, free of charge"},
 	{"L3", "The above copyright notice and this permission notice shall be included"}, {"L4", `THE SOFTWARE IS PROVIDED "AS IS"`}}
 
+// restrictions are riders that take rights away from MIT (L11), matched in the LICENSE lower-cased, whitespace
+// normalised.
+var restrictions = []string{"commons clause", "non-commercial", "noncommercial", "may not sell", "may not be sold",
+	"shall not sell", "not be used for commercial"}
+
 // xtermjs are the three copyright lines of the xterm.js LICENSE (gen/node_modules/xterm/LICENSE), each a NOTICE duty.
 var xtermjs = []string{"Copyright (c) 2017-2019, The xterm.js authors (https://github.com/xtermjs/xterm.js)",
 	"Copyright (c) 2014-2016, SourceLair Private Company (https://www.sourcelair.com)",
 	"Copyright (c) 2012-2013, Christopher Jeffrey (https://github.com/chjj/)"}
 
-// Root checks the module's root LICENSE: L1 present, L2-L4 the MIT phrases; L5 its copyright lines verbatim, L6 how
-// many of the xterm.js lines it carries, L10 the sha256 of its bytes (12 hex), all INFO.
+// Root checks the module's root LICENSE: L1 present, L2-L4 the MIT phrases, L11 no known restriction added to MIT;
+// L5 its copyright lines verbatim, L6 how many of the xterm.js lines it carries, L10 the sha256 of its bytes (12 hex),
+// all INFO.
 func Root(fsys fs.FS) []Line {
 	b, err := fs.ReadFile(fsys, "LICENSE")
 	if err != nil {
@@ -38,6 +44,17 @@ func Root(fsys fs.FS) []Line {
 		}
 		out = append(out, Line{p[0], status, p[1]})
 	}
+	var riders []string
+	for _, r := range restrictions {
+		if strings.Contains(strings.ToLower(text), r) {
+			riders = append(riders, r)
+		}
+	}
+	status := "OK"
+	if len(riders) > 0 {
+		status = "FAIL"
+	}
+	out = append(out, Line{"L11", status, "restrictions " + list(riders)})
 	var copyrights []string
 	carried := 0
 	for _, l := range strings.Split(string(b), "\n") {

@@ -5,11 +5,11 @@ import (
 	"sort"
 )
 
-var mitIDs = map[string]bool{"L1": true, "L2": true, "L3": true, "L4": true}
+var mitIDs = map[string]bool{"L1": true, "L2": true, "L3": true, "L4": true, "L11": true}
 
-// Deps is L9: each module the candidate's non-test packages import (mods, by path) must pass L1-L4 with its own root
-// LICENSE: OK, else FAIL when gated (gitpod, the fork candidate) and INFO for the others. The candidate's test-only
-// requires are listed as INFO (e.g. github.com/google/go-cmp, BSD-3-Clause).
+// Deps is L9: each module the candidate's non-test packages import (mods, by path) must pass L1-L4 and L11 with its
+// own root LICENSE: OK, else FAIL when gated (gitpod, the fork candidate) and INFO for the others. The candidate's
+// test-only requires are listed as INFO (e.g. github.com/google/go-cmp, BSD-3-Clause).
 func Deps(gated bool, mods map[string]fs.FS, testOnly []string) []Line {
 	var paths []string
 	for p := range mods {

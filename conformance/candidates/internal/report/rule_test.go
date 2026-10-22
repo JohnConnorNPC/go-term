@@ -9,16 +9,17 @@ import (
 	"github.com/JohnConnorNPC/go-term/conformance/candidates/internal/summary"
 )
 
-const okLic = "LIC gitpod L1 OK x\nLIC gitpod L2 OK x\nLIC gitpod L3 OK x\nLIC gitpod L4 OK x\nLIC gitpod L6 INFO 0/3\n"
+const okLic = "LIC gitpod L1 OK x\nLIC gitpod L2 OK x\nLIC gitpod L3 OK x\nLIC gitpod L4 OK x\nLIC gitpod L11 OK x\nLIC gitpod L6 INFO 0/3\n"
 
-// TestRule: fork needs the full gate, the licence lines and SAME; a licence FAIL or a moved pin changes the verdict,
-// and a missing PIN line is UNMEASURED.
+// TestRule: fork needs the full gate, the licence lines and SAME; a licence FAIL, a missing L11 or a moved pin changes
+// the verdict, and a missing PIN line is UNMEASURED.
 func TestRule(t *testing.T) {
 	pass := func(r Run, s *summary.Summary) { s.Passed = 290 }
 	for _, c := range []struct {
 		lic, pin, want string
 	}{{okLic, "PIN gitpod pinned=dae5128cb6b3 head=dae5128cb6b3 SAME\n", "VERDICT fork github.com/gitpod-io/xterm-go@dae5128cb6b3"},
 		{strings.Replace(okLic, "L2 OK", "L2 FAIL", 1), "PIN gitpod pinned=a head=a SAME\n", "VERDICT survey-decides"},
+		{strings.Replace(okLic, "LIC gitpod L11 OK x\n", "", 1), "PIN gitpod pinned=a head=a SAME\n", "VERDICT survey-decides"},
 		{okLic, "PIN gitpod pinned=a head=b MOVED\n", "VERDICT rescore-required"},
 		{okLic, "PIN magnet pinned=a head=a SAME\n", "UNMEASURED"}} {
 		dir := fixture(t, pass)
