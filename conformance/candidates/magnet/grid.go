@@ -12,7 +12,8 @@ import (
 
 // Engine is one magnet terminal.
 type Engine struct {
-	t *vt.Terminal
+	t  *vt.Terminal
+	ev events
 }
 
 // New is the runner.Factory. magnet has no unicode-version option, so only the goldens' default "6" is accepted.
@@ -22,7 +23,9 @@ func New(c runner.Config) (runner.Engine, error) {
 	}
 	o := vt.NewOptions()
 	o.Cols, o.Rows, o.Scrollback = c.Cols, c.Rows, c.Scrollback
-	return &Engine{t: vt.NewTerminal(o)}, nil
+	e := &Engine{t: vt.NewTerminal(o)}
+	e.ev.listen(e.t)
+	return e, nil
 }
 
 func (e *Engine) Write(p []byte) error {
@@ -44,6 +47,7 @@ func (e *Engine) Reset() error {
 func (e *Engine) Snapshot() (runner.State, error) {
 	var st runner.State
 	e.grid(&st)
+	e.ev.fill(&st)
 	return st, nil
 }
 
