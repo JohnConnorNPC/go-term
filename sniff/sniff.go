@@ -132,6 +132,8 @@ func (s *Sniffer) Reset() {
 func (s *Sniffer) Modes() Modes { return s.modes }
 
 // Title returns the last OSC 0 or 2 title, cut to TitleMax bytes on a rune boundary; ok is false before the first.
+// The title is untrusted text: valid UTF-8, but DEL and format characters (bidi overrides, line separators) pass
+// through, so a caller escapes or sanitises it before display.
 func (s *Sniffer) Title() (title string, ok bool) { return s.title, s.have }
 
 // Feed consumes the next bytes of the stream. p is not retained. Memory does not grow with the input: a partial

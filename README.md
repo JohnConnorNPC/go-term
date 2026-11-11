@@ -28,9 +28,13 @@ into bytes:
 s := sniff.New(sniff.Options{})  // TitleMax 0 = 1024 bytes
 s.Feed(chunk)                    // every PTY chunk, in order; chunk-safe, bounded, never retains chunk
 m := s.Modes()                   // {Alt, DECCKM, BracketedPaste bool; MouseTrack 0|9|1000|1002|1003; MouseEnc 0|1006|1016}
-title, ok := s.Title()           // the last OSC 0/2 title; ok is false before the first
+title, ok := s.Title()           // the last OSC 0/2 title; ok is false before the first; untrusted text
 snapshot = append(snapshot, sniff.Postamble(m)...)
 ```
+
+The title is whatever the program wrote: valid UTF-8 within `TitleMax`, but DEL and format characters (bidi overrides
+such as U+202E, U+2028/2029, U+FEFF) pass through. Treat it as untrusted text and escape or sanitise it before showing
+it in a terminal, a log or a page.
 
 A `Sniffer` is not safe for concurrent use; `Reset` returns it to the power-on state (a new PTY). It parses like
 xterm.js (UTF-8 decoded as xterm.js decodes it, then the escape-sequence states of xterm.js's VT500 table), so a mode
