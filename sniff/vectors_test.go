@@ -276,7 +276,7 @@ func replayPython(t *testing.T, c vcase) string {
 				t.Fatalf("%s op %d: result %T", c.ID, i, r)
 			}
 			if got, ok := s.Title(); got != want || ok != have {
-				return fmt.Sprintf("op %d: Title() = %q, %v; Python %q, %v", i, got, ok, want, have)
+				return fmt.Sprintf("op %d: Title() = %.60q, %v; Python %.60q, %v", i, got, ok, want, have)
 			}
 		default:
 			wm := pyModes(t, c.ID, op.state)
@@ -329,5 +329,103 @@ func TestPythonCapCases(t *testing.T) {
 	want := "synthetic/mode-carry-cap#0 synthetic/mode-carry-cap#1 synthetic/title-payload-cap#0 synthetic/title-payload-cap#1"
 	if got := strings.Join(ids, " "); got != want {
 		t.Errorf("synthetic sniffer cases %q, want %q", got, want)
+	}
+}
+
+// headlessOurs are the headless cases this package differs from xterm.js on because of its own caps (xterm.js has
+// neither): they follow the Python reference. Each must still differ from xterm.js; every other case must agree.
+var headlessOurs = map[string]string{
+	"synthetic/title-payload-cap#1": "an OSC payload over 4096 bytes is abandoned",
+	"synthetic/mode-carry-cap#1":    "a CSI with more than 68 bytes before its final byte is dropped",
+}
+
+var (
+	xtTracking = map[string]int{"none": 0, "x10": 9, "vt200": 1000, "drag": 1002, "any": 1003}
+	xtEncoding = map[string]int{"DEFAULT": 0, "SGR": 1006, "SGR_PIXELS": 1016}
+)
+
+func xtModes(t *testing.T, id string, h hchunk) Modes {
+	t.Helper()
+	m := h.Modes
+	if m.DECCKM == nil || m.BP == nil || m.Tracking == nil || m.Encoding == nil {
+		t.Fatalf("%s: modes missing a key", id)
+	}
+	tr, ok1 := xtTracking[*m.Tracking]
+	en, ok2 := xtEncoding[*m.Encoding]
+	if !ok1 || !ok2 || (h.Buffer != "normal" && h.Buffer != "alternate") {
+		t.Fatalf("%s: unknown value in %q %q %q", id, *m.Tracking, *m.Encoding, h.Buffer)
+	}
+	return Modes{Alt: h.Buffer == "alternate", DECCKM: *m.DECCKM, BracketedPaste: *m.BP, MouseTrack: tr, MouseEnc: en}
+}
+
+// replayHeadless feeds the Python case's chunks and compares with xterm.js's state after each one: buffer, DECCKM,
+// bracketed paste, mouse tracking and encoding, and the title (the last onTitleChange so far).
+func replayHeadless(t *testing.T, py, x vcase) string {
+	t.Helper()
+	if len(py.Replay.Chunks) != len(x.Chunks) || x.Final == nil {
+		t.Fatalf("%s: %d chunks, headless %d (final %v)", py.ID, len(py.Replay.Chunks), len(x.Chunks), x.Final != nil)
+	}
+	s := New(Options{TitleMax: maxPayload})
+	var want string
+	var have bool
+	for i, b64 := range py.Replay.Chunks {
+		p, err := base64.StdEncoding.Strict().DecodeString(b64)
+		if err != nil {
+			t.Fatalf("%s chunk %d: %v", py.ID, i, err)
+		}
+		s.Feed(p)
+		if n := len(x.Chunks[i].Titles); n > 0 {
+			want, have = x.Chunks[i].Titles[n-1], true
+		}
+		if got, wm := s.Modes(), xtModes(t, py.ID, x.Chunks[i]); got != wm {
+			return fmt.Sprintf("chunk %d: Modes() = %+v; xterm.js %+v", i, got, wm)
+		}
+		if got, ok := s.Title(); got != want || ok != have {
+			return fmt.Sprintf("chunk %d: Title() = %.60q, %v; xterm.js %.60q, %v", i, got, ok, want, have)
+		}
+	}
+	if (x.Final.Title != nil) != have || (have && *x.Final.Title != want) {
+		t.Fatalf("%s: final title %v disagrees with the chunks' titles", py.ID, x.Final.Title)
+	}
+	return ""
+}
+
+// TestHeadlessVectors replays every sniffer case through the sniffer and compares with @xterm/headless 6.0.0's state
+// after every chunk (vectors/headless, the "shared with xterm" oracle). Each headless file must have been made from
+// the Python copy pinned here.
+func TestHeadlessVectors(t *testing.T) {
+	n := 0
+	for _, fam := range []string{"altscreen", "titles", "synthetic"} {
+		pf := loadVectors(t, "python/"+fam+".json", fam)
+		xf := loadVectors(t, "headless/"+fam+".json", fam)
+		var src struct{ File, SHA256 string }
+		if err := json.Unmarshal(xf.Header.Source, &src); err != nil || src.File != "vectors/python/"+fam+".json" || src.SHA256 != vectorPins["python/"+fam+".json"] {
+			t.Fatalf("headless/%s.json source %s, want vectors/python/%s.json at %s", fam, xf.Header.Source, fam, vectorPins["python/"+fam+".json"])
+		}
+		byID := map[string]vcase{}
+		for _, c := range xf.Cases {
+			byID[c.ID] = c
+		}
+		for _, py := range streamCases(t, pf) {
+			x, ok := byID[py.ID]
+			if !ok {
+				t.Errorf("%s: no headless case", py.ID)
+				continue
+			}
+			n++
+			diff := replayHeadless(t, py, x)
+			why, listed := headlessOurs[py.ID]
+			switch {
+			case listed && diff == "":
+				t.Errorf("%s: listed as ours (%s) but agrees with xterm.js", py.ID, why)
+			case !listed && diff != "":
+				t.Errorf("%s: %s", py.ID, diff)
+			case listed:
+				t.Logf("ours %s: %s", py.ID, diff)
+			}
+		}
+	}
+	if n != 118+80+4 {
+		t.Errorf("%d cases compared, want 202", n)
 	}
 }
