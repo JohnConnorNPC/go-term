@@ -54,6 +54,8 @@ Known differences:
   the title (`test_st_terminated_survives_any_split[21]#0`, `test_esc_abort_inside_payload#0`). The Python reference
   also counts mode sequences inside OSC/DCS payloads, ignores DECSTR, skips a mode sequence with `:` sub-parameters and
   takes any number of params; no vector shows a difference there, and this package follows xterm.js;
+- not a difference, noted: DEL (0x7F) inside an OSC title payload stays in `Title()`, as in xterm.js and Python, while
+  the other C0 controls are dropped and C1 controls abandon the title;
 - from xterm.js, the caps above (`synthetic/title-payload-cap#1`, `synthetic/mode-carry-cap#1`).
 
 ## Releases

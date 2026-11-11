@@ -17,7 +17,8 @@
 //   - ESC c (RIS): every mode off, normal buffer. The title is kept.
 //   - CSI ! p (DECSTR): DECCKM and bracketed paste off (xterm.js's softReset); mouse and alternate screen kept.
 //   - OSC 0 and OSC 2 (id read as a number, so "00" is 0): the payload is the title. BEL, ST and ESC end it
-//     successfully; CAN, SUB and the C1 controls abandon it. C0 controls inside the payload are dropped.
+//     successfully; CAN, SUB and the C1 controls abandon it. C0 controls inside the payload are dropped; DEL (0x7F) is
+//     kept, as xterm.js keeps it.
 //
 // Ours, not xterm.js's (memory bounds, the same as the Python reference keeps):
 //   - an OSC payload over 4096 bytes is abandoned (no title from it);

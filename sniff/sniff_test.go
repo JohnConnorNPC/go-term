@@ -96,6 +96,7 @@ func TestTitle(t *testing.T) {
 		{"CAN abandons", []string{"\x1b]0;a\x18\x07"}, want{"", false}},
 		{"C1 control abandons", []string{"\x1b]0;a\xc2\x85\x07"}, want{"", false}},
 		{"C0 dropped", []string{"\x1b]0;a\tb\x01c\x07"}, want{"abc", true}},
+		{"DEL kept", []string{"\x1b]2;a\x7fb\x07"}, want{"a\x7fb", true}}, // xterm.js's OSC_STRING puts 0x7F too
 		{"utf8", []string{"\x1b]0;h\xc3\xa9\xe2\x82\xac\x07"}, want{"hé€", true}},
 		{"invalid utf8 dropped", []string{"\x1b]0;a\xffb\xc3c\x07"}, want{"abc", true}},
 		{"split utf8", []string{"\x1b]0;\xe2\x82", "\xac\x07"}, want{"€", true}},
