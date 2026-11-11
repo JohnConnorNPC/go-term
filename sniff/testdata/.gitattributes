@@ -1,0 +1,2 @@
+# The vectors and tables are compared byte for byte (sha256 pins in the tests); keep them LF on every checkout.
+*.json text eol=lf
