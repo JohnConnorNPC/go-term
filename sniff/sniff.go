@@ -465,6 +465,8 @@ func (s *Sniffer) oscEnd() {
 		}
 		p = p[:k]
 	}
-	s.title = string(p)
-	s.have = true
+	if !s.have || s.title != string(p) { // an unchanged title (a prompt that re-sets it) allocates nothing
+		s.title = string(p)
+		s.have = true
+	}
 }
