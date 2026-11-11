@@ -1,0 +1,430 @@
+{
+"header": {
+"agent.py sha256": "6d3edbdd524cbb0049195e12f0a15dc6435bc1ef00da6542d0aeb2b4a090e008",
+"altscreen.py sha256": "376544757d323d249c1f1789c9b298ea82d2967ed3f0dfb4ad0411a46d5a2e9a",
+"generator": "sniff/testdata/postamble_oracle.py",
+"rows": 60
+},
+"rows": [
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 0,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 1006,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": false,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 1016,
+"hex": "1b5b3f323030346c1b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 0,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 9,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1000,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1002,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": false,
+"mouse_tracking": 1003,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f316c1b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 0,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 9,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f313030306c1b5b3f313030326c1b5b3f313030336c1b5b3f39681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1000,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030326c1b5b3f313030336c1b5b3f31303030681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1002,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030336c1b5b3f31303032681b5b3f313030366c1b5b3f3130313668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 0,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f313031366c"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 1006,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313031366c1b5b3f3130303668"
+},
+{
+"bracketed_paste": true,
+"app_cursor": true,
+"mouse_tracking": 1003,
+"mouse_encoding": 1016,
+"hex": "1b5b3f32303034681b5b3f31681b5b3f396c1b5b3f313030306c1b5b3f313030326c1b5b3f31303033681b5b3f313030366c1b5b3f3130313668"
+}
+]
+}
