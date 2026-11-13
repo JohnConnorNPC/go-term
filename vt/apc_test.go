@@ -29,3 +29,31 @@ func TestApc(t *testing.T) {
 		t.Errorf("without a handler: %q", line(plain, 0))
 	}
 }
+
+// TestApcBel: BEL does not end an APC string, as in @xterm/headless 6.0.0
+// (SOS/PM/APC ends only at ST), so the text after it is swallowed until ST;
+// BEL still ends an OSC.
+func TestApcBel(t *testing.T) {
+	plain := newTestTerminal(12, 1)
+	plain.WriteString("\x1b_SECRETpayload\x07ok")
+	if line(plain, 0) != "" {
+		t.Errorf("APC ended by BEL: %q", line(plain, 0))
+	}
+	plain.WriteString("\x1b\\ok")
+	if line(plain, 0) != "ok" {
+		t.Errorf("after ST: %q", line(plain, 0))
+	}
+
+	term := newTestTerminal(80, 24)
+	var got []string
+	term.InputHandler().SetApcHandler(func(d string) bool { got = append(got, d); return true })
+	var title string
+	term.OnTitleChange = func(s string) { title = s }
+	term.WriteString("a\x1b_Gq=2;\x07x\x1b\\b\x1b]2;t\x07c")
+	if strings.Join(got, "|") != "Gq=2;x" {
+		t.Errorf("apc %q", got)
+	}
+	if title != "t" || line(term, 0) != "abc" {
+		t.Errorf("title %q, line %q", title, line(term, 0))
+	}
+}

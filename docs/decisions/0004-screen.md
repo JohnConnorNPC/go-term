@@ -19,7 +19,7 @@
    requires exactly `scripts/deps.allow`, no replace, and `go mod verify`. `go get` wrote the go directive as
    `go 1.24.0`, the same floor as 0003's `go 1.24`.
 
-## Known difference
-vt collects APC as an OSC string, so BEL ends it; in 6.0.0 APC is the SOS/PM/APC ignore state that only ST ends.
-Studio's headless textgrid vector `test_control_string_families_are_skipped#2` shows it (114/115); the read API is not
-involved, and `TestHeadlessVectors` keeps it listed until vt is fixed.
+## Known difference (fixed in #10)
+vt collected APC as an OSC string, so BEL ended it; in 6.0.0 APC is the SOS/PM/APC ignore state that only ST ends.
+Studio's headless textgrid vector `test_control_string_families_are_skipped#2` showed it (114/115). #10 keeps BEL from
+ending an APC in vt, so headless textgrid is 115/115 and `knownHeadless` is empty.

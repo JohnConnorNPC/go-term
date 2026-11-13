@@ -173,12 +173,7 @@ func checkHeadless(term *vt.Terminal, want hlState) error {
 
 // knownHeadless are the headless cases go-term's vt is known to miss, with
 // the reason. Each must still miss, so a fix shows up here.
-var knownHeadless = map[string]string{
-	// vt collects APC (ESC _) as an OSC string, so BEL ends it and "ok"
-	// prints; in 6.0.0 APC is the SOS/PM/APC ignore state, which only ST
-	// ends, so "ok" is swallowed (an engine fix, not the read API).
-	"tests/test_textgrid.py::test_control_string_families_are_skipped#2": "APC ended by BEL",
-}
+var knownHeadless = map[string]string{}
 
 func TestHeadlessVectors(t *testing.T) {
 	var report []string

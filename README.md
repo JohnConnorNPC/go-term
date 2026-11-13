@@ -61,11 +61,8 @@ err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the 
   match and at most `int(rows*0.6)` rows changed (an unchanged screen always qualifies); otherwise the full text.
 
 Tested against Studio's vectors (copies in `screen/testdata`, sha256-pinned): python colours 53/53, pyte attr runs 11/11,
-python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte, headless textgrid 114/115 and hashes 74/74 (the
-one miss is an engine difference, below); every xcur golden through `Read` (314/314, wide 30/30); pyte's 256 table.
-
-Known difference from `@xterm/headless` 6.0.0: `vt` ends an APC string (`ESC _`) at BEL, so text after
-`ESC _ ... BEL` prints; 6.0.0 ignores APC until ST (`test_control_string_families_are_skipped#2`).
+python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte, headless textgrid 115/115 and hashes 74/74; every
+xcur golden through `Read` (314/314, wide 30/30); pyte's 256 table.
 
 ## sniff
 

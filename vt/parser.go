@@ -139,7 +139,8 @@ func vt500TransitionTable() transitionTable {
 	table.addMany([]int{0x58, 0x5e}, stateEscape, actionIgnore, stateSosPmApcString)
 	// APC (ESC _) is collected as an OSC string is — the transition table has
 	// no room for actions of its own — and handed to the APC handler, which
-	// kitty's graphics protocol needs (ESC _ G ... ESC \).
+	// kitty's graphics protocol needs (ESC _ G ... ESC \). BEL ends an OSC
+	// but not an APC; actionOscEnd keeps an APC in the string on BEL.
 	table.add(0x5f, stateEscape, actionOscStart, stateOscString)
 	table.addMany(printables, stateSosPmApcString, actionIgnore, stateSosPmApcString)
 	table.addMany(executables, stateSosPmApcString, actionIgnore, stateSosPmApcString)
@@ -561,6 +562,12 @@ func (p *Parser) Parse(data []uint32, length int) {
 				}
 			}
 		case actionOscEnd:
+			if p.apc && code == 0x07 {
+				// BEL does not end an APC: in @xterm/headless 6.0.0 APC is
+				// the SOS/PM/APC string, which only ST (or CAN/SUB/ESC) ends.
+				transition = transition&^transitionStateMask | stateOscString
+				break
+			}
 			if p.apc {
 				if code != 0x18 && code != 0x1a && p.apcHandler != nil {
 					p.apcHandler(string(p.apcBuf))
