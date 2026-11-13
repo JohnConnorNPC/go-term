@@ -1,0 +1,5 @@
+upstream: https://github.com/0magnet/xterm-go (directory vt/)
+commit:   aa0a32cd702b857db0c2807305c271e1fac1f76c (2026-10-13)
+licence:  MIT, the xterm.js licence (copied verbatim as vt/LICENSE)
+imported: gh #3 atom 2, a byte copy of vt/ at that commit; the only edit is the import path in esctest/harness_test.go.
+modifications: every later change to vt/ is its own commit; list them with `git log -- vt` after the import commit.
