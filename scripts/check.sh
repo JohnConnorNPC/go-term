@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
-# scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), readonly (go build
-# with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
+# scripts/deps.allow and replaces nothing), modverify (go mod download leaves go.mod and go.sum unchanged, go mod
+# verify passes, every module is in the cache), readonly (go build with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
 # windows/amd64; 386 and armv7 reported), govulncheck (skipped offline unless GOVULNCHECK=require), and two 60 s
 # fuzz runs: fuzz (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
@@ -54,14 +54,32 @@ allowed_deps() {
 }
 step deps allowed_deps
 # modverify: go mod verify checks only the modules already in the module cache, so on an empty cache it passes
-# having checked nothing (#12). Downloading first makes it observe every module the build needs: with a warm cache
-# it is green offline too; an empty cache offline fails at the download (unmeasured is a failure, not a pass).
+# having checked no module zip (#12). The step downloads first, verifies, and requires every module that provides
+# a package to the build or its tests (go list -deps -test) to be in the cache. go mod download also writes missing go.sum lines back (#12 M1), so go.mod and go.sum must
+# come out unchanged: a change means the committed files are incomplete (red, and the committed copies are put
+# back). With a warm cache the step is green offline; an empty cache offline fails at the download.
 modverify() {
-	local n
-	"$GO" mod download || return 1
+	local t mods all have rc=0
+	t=$(mktemp -d) || return 2
+	cp go.mod go.sum "$t/" || { rm -rf "$t"; return 2; }
+	"$GO" mod download || rc=1
+	if ! cmp -s go.mod "$t/go.mod" || ! cmp -s go.sum "$t/go.sum"; then
+		echo "modverify: go mod download changed go.mod or go.sum (the committed files are incomplete):"
+		diff "$t/go.mod" go.mod; diff "$t/go.sum" go.sum
+		cp "$t/go.mod" "$t/go.sum" . || rc=2
+		[ $rc = 2 ] || rc=1
+	fi
+	rm -rf "$t"
+	[ $rc = 0 ] || return $rc
 	"$GO" mod verify || return 1
-	n=$("$GO" list -m -f '{{if and .Dir (not .Main)}}x{{end}}' all | grep -c x)
-	echo "REPORT modverify: $n modules in GOMODCACHE"
+	mods=$("$GO" list -e -deps -test -f '{{with .Module}}{{if not .Main}}{{.Path}} {{.Dir}}{{end}}{{end}}' ./...) ||
+		{ echo "modverify: go list failed (unmeasured)"; return 2; }
+	mods=$(printf '%s\n' "$mods" | awk 'NF && !seen[$0]++')
+	all=$(printf '%s\n' "$mods" | awk 'NF >= 1' | wc -l)
+	have=$(printf '%s\n' "$mods" | awk 'NF >= 2' | wc -l)
+	[ "$all" -gt 0 ] || { echo "modverify: go list lists no modules (unmeasured)"; return 2; }
+	[ "$have" = "$all" ] || { echo "modverify: $((all - have)) of $all modules not in GOMODCACHE:"; printf '%s\n' "$mods" | awk 'NF == 1'; return 1; }
+	echo "REPORT modverify: $all of $all modules in GOMODCACHE, verified"
 }
 step modverify modverify
 # readonly: the build needs no go.mod or go.sum update. GOFLAGS is exported above too; the step sets it itself so
