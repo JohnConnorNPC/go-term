@@ -1,7 +1,9 @@
 package screen
 
 import (
+	"errors"
 	"fmt"
+	"runtime/debug"
 	"sync"
 
 	"github.com/JohnConnorNPC/go-term/vt"
@@ -16,6 +18,12 @@ const (
 	// 10,000,000), which bounds what an unterminated one holds.
 	DefaultPayloadLimit = 1 << 20
 )
+
+// ErrFailed is what every call of an instance returns, wrapped with the
+// panic and its stack, once a panic in vt during one of them failed it: vt's
+// state may be torn, so the instance takes no more writes or reads. Other
+// instances are unaffected.
+var ErrFailed = errors.New("screen: instance failed")
 
 // Instance is a terminal safe to use from several goroutines in a server:
 // Write, Resize and Read are serialised by one lock, so each Read is a
@@ -48,13 +56,20 @@ func New(cols, rows int, c Config) (*Instance, error) {
 	return &Instance{t: t, cfg: c, cache: NewFrameCache()}, nil
 }
 
-// do runs f under the lock, unless the instance has failed.
-func (i *Instance) do(f func()) error {
+// do runs f under the lock, unless the instance has failed; a panic in f
+// fails it.
+func (i *Instance) do(f func()) (err error) {
 	i.mu.Lock()
 	defer i.mu.Unlock()
 	if i.err != nil {
 		return i.err
 	}
+	defer func() {
+		if r := recover(); r != nil {
+			i.err = fmt.Errorf("%w: panic: %v\n%s", ErrFailed, r, debug.Stack())
+			err = i.err
+		}
+	}()
 	f()
 	return nil
 }
@@ -91,4 +106,12 @@ func (i *Instance) Read(r Request) (Frame, error) {
 // instance.
 func (i *Instance) Delta(f *Frame, since string, degraded bool) ([]ChangedRow, bool) {
 	return i.cache.Delta(f, since, degraded)
+}
+
+// Err is nil, or the ErrFailed error every call returns once the instance
+// failed.
+func (i *Instance) Err() error {
+	i.mu.Lock()
+	defer i.mu.Unlock()
+	return i.err
 }

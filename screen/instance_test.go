@@ -1,6 +1,7 @@
 package screen
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/JohnConnorNPC/go-term/vt"
@@ -65,5 +66,43 @@ func TestInstanceWriteRead(t *testing.T) {
 	}
 	if f, _ := i.Read(Request{View: ViewScrollback, Lines: 5000}); f.HistoryLines != 990 || f.Cols != 101 {
 		t.Errorf("after resize to 101 cols: %d history lines, %d cols", f.HistoryLines, f.Cols)
+	}
+}
+
+// TestInstancePanic: a panic in vt during a Write (an injected CSI handler)
+// or a Read (a torn terminal) fails that instance only: the call and every
+// later one return ErrFailed, the lock is released, and a second instance
+// keeps working.
+func TestInstancePanic(t *testing.T) {
+	bad, _ := New(80, 24, Config{})
+	good, _ := New(80, 24, Config{})
+	bad.t.InputHandler().RegisterCsiHandler(vt.FunctionID{Final: "z"}, func(*vt.Params) bool { panic("injected") })
+	good.t.InputHandler().RegisterCsiHandler(vt.FunctionID{Final: "z"}, func(*vt.Params) bool { return true })
+	if n, err := bad.Write([]byte("a\x1b[z")); n != 0 || !errors.Is(err, ErrFailed) {
+		t.Fatalf("Write = %d, %v", n, err)
+	}
+	if err := bad.Err(); !errors.Is(err, ErrFailed) {
+		t.Errorf("Err = %v", err)
+	}
+	if f, err := bad.Read(Request{}); !errors.Is(err, ErrFailed) || f.Lines != nil {
+		t.Errorf("Read after failure = %d lines, %v", len(f.Lines), err)
+	}
+	if _, err := bad.Write([]byte("b")); !errors.Is(err, ErrFailed) {
+		t.Errorf("Write after failure: %v", err)
+	}
+	if err := bad.Resize(10, 10); !errors.Is(err, ErrFailed) {
+		t.Errorf("Resize after failure: %v", err)
+	}
+	if _, err := good.Write([]byte("a\x1b[zb")); err != nil {
+		t.Fatal(err)
+	}
+	if f, err := good.Read(Request{}); err != nil || f.Trimmed()[0] != "ab" || good.Err() != nil {
+		t.Errorf("second instance: %q, %v", f.Trimmed()[0], err)
+	}
+
+	torn, _ := New(80, 24, Config{})
+	torn.t = nil
+	if _, err := torn.Read(Request{}); !errors.Is(err, ErrFailed) {
+		t.Errorf("Read of a torn terminal: %v", err)
 	}
 }
