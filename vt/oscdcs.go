@@ -143,11 +143,12 @@ func (o *OscParser) End(success bool) {
 	o.state = oscStart
 }
 
-// OscHandler adapts a string-based callback into an OscHandlerIface.
+// OscHandler adapts a string-based callback into an OscHandlerIface. The
+// OscParser enforces the payload limit (Options.PayloadLimit), so the handler
+// has no cap of its own.
 type OscHandler struct {
-	handler  func(data string) bool
-	data     []rune
-	hitLimit bool
+	handler func(data string) bool
+	data    []rune
 }
 
 // NewOscHandler wraps fn as an OSC handler.
@@ -158,31 +159,22 @@ func NewOscHandler(fn func(data string) bool) *OscHandler {
 // Start implements OscHandlerIface.
 func (h *OscHandler) Start() {
 	h.data = h.data[:0]
-	h.hitLimit = false
 }
 
 // Put implements OscHandlerIface.
 func (h *OscHandler) Put(data []uint32, start, end int) {
-	if h.hitLimit {
-		return
-	}
 	for i := start; i < end; i++ {
 		h.data = append(h.data, rune(data[i])) // #nosec G115 -- UTF-16 code units supplied by the parser
-	}
-	if len(h.data) > payloadLimit {
-		h.data = h.data[:0]
-		h.hitLimit = true
 	}
 }
 
 // End implements OscHandlerIface.
 func (h *OscHandler) End(success bool) bool {
 	ret := false
-	if !h.hitLimit && success {
+	if success {
 		ret = h.handler(string(h.data))
 	}
 	h.data = release(h.data)
-	h.hitLimit = false
 	return ret
 }
 
@@ -281,12 +273,12 @@ func (d *DcsParser) Unhook(success bool) {
 	d.ident = 0
 }
 
-// DcsHandlerFunc adapts a string-based callback into a DcsHandler.
+// DcsHandlerFunc adapts a string-based callback into a DcsHandler; the
+// DcsParser enforces the payload limit, as for OscHandler.
 type DcsHandlerFunc struct {
-	handler  func(data string, params *Params) bool
-	params   *Params
-	data     []rune
-	hitLimit bool
+	handler func(data string, params *Params) bool
+	params  *Params
+	data    []rune
 }
 
 // NewDcsHandler wraps fn as a DCS handler.
@@ -298,32 +290,23 @@ func NewDcsHandler(fn func(data string, params *Params) bool) *DcsHandlerFunc {
 func (h *DcsHandlerFunc) Hook(params *Params) {
 	h.params = params.Clone()
 	h.data = h.data[:0]
-	h.hitLimit = false
 }
 
 // Put implements DcsHandler.
 func (h *DcsHandlerFunc) Put(data []uint32, start, end int) {
-	if h.hitLimit {
-		return
-	}
 	for i := start; i < end; i++ {
 		h.data = append(h.data, rune(data[i])) // #nosec G115 -- UTF-16 code units supplied by the parser
-	}
-	if len(h.data) > payloadLimit {
-		h.data = h.data[:0]
-		h.hitLimit = true
 	}
 }
 
 // Unhook implements DcsHandler.
 func (h *DcsHandlerFunc) Unhook(success bool) bool {
 	ret := false
-	if !h.hitLimit && success {
+	if success {
 		ret = h.handler(string(h.data), h.params)
 	}
 	h.params = nil
 	h.data = release(h.data)
-	h.hitLimit = false
 	return ret
 }
 

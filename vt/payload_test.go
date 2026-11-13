@@ -69,3 +69,20 @@ func TestPayloadBuffersReleased(t *testing.T) {
 		t.Errorf("short: caps osc %d dcs %d apc %d", cap(osc.data), cap(dcs.data), cap(p.apcBuf))
 	}
 }
+
+// TestPayloadLimitAboveDefault [#7 r1 S3]: a limit above xterm.js's
+// 10,000,000 is the limit; the handlers have no ceiling of their own.
+func TestPayloadLimitAboveDefault(t *testing.T) {
+	long := strings.Repeat("t", 10000001)
+	for _, limit := range []int{0, 10000001} {
+		term := limitedTerminal(limit)
+		var title string
+		term.OnTitleChange = func(s string) { title = s }
+		var replies []string
+		term.OnData = func(s string) { replies = append(replies, s) }
+		term.WriteString("\x1b]2;" + long + "\x07\x1bP$q" + long + "\x1b\\")
+		if want := limit > 0; (title == long) != want || (len(replies) == 1) != want {
+			t.Errorf("limit %d: title %d units, %d replies", limit, len(title), len(replies))
+		}
+	}
+}
