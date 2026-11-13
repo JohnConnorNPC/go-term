@@ -181,7 +181,7 @@ func (h *OscHandler) End(success bool) bool {
 	if !h.hitLimit && success {
 		ret = h.handler(string(h.data))
 	}
-	h.data = h.data[:0]
+	h.data = release(h.data)
 	h.hitLimit = false
 	return ret
 }
@@ -322,7 +322,16 @@ func (h *DcsHandlerFunc) Unhook(success bool) bool {
 		ret = h.handler(string(h.data), h.params)
 	}
 	h.params = nil
-	h.data = h.data[:0]
+	h.data = release(h.data)
 	h.hitLimit = false
 	return ret
+}
+
+// release empties a payload buffer for the next string, dropping one over
+// 64 KiB so a long string does not stay allocated after it ends.
+func release(b []rune) []rune {
+	if cap(b) > 64<<10 {
+		return nil
+	}
+	return b[:0]
 }

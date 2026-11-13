@@ -550,7 +550,7 @@ func (p *Parser) Parse(data []uint32, length int) {
 		case actionOscStart:
 			p.apc = code == 0x5f || code == 0x9f
 			if p.apc {
-				p.apcBuf, p.apcOver = p.apcBuf[:0], false
+				p.apcBuf, p.apcOver = release(p.apcBuf), false
 			} else {
 				p.oscParser.Start()
 			}
@@ -589,7 +589,7 @@ func (p *Parser) Parse(data []uint32, length int) {
 				if code != 0x18 && code != 0x1a && p.apcHandler != nil && !p.apcOver {
 					p.apcHandler(string(p.apcBuf))
 				}
-				p.apc = false
+				p.apc, p.apcBuf = false, release(p.apcBuf)
 			} else {
 				p.oscParser.End(code != 0x18 && code != 0x1a)
 			}
