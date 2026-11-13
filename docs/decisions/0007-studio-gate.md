@@ -8,7 +8,8 @@
 2. **LISTED means Studio's list**: go-term differs from Python, `vectors/headless/divergence.json` lists the case
    against python with the same fields, and go-term equals headless there. A listed case where go-term equals Python
    is allowed only for the colours (pyte's names) and the sniffer caps (Python's bounds). The list is Studio's and
-   pinned by sha256; go-term never edits it. Studio signs it off after the tag (owner, ask-4 q2).
+   pinned by sha256; go-term never edits it. Studio signs it off after the v0.3.0 tag,
+   which is planned in #15 (Go 1.27 first; owner, ask-4 q2).
 3. **Studio's byte producers are not ported** (R2): raw snapshot, pyte re-emit and textgrid's trim are Studio's
    (`internal/snapshot`); their bytes are checked through `output_state` (115 cases). The 52 `pyte._color_params`
    cases give SGR params, not bytes: go-term reads each back and must get the same colour name, except fg and bg of
