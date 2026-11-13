@@ -1,7 +1,10 @@
 package screen
 
 import (
+	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"os"
 	"strings"
 	"testing"
 
@@ -100,5 +103,45 @@ func TestRestoreBasic(t *testing.T) {
 	// A failed instance gives no instance: New's errors pass through too.
 	if _, err := Restore(Snapshot{Version: SnapshotVersion, Cols: MaxCols + 1, Rows: 3}, Config{}); err == nil || errors.Is(err, ErrFailed) {
 		t.Errorf("too wide: %v", err)
+	}
+}
+
+// TestReplayBytes: for every mode combination of the Python reference's
+// postamble (sniff/testdata/postamble.json), ReplayBytes is Preamble, the
+// ring, then exactly that row's bytes.
+func TestReplayBytes(t *testing.T) {
+	b, err := os.ReadFile("../sniff/testdata/postamble.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var f struct {
+		Rows []struct {
+			BracketedPaste bool   `json:"bracketed_paste"`
+			AppCursor      bool   `json:"app_cursor"`
+			MouseTracking  int    `json:"mouse_tracking"`
+			MouseEncoding  int    `json:"mouse_encoding"`
+			Hex            string `json:"hex"`
+		}
+	}
+	if err := json.Unmarshal(b, &f); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.Rows) != 60 {
+		t.Fatalf("%d rows, want 60 (2 x 2 x 5 x 3)", len(f.Rows))
+	}
+	ring := []byte("ring\x1b[31m")
+	for _, r := range f.Rows {
+		pa, err := hex.DecodeString(r.Hex)
+		if err != nil || len(pa) == 0 {
+			t.Fatalf("row %+v: hex %v", r, err)
+		}
+		m := sniff.Modes{BracketedPaste: r.BracketedPaste, DECCKM: r.AppCursor, MouseTrack: r.MouseTracking, MouseEnc: r.MouseEncoding}
+		want := Preamble + string(ring) + string(pa)
+		for _, alt := range []bool{false, true} { // the alt screen is not part of the postamble
+			m.Alt = alt
+			if got := string(ReplayBytes(m, ring)); got != want {
+				t.Errorf("modes %+v: %q, want %q", m, got, want)
+			}
+		}
 	}
 }
