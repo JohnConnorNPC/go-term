@@ -5,5 +5,6 @@
 // values.
 //
 // The functions read a *vt.Terminal and take no lock: the caller serialises
-// them with Write (FrameCache alone locks itself).
+// them with Write (FrameCache alone locks itself), or uses an Instance, which
+// does.
 package screen

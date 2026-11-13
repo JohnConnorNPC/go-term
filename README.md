@@ -26,7 +26,8 @@ non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.m
 passes; `go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
 `cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
 are REPORT lines only); a `FuzzFeed` run on `./sniff`. The GitHub workflow `check.yml` runs the same script.
-The engine choice is `docs/decisions/0003-engine.md`; the read API's choices are `docs/decisions/0004-screen.md`.
+The engine choice is `docs/decisions/0003-engine.md`; the read API's choices are `docs/decisions/0004-screen.md`,
+the safe instance's `docs/decisions/0005-instance.md`.
 
 Widths are Unicode v6, as `@xterm/headless` 6.0.0 without the unicode11 addon (what Studio's page loads); Unicode v11 is
 not supported yet. DEC mode 2027 (grapheme clusters), which 6.0.0 does not have, is off unless
@@ -35,7 +36,7 @@ not supported yet. DEC mode 2027 (grapheme clusters), which 6.0.0 does not have,
 ## screen
 
 `github.com/JohnConnorNPC/go-term/screen` reads a `*vt.Terminal` into the values of Studio's `screen_text` reply; Studio
-builds the JSON. The functions take no lock: the caller serialises them with `Write`.
+builds the JSON. The functions take no lock: the caller serialises them with `Write`, or uses an `Instance`.
 
 ```go
 t, err := screen.NewTerminal(80, 24, screen.Config{})       // history: min(1000 lines, 100,000 cells / cols)
@@ -63,6 +64,31 @@ err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the 
 Tested against Studio's vectors (copies in `screen/testdata`, sha256-pinned): python colours 53/53, pyte attr runs 11/11,
 python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte, headless textgrid 115/115 and hashes 74/74; every
 xcur golden through `Read` (314/314, wide 30/30); pyte's 256 table.
+
+### Instance
+
+`screen.Instance` is a terminal to share between goroutines in a server: `Write`, `Resize` and `Read` hold one lock, so
+each `Read` is a consistent snapshot taken between writes.
+
+```go
+i, err := screen.New(80, 24, screen.Config{})                 // cols 1..2000, rows 1..1000, else an error
+n, err := i.Write(chunk)                                      // io.Writer; a chunk may end anywhere
+f, err := i.Read(screen.Request{Attrs: true})                 // a Frame, as screen.Read
+changed, delta := i.Delta(&f, since, degraded)                // the instance's own FrameCache
+err = i.Resize(cols, rows)                                    // out of range: an error, size unchanged
+err = i.Err()                                                 // nil, or ErrFailed once a panic failed it
+```
+
+- **Chunk splits**: a write may end inside any ESC, CSI, OSC, DCS or APC sequence or UTF-8 character; vt carries the
+  rest over to the next write. One exception is inherited from xterm.js's UTF-8 decoder and kept for parity with
+  `@xterm/headless`: a write that ends right after a `0x80` continuation byte of a 3- or 4-byte character loses that
+  character (`E2 80` + `94` for an em dash; ZWSP, ZWJ and U+20000 split the same way, headless's split-sensitive goldens).
+- **Panics**: a panic inside vt during a call fails that instance only: the call and every later one return `ErrFailed`
+  wrapping the panic and its stack. vt's state may be torn, so the instance is not reused; other instances are unaffected.
+- **Memory**: an OSC, DCS or APC string longer than `Config.PayloadLimit` (default `DefaultPayloadLimit`, 1 MiB code
+  units, 4 MiB as runes) is dropped whole, where xterm.js keeps up to 10,000,000. 64 MiB of an unterminated string
+  peaks at about 4.4 MiB of heap. At the largest size, 2000x1000 with both screens and the history full, an instance
+  holds about 55 MiB.
 
 ## sniff
 
