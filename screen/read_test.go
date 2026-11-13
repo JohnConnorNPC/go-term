@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -99,15 +100,24 @@ type hlState struct {
 		Row int `json:"row"`
 		Col int `json:"col"`
 	} `json:"cursor"`
-	BaseY   int      `json:"base_y"`
-	Rows    []string `json:"rows"`
-	History []string `json:"history"`
-	Attrs   []struct {
-		Row   int      `json:"row"`
-		Col   int      `json:"col"`
-		Len   int      `json:"len"`
-		Flags []string `json:"flags"`
-	} `json:"attrs"`
+	BaseY   int            `json:"base_y"`
+	Rows    []string       `json:"rows"`
+	History []string       `json:"history"`
+	Attrs   []hlRun        `json:"attrs"`
+	Modes   map[string]any `json:"modes"`
+	Title   *string        `json:"title"`
+}
+
+// hlRun is one of replay.js's attrs runs: a maximal same-style run of
+// viewport cells, default cells skipped; fg and bg are xterm's [mode, value]
+// ("default" -1, "palette" index, "rgb" packed) and flags the set is*() bits.
+type hlRun struct {
+	Row   int      `json:"row"`
+	Col   int      `json:"col"`
+	Len   int      `json:"len"`
+	Fg    [2]any   `json:"fg"`
+	Bg    [2]any   `json:"bg"`
+	Flags []string `json:"flags"`
 }
 
 type hlCase struct {
@@ -146,9 +156,77 @@ func replayHeadless(t *testing.T, c hlCase, py map[string]pyCase) *vt.Terminal {
 	return term
 }
 
+// hlAttrs is replay.js attrs() over vt's cells: the viewport row by row, a
+// cell with default fg, bg and no flag skipped, a run extended while the next
+// cell has the same style. Cells past a line's length read as default.
+func hlAttrs(term *vt.Terminal) []hlRun {
+	b := term.Buffer()
+	colour := func(mode uint32, v int) [2]any {
+		switch mode {
+		case vt.AttrCMDefault:
+			return [2]any{"default", float64(-1)}
+		case vt.AttrCMRGB:
+			return [2]any{"rgb", float64(v)}
+		}
+		return [2]any{"palette", float64(v)}
+	}
+	var runs []hlRun
+	cell := vt.NewCellData()
+	for y := 0; y < term.Rows(); y++ {
+		line := b.Lines.Get(b.YBase + y)
+		var cur *hlRun
+		for x := 0; x < term.Cols(); x++ {
+			if line == nil || x >= line.Length {
+				cur = nil
+				continue
+			}
+			line.LoadCell(x, cell)
+			var flags []string
+			for _, f := range []struct {
+				name string
+				on   bool
+			}{{"bold", cell.IsBold()}, {"dim", cell.IsDim()}, {"italic", cell.IsItalic()},
+				{"underline", cell.IsUnderline()}, {"blink", cell.IsBlink()}, {"inverse", cell.IsInverse()},
+				{"invisible", cell.IsInvisible()}, {"strikethrough", cell.IsStrikethrough()},
+				{"overline", cell.IsOverline()}} {
+				if f.on {
+					flags = append(flags, f.name)
+				}
+			}
+			r := hlRun{Row: y, Col: x, Len: 1, Fg: colour(cell.GetFgColorMode(), cell.GetFgColor()),
+				Bg: colour(cell.GetBgColorMode(), cell.GetBgColor()), Flags: flags}
+			if r.Fg[0] == "default" && r.Bg[0] == "default" && len(flags) == 0 {
+				cur = nil
+				continue
+			}
+			if cur != nil && fmt.Sprint(cur.Fg, cur.Bg, cur.Flags) == fmt.Sprint(r.Fg, r.Bg, r.Flags) {
+				cur.Len++
+				continue
+			}
+			runs = append(runs, r)
+			cur = &runs[len(runs)-1]
+		}
+	}
+	return runs
+}
+
+// hlModes is replay.js modes(): xterm.js's t.modes under its key names plus
+// the mouse encoding, from vt's state (as conformance/goterm reports P.modes).
+func hlModes(term *vt.Terminal) map[string]any {
+	cs := term.CoreService()
+	d := cs.DecPrivateModes
+	return map[string]any{"applicationCursorKeysMode": d.ApplicationCursorKeys, "applicationKeypadMode": d.ApplicationKeypad,
+		"bracketedPasteMode": d.BracketedPasteMode, "insertMode": cs.Modes.InsertMode,
+		"mouseTrackingMode": strings.ToLower(term.MouseService().ActiveProtocol()), "originMode": d.Origin,
+		"reverseWraparoundMode": d.ReverseWraparound, "sendFocusMode": d.SendFocus,
+		"synchronizedOutputMode": d.SynchronizedOutput, "wraparoundMode": d.Wraparound,
+		"mouse_encoding": term.MouseService().ActiveEncoding()}
+}
+
 // checkHeadless compares a Read of term with a headless final state: grid
-// rows (trimmed), cursor (clamped as Read does), the active buffer and, on
-// the normal buffer, the whole history through a scrollback read.
+// rows (trimmed), cursor (clamped as Read does), the active buffer, on the
+// normal buffer the whole history through a scrollback read, the attrs runs,
+// the modes and the title (headless null, no title event, reads as vt's "").
 func checkHeadless(term *vt.Terminal, want hlState) error {
 	f := Read(term, Request{})
 	if got := strings.Join(f.Trimmed(), "\n"); got != strings.Join(want.Rows, "\n") {
@@ -168,7 +246,32 @@ func checkHeadless(term *vt.Terminal, want hlState) error {
 			return fmt.Errorf("history %d %q, headless base_y %d %q", s.HistoryLines, h, want.BaseY, want.History)
 		}
 	}
+	if got := hlAttrs(term); !reflect.DeepEqual(normRuns(got), normRuns(want.Attrs)) {
+		return fmt.Errorf("attrs %v, headless %v", got, want.Attrs)
+	}
+	if got := hlModes(term); !reflect.DeepEqual(got, want.Modes) {
+		return fmt.Errorf("modes %v, headless %v", got, want.Modes)
+	}
+	wt := ""
+	if want.Title != nil {
+		wt = *want.Title
+	}
+	if f.Title != wt {
+		return fmt.Errorf("title %q, headless %q", f.Title, wt)
+	}
 	return nil
+}
+
+// normRuns makes an empty flag list and an absent one compare equal.
+func normRuns(rs []hlRun) []hlRun {
+	out := make([]hlRun, len(rs))
+	for i, r := range rs {
+		if len(r.Flags) == 0 {
+			r.Flags = nil
+		}
+		out[i] = r
+	}
+	return out
 }
 
 // knownHeadless are the headless cases go-term's vt is known to miss, with
