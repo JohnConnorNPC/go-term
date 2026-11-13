@@ -1,6 +1,6 @@
 module github.com/JohnConnorNPC/go-term/conformance/candidates
 
-go 1.25
+go 1.27.0
 
 require (
 	github.com/0magnet/xterm-go v0.0.1-0.20261013223808-aa0a32cd702b
@@ -25,7 +25,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 )
 
 replace github.com/JohnConnorNPC/go-term => ../..
