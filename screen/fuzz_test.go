@@ -104,3 +104,29 @@ func FuzzInstance(f *testing.F) {
 		}
 	})
 }
+
+// TestFuzzBudget [#11]: fuzzOps stops an input at the first op past
+// fuzzBudget and runs every op of one under it, counted by ops run.
+func TestFuzzBudget(t *testing.T) {
+	reads20 := []byte("\x03\xff") // max resize, then 20 Reads at 2,200,000 cells each
+	for range 20 {
+		reads20 = append(reads20, 3, 0)
+	}
+	decaln := append([]byte("\x03\xff\x00\xff"), bytes.Repeat([]byte("\x1b#8"), 85)...) // one write, 85 ESCs
+	small := bytes.Repeat([]byte("\x00\x00x"), 200)                                     // 200 one-byte writes at 80x24
+	for _, c := range []struct {
+		name string
+		data []byte
+		ops  int
+	}{
+		{"seed e2ff5de2cef58c25 (6.4M cells, under)", []byte("\xb5\x00\x10\x00\x00\x7f\xff\xff\xff_\x1b\\"), 5},
+		{"max resize + 20 Reads (over at the 3rd Read)", reads20, 3},
+		{"max resize + 85 DECALN in one write (over)", decaln, 1},
+		{"200 small writes (under)", small, 200},
+	} {
+		ops, err := fuzzOps(c.data)
+		if err != nil || ops != c.ops {
+			t.Errorf("%s: %d ops run, err %v; want %d", c.name, ops, err, c.ops)
+		}
+	}
+}
