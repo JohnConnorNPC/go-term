@@ -26,8 +26,11 @@ non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.m
 passes; `go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
 `cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
 are REPORT lines only); a `FuzzFeed` run on `./sniff`. The GitHub workflow `check.yml` runs the same script.
-The engine choice is `docs/decisions/0003-engine.md`; the read API's choices are `docs/decisions/0004-screen.md`,
-the safe instance's `docs/decisions/0005-instance.md`.
+<!-- TODO(#9 atom 14, after #11 closes): say that FuzzInstance (screen) and conformance/scripts/fuzz.sh run outside
+check.sh, with #11's final FuzzInstance watchdog wording. -->
+Decision records in `docs/decisions/`: the engine choice `0003-engine.md` (`0002-engine.md` is the superseded survey
+record), the read API `0004-screen.md`, the safe instance `0005-instance.md`, snapshot and restore `0006-restore.md`,
+and the Studio gate (vectors ledger, differential fuzz) `0007-studio-gate.md`.
 
 Widths are Unicode v6, as `@xterm/headless` 6.0.0 without the unicode11 addon (what Studio's page loads); Unicode v11 is
 not supported yet. DEC mode 2027 (grapheme clusters), which 6.0.0 does not have, is off unless
@@ -43,7 +46,7 @@ t, err := screen.NewTerminal(80, 24, screen.Config{})       // history: min(1000
 f := screen.Read(t, screen.Request{View: screen.ViewScreen, Attrs: true})
 f.Text(); f.Lines; f.Cols; f.Rows; f.Cursor; f.CursorHidden  // Lines padded to cols; Trimmed() trims them
 f.AltScreen; f.AppCursor; f.View; f.HistoryLines; f.AttrRuns; f.ContentHash; f.StableHash
-f.BracketedPaste; f.MouseTrack; f.MouseEnc; f.Title; f.Modes() // modes as sniff.Modes; the last OSC 0/2 title
+f.BracketedPaste; f.MouseTrack; f.MouseEnc; f.Title; f.Modes() // modes as sniff.Modes; the window title
 cache := screen.NewFrameCache()                               // one per terminal: the last 16 frames
 changed, delta := cache.Delta(&f, since, degraded)            // delta: send changed rows only, text ""
 err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the history cap
@@ -59,12 +62,16 @@ err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the 
   Colours are pyte's names: `default`; `black red green brown blue magenta cyan white` and `bright*` for SGR 30-37,
   40-47, 90-97, 100-107 (bg 105 is `brightmagenta`); 6-hex from pyte's 256 table for every `38;5;n`/`48;5;n` (n=1 is
   `cd0000`); `%02x%02x%02x` for `38;2`. Dim, italic and the other attributes are not part of a run.
+- `Title` is vt's window title: the last OSC 0/2 or a title-stack pop (`CSI 23 t`) set it. `sniff`'s `Title()` sees
+  OSC 0/2 only, so the two can differ after a pop; a restored instance has the sniffer's title (see Restore).
 - `Delta`: a delta only when `since` is a remembered hash, the read is not degraded, the view is screen, the row counts
   match and at most `int(rows*0.6)` rows changed (an unchanged screen always qualifies); otherwise the full text.
 
 Tested against Studio's vectors (copies in `screen/testdata`, sha256-pinned): python colours 53/53, pyte attr runs 11/11,
-python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte, headless textgrid 115/115 and hashes 74/74; every
-xcur golden through `Read` (314/314, wide 30/30); pyte's 256 table.
+python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte; every A2b (headless) vector, 555 of 555, with
+rows, cursor, buffer, history, attribute runs, modes and title (textgrid 115, hashes 74, colours 53, pyte 26, raw 32,
+synthetic 57, altscreen 118, titles 80) plus all 115 `output_state`s; every xcur golden through `Read` (314/314, wide
+30/30); pyte's 256 table. See "Studio API" for the A2a ledger.
 
 ### Instance
 
@@ -118,7 +125,12 @@ b := screen.ReplayBytes(m, ring)                              // what Restore wr
   `ESC[3J`), the ring, `screen.Cancel` (CAN), then `sniff.Postamble(m)` (bracketed paste, DECCKM, the mouse groups
   reset-then-set). CAN abandons a CSI, OSC, DCS or APC the ring was cut in, as xterm.js does, so the postamble's ESC
   does not complete it (a cut OSC title is not committed); after a whole ring it does nothing. The ring is
-  not trimmed and queries are not stripped: that is Studio's, and a restored instance answers nothing (no callbacks).
+  not trimmed and queries are not stripped: that is Studio's, and a restored instance answers nothing (no callbacks:
+  Instance sets none, 0005 item 5).
+- **One byte more than Studio's Python snapshot**: Python's snapshot is `raw.render(ring)` + `_mode_reassert(sniffer)`
+  (`old/webterm/agent/agent.py`); `ReplayBytes` is the same bytes with CAN between ring and postamble. Where Studio
+  trims nothing, `ReplayBytes` equals Python's snapshot plus that CAN exactly (`TestRawReplay`: 6 of 31 `raw.render`
+  vectors, all 60 mode sets; the 24 Studio trims or strips and 1 digest are Studio's).
 - **Alt screen**: the postamble does not carry it, so `Restore` aligns it only when the replay disagrees with
   `Modes.Alt`. Reported but not reached (the switch scrolled out: the whole ring was drawn on the alt screen), the replay
   is fed again to a new instance after `CSI ? 1049 h`; reached but not reported, `CSI ? 1049 l` follows. A replay that
@@ -178,7 +190,33 @@ Known differences:
   the other C0 controls are dropped and C1 controls abandon the title;
 - from xterm.js, the caps above (`synthetic/title-payload-cap#1`, `synthetic/mode-carry-cap#1`).
 
+## Studio API
+
+What Browserland Studio uses, by package; the sections above give the details.
+- `screen`: `NewTerminal`, `Read(t, Request{View, Lines, Attrs})` -> `Frame` (`Lines`, `Text()`, `Trimmed()`, `Cols`,
+  `Rows`, `View`, `Cursor`, `CursorHidden`, `AltScreen`, `AppCursor`, `BracketedPaste`, `MouseTrack`, `MouseEnc`,
+  `Title`, `Modes()`, `HistoryLines`, `AttrRuns`, `ContentHash`, `StableHash`), `AttrRun`, `AttrRuns`/`MaxAttrRuns`,
+  `Colour`/`Default`, `ContentHash`/`StableHash`/`HashSize`, `NewFrameCache`/`FrameCacheSize` with
+  `FrameCache.Delta(&f, since, degraded) (changed []ChangedRow, delta)`, `Resize`, `Config` (`ScrollbackLines`, `ScrollbackCells`,
+  `PayloadLimit`, `Unicode`; `HistoryCap`, `DefaultScrollbackLines`), `MaxCols`/`MaxRows`.
+- `screen.Instance` (safe for concurrent use): `New`, `Write`, `Resize`, `Read(r) (Frame, error)`,
+  `Delta(&f, since, degraded) (changed, delta, err)` (the instance's own cache; an error once failed), `Err`,
+  `ErrFailed`. Restore: `Snapshot`, `SnapshotVersion`, `Restore` (an error for another version, a size out of `New`'s
+  limits or a failed instance), `ReplayBytes`, `Preamble`, `Cancel`: see "Restore".
+- `sniff`: `New(Options{TitleMax})`/`DefaultTitleMax`, `Feed`, `Reset`, `Modes()`, `Title()`, `Modes`, `Postamble`,
+  `MouseTrackModes`/`MouseEncModes`: see "sniff".
+- Vectors (Studio @ed3249b, sha256-pinned, `go test ./screen -run 'TestHeadlessVectors|TestStudioLedger' -v`): every
+  A2b vector passes (555/555); every A2a case has one disposition: GO 546 (go-term gives Python's value), LISTED 27
+  (Python differs from headless and go-term follows headless: listed in Studio's `vectors/headless/divergence.json`,
+  pinned at `screen/testdata/headless/divergence.json`), STUDIO 167 (Studio's own byte producers: raw snapshot, pyte
+  re-emit, textgrid trim; their bytes are fed and equal headless), UNCOMPARED 6 (Studio's own list, plus
+  `pyte.available`). `38;5;n` with n < 16 reads as pyte's hex (`AttrRuns` above), not headless's palette index.
+- Differential fuzz against `@xterm/headless` 6.0.0: `bash conformance/scripts/fuzz.sh 600 <seed>` (conformance README
+  "Fuzz").
+
 ## Releases
 
-- v0.2.0: the `sniff` package and `scripts/check.sh`. v0.x makes no compatibility promise.
+- v0.3.0: `screen` (Read, Instance, Restore) and `sniff`'s mode and title fixes; vt keeps a character a write ended
+  inside (#14); Studio's vectors and the differential fuzz (#9).
+- v0.2.0: the `sniff` package and `scripts/check.sh` (no `screen` yet). v0.x makes no compatibility promise.
 - v0.1.0: the conformance harness.
