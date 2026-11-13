@@ -1339,9 +1339,11 @@ func (h *InputHandler) SetModePrivate(params *Params) bool {
 			h.coreService.DecPrivateModes.BracketedPasteMode = true
 		case 2026: // synchronized output
 			h.coreService.DecPrivateModes.SynchronizedOutput = true
-		case 2027: // grapheme cluster mode
-			h.coreService.DecPrivateModes.GraphemeClustering = true
-			h.parser.PrecedingJoinState = 0
+		case 2027: // grapheme cluster mode (off unless Options.GraphemeMode2027)
+			if h.options.GraphemeMode2027 {
+				h.coreService.DecPrivateModes.GraphemeClustering = true
+				h.parser.PrecedingJoinState = 0
+			}
 		}
 	}
 	return true
@@ -1421,8 +1423,10 @@ func (h *InputHandler) ResetModePrivate(params *Params) bool {
 				h.OnRequestRefreshRows(-1, -1)
 			}
 		case 2027:
-			h.coreService.DecPrivateModes.GraphemeClustering = false
-			h.parser.PrecedingJoinState = 0
+			if h.options.GraphemeMode2027 {
+				h.coreService.DecPrivateModes.GraphemeClustering = false
+				h.parser.PrecedingJoinState = 0
+			}
 		}
 	}
 	return true
@@ -1530,7 +1534,9 @@ func (h *InputHandler) RequestMode(params *Params, ansi bool) bool {
 	case 2026:
 		return f(p, b2v(dm.SynchronizedOutput))
 	case 2027:
-		return f(p, b2v(dm.GraphemeClustering))
+		if h.options.GraphemeMode2027 {
+			return f(p, b2v(dm.GraphemeClustering))
+		}
 	}
 	return f(p, modeNotRecognized)
 }

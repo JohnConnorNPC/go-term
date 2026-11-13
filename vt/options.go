@@ -84,6 +84,11 @@ type Options struct {
 	// a fringe of it. Set it before Open (or before EnableWebGL), as in
 	// xterm.js; enabling it can cost some performance. Default: false.
 	AllowTransparency bool
+	// GraphemeMode2027 lets DEC private mode 2027 (grapheme cluster mode) be
+	// set. @xterm/headless 6.0.0, go-term's reference, has no mode 2027: with
+	// this off, the default, SM/RM ?2027 are ignored, widths stay Unicode v6
+	// and DECRQM ?2027 answers 0 (not recognised). Default: false.
+	GraphemeMode2027 bool
 	// Theme colors (CSS color strings; empty = defaults).
 	Theme Theme
 }

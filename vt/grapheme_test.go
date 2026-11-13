@@ -92,7 +92,7 @@ func TestMode2027(t *testing.T) {
 		{"hangul jamo", "\u1100\u1161\u11A8", true, []string{"\u1100\u1161\u11A8"}, 2},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			term := newTestTerminal(20, 3)
+			term := newMode2027Terminal(20, 3)
 			if tc.on {
 				term.WriteString("\x1b[?2027h")
 			}
@@ -118,7 +118,7 @@ func TestMode2027(t *testing.T) {
 // TestMode2027WrapOnVS16: VS16 widening a cluster in the last column moves it
 // to the next line, as the spec allows with autowrap on.
 func TestMode2027WrapOnVS16(t *testing.T) {
-	term := newTestTerminal(4, 3)
+	term := newMode2027Terminal(4, 3)
 	term.WriteString("\x1b[?2027habc\u2764\uFE0F")
 	if got := line(term, 0); got != "abc" {
 		t.Errorf("row0 = %q", got)
@@ -132,7 +132,7 @@ func TestMode2027WrapOnVS16(t *testing.T) {
 }
 
 func TestMode2027Report(t *testing.T) {
-	term := newTestTerminal(10, 3)
+	term := newMode2027Terminal(10, 3)
 	var out strings.Builder
 	term.OnData = func(s string) { out.WriteString(s) }
 	ask := func() string {
