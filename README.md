@@ -81,10 +81,10 @@ err = i.Err()                                                 // nil, or ErrFail
 ```
 
 - **Chunk splits**: a write may end inside any ESC, CSI, OSC, DCS or APC sequence or UTF-8 character; vt carries the
-  rest over to the next write. One exception is inherited from xterm.js's UTF-8 decoder and kept for parity with
-  `@xterm/headless`: a write that ends right after a `0x80` continuation byte of a 3- or 4-byte character loses that
-  character (`E2 80` + `94` for an em dash; ZWSP, ZWJ and U+20000 split the same way: headless's split-sensitive
-  goldens).
+  rest over to the next write. This includes a write that ends right after a held `0x80` continuation byte (`E2 80` +
+  `94`, an em dash; ZWSP, ZWJ, U+20000), where `@xterm/headless` 6.0.0 loses the character (its split-sensitive
+  goldens wide/cjk-ext-b, wide/zwj-family, wide/zwsp): vt keeps it, a deliberate divergence (owner decision
+  2026-11-14, #14).
 - **Panics**: a panic during a call fails that instance only: every later call returns `ErrFailed` wrapping the panic
   (the call that panicked also gets the stack). vt's state may be torn, so the instance is not reused; other instances
   are unaffected.

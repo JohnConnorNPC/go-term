@@ -22,11 +22,13 @@
 6. **Replies and title are not exposed** (Q6): the sniffer owns modes and title for Studio. Superseded in part by #8
    (0006): `Frame` now reads the title and all five modes from vt's state; replies stay unexposed.
 
-## Known difference kept (Q7, manager ruling)
-vt ports xterm.js's `Utf8ToUtf32` as is: a held continuation byte `0x80` reads as the end of the held bytes, so a write
-ending right after it loses the character (`E2 80 | 94`, an em dash; ZWSP, ZWJ, U+20000). `@xterm/headless` does the
-same: its recorded split-sensitive goldens wide/cjk-ext-b, zwj-family and zwsp. `TestInstanceSplit` names these cuts
-(`quirkCut`) and asserts that they still differ. A fix is a separate question for after #7.
+## UTF-8 split: fixed by #14 (was a known difference kept, Q7)
+xterm.js's `Utf8ToUtf32`, which vt ported as is, read a held continuation byte `0x80` (payload 0) as the end of the held
+bytes, so a write ending right after it lost the character (`E2 80 | 94`, an em dash; ZWSP, ZWJ, U+20000). #14 (owner
+decision 2026-11-14) tests the held byte instead of its payload. vt now differs from `@xterm/headless` 6.0.0 on those
+cuts: headless still loses the character (its split-sensitive goldens wide/cjk-ext-b, zwj-family and zwsp), which the
+conformance runner skips. `TestInstanceSplit` has no exception left; `TestUtf8SplitEveryPartition` cuts 23 streams in
+every partition. Q7 is superseded.
 
 ## Engine fixes found by the fuzz
 A CSI count is capped at 2^31-1, and CBT looped that many times at column 0 (w2's FuzzInstance hang, seed
