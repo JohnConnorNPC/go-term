@@ -1223,6 +1223,14 @@ func (h *InputHandler) RepeatPrecedingCharacter(params *Params) bool {
 	// call print to insert the chars and handle correct wrapping
 	length := paramOr1(params, 0)
 	chWidth := ExtractWidth(joinState)
+	// Once every line of the buffer holds the cluster, each further line's
+	// worth of repeats scrolls in an identical line and leaves the cursor
+	// where it was: keep the count past that modulo one line, instead of
+	// building up to 2^31-1 clusters (the CSI parameter cap).
+	perLine := max(h.bufferService.Cols/max(chWidth, 1), 1)
+	if full := perLine * (h.activeBuffer.Lines.MaxLength() + 1); length > full {
+		length = full + (length-full)%perLine
+	}
 	x := h.activeBuffer.X - chWidth
 	bufferRow := h.activeBuffer.Lines.Get(h.activeBuffer.YBase + h.activeBuffer.Y)
 	text := bufferRow.GetString(x)

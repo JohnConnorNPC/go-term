@@ -43,3 +43,28 @@ func TestHugeRepeatCounts(t *testing.T) {
 		}
 	}
 }
+
+// TestHugeRep [#7 r1 M1]: REP with 2^31-1 gives what the same clusters written
+// out give, for a count past a full buffer that is congruent modulo a line
+// (REP keeps the count's remainder past a full buffer instead of allocating
+// 2^31-1 clusters).
+func TestHugeRep(t *testing.T) {
+	for _, c := range []struct {
+		cluster       string
+		cols, perLine int // clusters a line holds
+	}{{"a", 80, 80}, {"日", 79, 39}, {"e\u0301", 80, 80}} {
+		perLine := c.perLine
+		lines := NewOptions().Scrollback + 24 + 1
+		n := perLine*(lines+3) + (2147483647-perLine*(lines+3))%perLine
+		written, rep := newTestTerminal(c.cols, 24), newTestTerminal(c.cols, 24)
+		written.WriteString("x\r\n" + strings.Repeat(c.cluster, 1+n))
+		start := time.Now()
+		rep.WriteString("x\r\n" + c.cluster + "\x1b[2147483647b")
+		if d := time.Since(start); d > time.Second {
+			t.Errorf("%q: REP 2^31-1 took %v", c.cluster, d)
+		}
+		if dumpAll(written) != dumpAll(rep) {
+			t.Errorf("%q at %d cols: REP 2^31-1 differs from %d written", c.cluster, c.cols, 1+n)
+		}
+	}
+}
