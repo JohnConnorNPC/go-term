@@ -1,18 +1,40 @@
 package screen
 
 import (
+	"bytes"
 	"testing"
 	"time"
 )
+
+// fuzzBudget bounds one input's work in grid cells [#11]. Every op costs time
+// linear in the grid: at 2000x1000 a Read is ~130 ms CPU (~345 ms under -fuzz
+// instrumentation), so without a bound a 42-byte input (a max resize, then 20
+// Reads) took 7 s instrumented and could trip the watchdog on a loaded host.
+const fuzzBudget = 8_000_000
 
 // fuzzOps runs data as Instance operations: a byte op, then its operands.
 // op%4 0, 1: write the next n+1 bytes (n the operand byte); 2: resize to
 // 1+c%300 x 1+r%100; 3: read (with history and attribute runs), or with
 // operand 0xff resize to MaxCols x MaxRows.
-func fuzzOps(data []byte) error {
+//
+// Each op is charged in cells before it runs, and the input ends (nil error)
+// at the first op that would take the total past fuzzBudget: a resize costs
+// the old plus the new area, a read cols*(rows+100), a write of n bytes
+// cols*(n + rows*k) where k counts its ESC (0x1b) and C1 CSI (0x9b) bytes,
+// since one escape sequence (ED, DECALN, IL, ...) can touch the whole grid.
+// It returns the number of ops run.
+func fuzzOps(data []byte) (ops int, err error) {
 	i, err := New(80, 24, Config{})
 	if err != nil {
-		return err
+		return 0, err
+	}
+	cols, rows, spent := 80, 24, 0
+	charge := func(cells int) bool {
+		if spent+cells > fuzzBudget {
+			return false
+		}
+		spent += cells
+		return true
 	}
 	arg := func() int {
 		if len(data) == 0 {
@@ -26,26 +48,42 @@ func fuzzOps(data []byte) error {
 		switch op := arg(); op % 4 {
 		case 0, 1:
 			n := min(arg()+1, len(data))
+			k := bytes.Count(data[:n], []byte{0x1b}) + bytes.Count(data[:n], []byte{0x9b})
+			if !charge(cols * (n + rows*k)) {
+				return ops, nil
+			}
 			_, err = i.Write(data[:n])
 			data = data[n:]
 		case 2:
-			err = i.Resize(1+arg()%300, 1+arg()%100)
+			c, r := 1+arg()%300, 1+arg()%100
+			if !charge(cols*rows + c*r) {
+				return ops, nil
+			}
+			err, cols, rows = i.Resize(c, r), c, r
 		default:
 			if arg() == 0xff {
-				err = i.Resize(MaxCols, MaxRows)
+				if !charge(cols*rows + MaxCols*MaxRows) {
+					return ops, nil
+				}
+				err, cols, rows = i.Resize(MaxCols, MaxRows), MaxCols, MaxRows
 			} else {
+				if !charge(cols * (rows + 100)) {
+					return ops, nil
+				}
 				_, err = i.Read(Request{View: ViewScrollback, Lines: 100, Attrs: true})
 			}
 		}
 		if err != nil {
-			return err // a panic in vt fails the instance: ErrFailed with the stack
+			return ops, err // a panic in vt fails the instance: ErrFailed with the stack
 		}
+		ops++
 	}
-	return nil
+	return ops, nil
 }
 
 // FuzzInstance [#7]: random writes, cut anywhere, interleaved with resizes
-// (reflow) and reads never panic or hang (10 s per input).
+// (reflow) and reads never panic or hang (10 s per input; the work of one
+// input is bounded by fuzzBudget).
 func FuzzInstance(f *testing.F) {
 	for _, s := range splitStreams {
 		f.Add(append([]byte{0, 0xff}, s...))
@@ -55,7 +93,7 @@ func FuzzInstance(f *testing.F) {
 	f.Add([]byte("\x00\xff" + "the quick brown fox jumps over the lazy dog\r\n" + "\x02\x01\x00\x02\xc7\x50\x03\x00"))
 	f.Fuzz(func(t *testing.T, data []byte) {
 		done := make(chan error, 1)
-		go func() { done <- fuzzOps(data) }()
+		go func() { _, err := fuzzOps(data); done <- err }()
 		select {
 		case err := <-done:
 			if err != nil {
