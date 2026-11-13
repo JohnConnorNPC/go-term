@@ -5,6 +5,8 @@ package vt
 // unicode version providers; only the built-in V6 provider is ported,
 // so the provider registry is collapsed into package-level functions.
 
+import "sync"
+
 var bmpCombining = [][2]uint32{
 	{0x0300, 0x036F}, {0x0483, 0x0486}, {0x0488, 0x0489},
 	{0x0591, 0x05BD}, {0x05BF, 0x05BF}, {0x05C1, 0x05C2},
@@ -59,8 +61,12 @@ var highCombining = [][2]uint32{
 	{0xE0100, 0xE01EF},
 }
 
-// wcwidthTable is the BMP lookup table, built on first use.
-var wcwidthTable []uint8
+// wcwidthTable is the BMP lookup table, built once on first use: terminals
+// on several goroutines share it, so the build goes through wcwidthOnce.
+var (
+	wcwidthTable []uint8
+	wcwidthOnce  sync.Once
+)
 
 func initWcwidthTable() {
 	table := make([]uint8, 65536)
@@ -127,9 +133,7 @@ func Wcwidth(num uint32) int {
 		return 1
 	}
 	if num < 65536 {
-		if wcwidthTable == nil {
-			initWcwidthTable()
-		}
+		wcwidthOnce.Do(initWcwidthTable)
 		return int(wcwidthTable[num])
 	}
 	if bisearch(num, highCombining) {
