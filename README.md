@@ -210,9 +210,11 @@ What Browserland Studio uses, by package; the sections above give the details.
 - Vectors (Studio @ed3249b, sha256-pinned, `go test ./screen -run 'TestHeadlessVectors|TestStudioLedger' -v`): every
   A2b vector passes (555/555); every A2a case has one disposition: GO 546 (go-term gives Python's value), LISTED 27
   (Python differs from headless and go-term follows headless: listed in Studio's `vectors/headless/divergence.json`,
-  pinned at `screen/testdata/headless/divergence.json`), STUDIO 167 (Studio's own byte producers: raw snapshot, pyte
-  re-emit, textgrid trim; their bytes are fed and equal headless), UNCOMPARED 6 (Studio's own list, plus
-  `pyte.available`). `38;5;n` with n < 16 reads as pyte's hex (`AttrRuns` above), not headless's palette index.
+  pinned at `screen/testdata/headless/divergence.json`), STUDIO 167 (Studio's own producers: raw snapshot, pyte
+  re-emit, textgrid trim; the 115 that give bytes are fed and equal headless's `output_state`; the 52 `_color_params`
+  cases give SGR params, which go-term reads back as the same colour for 46 and as default for the 6 fg/bg of `brown`,
+  `brightbrown` and `bfightmagenta`, the names Studio's table emits as 39/49), UNCOMPARED 6 (Studio's own list, plus
+  `pyte.available`). Each count is asserted, not only the sum. `38;5;n` with n < 16 reads as pyte's hex (`AttrRuns` above), not headless's palette index.
 - Differential fuzz against `@xterm/headless` 6.0.0: `bash conformance/scripts/fuzz.sh 600 <seed>` (conformance README
   "Fuzz").
 

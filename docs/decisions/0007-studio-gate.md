@@ -10,7 +10,11 @@
    is allowed only for the colours (pyte's names) and the sniffer caps (Python's bounds). The list is Studio's and
    pinned by sha256; go-term never edits it. Studio signs it off after the tag (owner, ask-4 q2).
 3. **Studio's byte producers are not ported** (R2): raw snapshot, pyte re-emit and textgrid's trim are Studio's
-   (`internal/snapshot`); their bytes are checked through `output_state`.
+   (`internal/snapshot`); their bytes are checked through `output_state` (115 cases). The 52 `pyte._color_params`
+   cases give SGR params, not bytes: go-term reads each back and must get the same colour name, except fg and bg of
+   `brown`, `brightbrown` and `bfightmagenta`, which Studio's table emits as 39/49 (default). Studio's re-emit thus
+   drops SGR 33 (pyte's "brown"); that is Studio's to fix. Every disposition count is asserted, and every
+   divergence.json row against python must be reached as GO or LISTED.
 4. **One byte more than Python's snapshot**: `ReplayBytes` puts CAN between ring and postamble (0006, #8 S2), so it is
    Python's `raw.render + _mode_reassert` plus one 0x18. `TestRawReplay` checks that exactly on the 6 `raw.render`
    vectors Studio does not trim, for all 60 mode sets. Recorded here and in the README, not in Studio's list

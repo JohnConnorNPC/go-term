@@ -144,6 +144,7 @@ type divergence struct {
 			ID     string `json:"id"`
 			Reason string `json:"reason"`
 		} `json:"uncompared"`
+		WithOutputState int `json:"compared_with_output_state"`
 	} `json:"header"`
 	Differ []struct {
 		ID      string                     `json:"id"`
@@ -351,7 +352,9 @@ func TestStudioLedger(t *testing.T) {
 	screens, _, _ := pythonScreens(t)
 	disp := map[string]int{}
 	seen := map[string]bool{}
+	reached := map[string]bool{} // python rows met in the GO or LISTED branch
 	listedGO := 0
+	outState, colourSame, colourLost := 0, 0, 0
 	for _, fam := range []struct{ name, dir string }{{"textgrid", ""}, {"colours", ""}, {"hashes", ""}, {"pyte", ""},
 		{"raw", ""}, {"altscreen", sniffData}, {"synthetic", sniffData}, {"titles", sniffData}} {
 		py := map[string]pyCase{}
@@ -380,6 +383,15 @@ func TestStudioLedger(t *testing.T) {
 				h, ok := hl[c.ID]
 				switch {
 				case !isBytes && c.Entry == "pyte._color_params":
+					// Studio's re-emit table: go-term reads the params back.
+					switch same := colourParamsBack(t, c); {
+					case same:
+						colourSame++
+					case colourLostNames[colourParamsName(t, c)]:
+						colourLost++
+					default:
+						t.Errorf("%s: go-term reads %s's params back as another colour", key, c.Entry)
+					}
 				case !isBytes:
 					t.Errorf("%s: %s output is not bytes and not uncompared", key, c.Entry)
 				case !ok || h.OutputState == nil:
@@ -390,6 +402,7 @@ func TestStudioLedger(t *testing.T) {
 					if err := checkHeadless(term, *h.OutputState); err != nil {
 						t.Errorf("%s output_state: %v", key, err)
 					}
+					outState++
 				}
 				disp["STUDIO"]++
 				continue
@@ -430,6 +443,7 @@ func TestStudioLedger(t *testing.T) {
 						t.Errorf("%s: divergence.json lists %s, but go-term equals Python", key, listed[key])
 					}
 					listedGO++
+					reached[key] = true
 				}
 				disp["GO"]++
 				continue
@@ -461,20 +475,102 @@ func TestStudioLedger(t *testing.T) {
 					}
 				}
 			}
+			if listed[key] != "" {
+				reached[key] = true
+			}
 			disp["LISTED"]++
 		}
 	}
+	pyRows := 0
 	for _, d := range div.Differ {
 		if !seen[d.ID] {
 			t.Errorf("divergence.json %s: no such A2a case", d.ID)
+		}
+		if d.Against == "python" {
+			pyRows++
+			if !reached[d.ID] {
+				t.Errorf("divergence.json %s (against python): never compared (not GO or LISTED)", d.ID)
+			}
 		}
 	}
 	n := disp["GO"] + disp["LISTED"] + disp["STUDIO"] + disp["UNCOMPARED"]
 	if n != 746 || len(seen) != 746 {
 		t.Errorf("%d dispositions over %d cases, want 746", n, len(seen))
 	}
-	t.Logf("LEDGER a2a GO %d (%d listed, go-term follows Python) LISTED %d STUDIO %d UNCOMPARED %d = %d; a2b 555 (TestHeadlessVectors); list testdata/headless/divergence.json %.16s; divergences can-separator (TestRawReplay)",
-		disp["GO"], listedGO, disp["LISTED"], disp["STUDIO"], disp["UNCOMPARED"], n, vectorPins["headless/divergence.json"])
+	// Each disposition is pinned, not only the sum: a case moving between
+	// two of them keeps 746. The vector files are pinned by sha256.
+	want := map[string]int{"GO": 546, "LISTED": 27, "STUDIO": 167, "UNCOMPARED": 6}
+	for k, w := range want {
+		if disp[k] != w {
+			t.Errorf("ledger %s %d, want %d", k, disp[k], w)
+		}
+	}
+	if listedGO != 11 || disp["LISTED"]+listedGO != pyRows {
+		t.Errorf("listed GO %d (want 11) + LISTED %d != %d divergence.json rows against python", listedGO, disp["LISTED"], pyRows)
+	}
+	if outState != div.Header.WithOutputState || colourSame+colourLost+outState != disp["STUDIO"] {
+		t.Errorf("STUDIO %d: output_state %d (divergence.json %d) + colour params %d+%d", disp["STUDIO"], outState,
+			div.Header.WithOutputState, colourSame, colourLost)
+	}
+	if colourLost != 2*len(colourLostNames) {
+		t.Errorf("colour params lost %d, want %d (fg and bg of %d names)", colourLost, 2*len(colourLostNames), len(colourLostNames))
+	}
+	t.Logf("LEDGER a2a GO %d (%d listed, go-term follows Python) LISTED %d STUDIO %d (output_state %d, _color_params read back %d same + %d default for brown/brightbrown/bfightmagenta) UNCOMPARED %d = %d; python rows %d reached; a2b 555 (TestHeadlessVectors); list testdata/headless/divergence.json %.16s; divergences can-separator (TestRawReplay)",
+		disp["GO"], listedGO, disp["LISTED"], disp["STUDIO"], outState, colourSame, colourLost, disp["UNCOMPARED"], n, pyRows, vectorPins["headless/divergence.json"])
+}
+
+// colourLostNames are the pyte names Studio's _color_params has no params
+// for: it emits 39/49, so a re-emitted screen shows them in the default
+// colour. pyte names SGR 33 "brown", so this loses yellow text in Studio's
+// replay (a Studio matter; go-term emits no screens).
+var colourLostNames = map[string]bool{"brown": true, "brightbrown": true, "bfightmagenta": true}
+
+// colourParamsName is the colour name a pyte._color_params case is about.
+func colourParamsName(t *testing.T, c pyCase) string {
+	t.Helper()
+	var a struct {
+		D [][2]json.RawMessage `json:"$d"`
+	}
+	mustUnmarshal(t, c.Args, &a)
+	if len(a.D) != 2 {
+		t.Fatalf("%s: args %s", c.ID, c.Args)
+	}
+	var name string
+	mustUnmarshal(t, a.D[0][1], &name)
+	return name
+}
+
+// colourParamsBack feeds Python's SGR params for a colour (fg or bg) before
+// one glyph and reports whether go-term reads that cell as the same colour.
+func colourParamsBack(t *testing.T, c pyCase) bool {
+	t.Helper()
+	var a struct {
+		D [][2]json.RawMessage `json:"$d"`
+	}
+	mustUnmarshal(t, c.Args, &a)
+	var isBg bool
+	mustUnmarshal(t, a.D[1][1], &isBg)
+	var params []int
+	mustUnmarshal(t, c.Output, &params)
+	if len(params) == 0 {
+		t.Fatalf("%s: no params", c.ID)
+	}
+	ps := make([]string, len(params))
+	for i, p := range params {
+		ps[i] = fmt.Sprint(p)
+	}
+	term := newTerm(4, 1)
+	term.WriteString("\x1b[" + strings.Join(ps, ";") + "mX")
+	got := Default
+	if runs := AttrRuns(term, MaxAttrRuns); len(runs) == 1 {
+		got = runs[0].Fg
+		if isBg {
+			got = runs[0].Bg
+		}
+	} else if len(runs) > 1 {
+		t.Fatalf("%s: %d runs for one glyph", c.ID, len(runs))
+	}
+	return got == colourParamsName(t, c)
 }
 
 func sortedCopy(ss []string) []string {
