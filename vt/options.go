@@ -28,6 +28,10 @@ type Options struct {
 	// layer sets — so a headless terminal does not claim it in DA1 however
 	// this is set. Default: true.
 	Sixel bool
+	// PayloadLimit caps an OSC, DCS or APC string, in code units: a longer
+	// one is dropped whole. Zero or less is xterm.js's PAYLOAD_LIMIT,
+	// 10,000,000.
+	PayloadLimit int
 	// TermName reported by DA sequences. Default: "xterm".
 	TermName string
 	// XTVersion is the name and version XTVERSION (CSI > q) reports, as

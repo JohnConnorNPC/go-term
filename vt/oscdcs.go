@@ -15,12 +15,14 @@ type OscParser struct {
 	id        int
 	handlers  map[int][]OscHandlerIface
 	handlerFb func(id int, action string, data interface{})
+	limit, n  int // payload cap and code units seen
 }
 
 // NewOscParser creates an OSC sub parser.
 func NewOscParser() *OscParser {
 	return &OscParser{
 		id:        -1,
+		limit:     payloadLimit,
 		handlers:  map[int][]OscHandlerIface{},
 		handlerFb: func(id int, action string, data interface{}) {},
 	}
@@ -45,6 +47,7 @@ func (o *OscParser) Reset() {
 	}
 	o.active = nil
 	o.id = -1
+	o.n = 0
 	o.state = oscStart
 }
 
@@ -100,6 +103,11 @@ func (o *OscParser) Put(data []uint32, start, end int) {
 		}
 	}
 	if o.state == oscPayload && end-start > 0 {
+		if o.n += end - start; o.n > o.limit {
+			o.Reset() // the handlers end unsuccessfully and drop it
+			o.state = oscAbort
+			return
+		}
 		o.putActive(data, start, end)
 	}
 }
@@ -183,6 +191,8 @@ type DcsParser struct {
 	handlers  map[int][]DcsHandler
 	active    []DcsHandler
 	ident     int
+	limit, n  int  // payload cap and code units seen
+	over      bool // the payload passed the cap and is dropped
 	handlerFb func(ident int, action string, data interface{})
 }
 
@@ -190,6 +200,7 @@ type DcsParser struct {
 func NewDcsParser() *DcsParser {
 	return &DcsParser{
 		handlers:  map[int][]DcsHandler{},
+		limit:     payloadLimit,
 		handlerFb: func(ident int, action string, data interface{}) {},
 	}
 }
@@ -218,7 +229,7 @@ func (d *DcsParser) Reset() {
 // Hook starts a DCS sequence.
 func (d *DcsParser) Hook(ident int, params *Params) {
 	d.Reset()
-	d.ident = ident
+	d.ident, d.n, d.over = ident, 0, false
 	d.active = d.handlers[ident]
 	if len(d.active) == 0 {
 		d.handlerFb(d.ident, "HOOK", params)
@@ -231,6 +242,14 @@ func (d *DcsParser) Hook(ident int, params *Params) {
 
 // Put feeds payload data.
 func (d *DcsParser) Put(data []uint32, start, end int) {
+	if d.over {
+		return
+	}
+	if d.n += end - start; d.n > d.limit {
+		d.Reset() // the handlers unhook unsuccessfully and drop it
+		d.over = true
+		return
+	}
 	if len(d.active) == 0 {
 		d.handlerFb(d.ident, "PUT", utf32ToString(data, start, end))
 	} else {
@@ -242,7 +261,9 @@ func (d *DcsParser) Put(data []uint32, start, end int) {
 
 // Unhook finishes the DCS sequence.
 func (d *DcsParser) Unhook(success bool) {
-	if len(d.active) == 0 {
+	if d.over {
+		d.over = false
+	} else if len(d.active) == 0 {
 		d.handlerFb(d.ident, "UNHOOK", success)
 	} else {
 		j := len(d.active) - 1

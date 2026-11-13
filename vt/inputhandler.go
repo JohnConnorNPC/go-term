@@ -260,6 +260,7 @@ func NewInputHandler(bufferService *BufferService, charsetService *CharsetServic
 		eraseAttrDataInternal: NewAttributeData(),
 	}
 	h.dirtyTracker = dirtyRowTracker{bufferService: bufferService}
+	h.parser.SetPayloadLimit(options.PayloadLimit)
 	h.dirtyTracker.clearRange()
 
 	// Track the active buffer manually (perf-critical in the original);

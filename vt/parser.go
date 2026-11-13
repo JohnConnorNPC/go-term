@@ -37,7 +37,8 @@ const (
 	actionDcsUnhook   = 14
 )
 
-// payloadLimit caps OSC and DCS payloads.
+// payloadLimit is the default cap on an OSC, DCS or APC string
+// (Options.PayloadLimit).
 const payloadLimit = 10000000
 
 // Table access layout:
@@ -279,6 +280,8 @@ type Parser struct {
 	// apcBuf holds it, and apcHandler takes it whole.
 	apc          bool
 	apcBuf       []rune
+	apcOver      bool // the APC string passed the limit and is dropped
+	payloadLimit int
 	apcHandler   func(data string) bool
 	errorHandler func(state ParsingState) ParsingState
 
@@ -299,6 +302,7 @@ func NewParser() *Parser {
 		escHandlers:     map[int][]EscHandler{},
 		oscParser:       NewOscParser(),
 		dcsParser:       NewDcsParser(),
+		payloadLimit:    payloadLimit,
 	}
 	p.params.AddParam(0) // ZDM
 	p.printHandlerFb = func(data []uint32, start, end int) {}
@@ -382,6 +386,15 @@ func (p *Parser) RegisterCsiHandler(id FunctionID, handler CsiHandler) {
 // RegisterDcsHandler adds a DCS sequence handler.
 func (p *Parser) RegisterDcsHandler(id FunctionID, handler DcsHandler) {
 	p.dcsParser.RegisterHandler(p.identifier(id, [2]int{0x40, 0x7e}), handler)
+}
+
+// SetPayloadLimit caps OSC, DCS and APC strings at n code units; n <= 0
+// is the default, 10,000,000. A longer string is dropped whole.
+func (p *Parser) SetPayloadLimit(n int) {
+	if n <= 0 {
+		n = payloadLimit
+	}
+	p.payloadLimit, p.oscParser.limit, p.dcsParser.limit = n, n, n
 }
 
 // SetApcHandler sets what takes an APC string (ESC _ ... ESC \), whole;
@@ -537,7 +550,7 @@ func (p *Parser) Parse(data []uint32, length int) {
 		case actionOscStart:
 			p.apc = code == 0x5f || code == 0x9f
 			if p.apc {
-				p.apcBuf = p.apcBuf[:0]
+				p.apcBuf, p.apcOver = p.apcBuf[:0], false
 			} else {
 				p.oscParser.Start()
 			}
@@ -549,10 +562,14 @@ func (p *Parser) Parse(data []uint32, length int) {
 					return code < 0x20 || (code > 0x7f && code < nonASCIIPrintable)
 				}() {
 					if p.apc {
-						if len(p.apcBuf)+j-i <= payloadLimit {
+						if p.apcHandler == nil || p.apcOver {
+							// nobody takes it, or it is already dropped
+						} else if len(p.apcBuf)+j-i <= p.payloadLimit {
 							for _, c := range data[i:j] {
 								p.apcBuf = append(p.apcBuf, rune(c)) //nolint:gosec // a code point the parser decoded, below 0x110000
 							}
+						} else {
+							p.apcBuf, p.apcOver = nil, true
 						}
 					} else {
 						p.oscParser.Put(data, i, j)
@@ -569,7 +586,7 @@ func (p *Parser) Parse(data []uint32, length int) {
 				break
 			}
 			if p.apc {
-				if code != 0x18 && code != 0x1a && p.apcHandler != nil {
+				if code != 0x18 && code != 0x1a && p.apcHandler != nil && !p.apcOver {
 					p.apcHandler(string(p.apcBuf))
 				}
 				p.apc = false
