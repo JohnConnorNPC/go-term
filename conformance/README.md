@@ -63,6 +63,24 @@ Not scored in #1: 7 cases whose distinguishing outcome lives only in tier I, bec
 `osc/osc8-link` (link id), `sgr/double-underline`, `sgr/ul-curly`, `sgr/ul-dashed` (underline style), and
 `sgr/ul-colour-256`, `sgr/ul-colour-rgb`, `sgr/ul-colour-reset` (underline colour). Their I values are in the goldens.
 
+## Fuzz (gh #9)
+
+```sh
+bash conformance/scripts/fuzz.sh 600 <seed>     # host go build, then one node container; FUZZ_SHARDS=4 node processes
+```
+A differential fuzz against `@xterm/headless` 6.0.0 through this harness: `cmd/fuzzgen -seed S -n 100 -root DIR` writes
+random cases (geometry 2..60 x 1..20, scrollback 50, writes of ASCII, UTF-8 incl. wide/combining/ZWJ/invalid, C0, CSI, SGR,
+DECSET, OSC, DCS, APC and ESC tokens, rare resize and reset; the same seed writes the same files) plus byte copies of
+`probes.json` and `gen/pins.json`; `gen/fuzz.mjs --root DIR [--shard I/N | --merge N]` records xcur goldens for them
+(gen.mjs's per-case body, no noop check); `conformance -root DIR -engine goterm -fuzz` scores them. `-fuzz` also scores
+the split variants headless itself is sensitive to, against the whole-write golden (go-term decodes UTF-8 the same at
+every cut, #14), so nothing is skipped, and it drops the per-category minimums; its last line is
+`TOTAL <pass>/<cases> PASS|FAIL hsens=<variants scored that headless gets wrong>`. The default CLI and the gate still skip
+them. `fuzz.sh` loops batches (seed, seed+1, ...) until the seconds are spent and ends with
+`FUZZ seconds= batches= cases= variants= hsens= diffs=`: exit 0 no diff, 1 a diff (that batch kept as
+`.cache/fuzz/fail-<seed>`, a root the CLI re-scores), 2 nothing ran or a batch was unmeasured (`.cache/fuzz/bad-<seed>`).
+The fuzz is outside `scripts/check.sh` and CI.
+
 ## Scoring an engine
 
 Implement `runner.Engine` (`Write`, `Resize`, `Reset`, `Snapshot() (runner.State, error)`) and a `runner.Factory`, then
