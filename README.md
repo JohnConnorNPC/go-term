@@ -20,7 +20,9 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 ## Checks
 
 `bash scripts/check.sh` runs the root module's checks with the `go` on `PATH` (`GO=<path>` picks another) and exits
-non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.mod requires and replaces nothing;
+non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.mod requires exactly
+`scripts/deps.allow` (golang.org/x/crypto for blake2b, golang.org/x/sys indirect), replaces nothing, and `go mod verify`
+passes;
 `go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
 `cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
 are REPORT lines only); a `FuzzFeed` run on `./sniff`. The GitHub workflow `check.yml` runs the same script.

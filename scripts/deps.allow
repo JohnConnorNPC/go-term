@@ -1,0 +1,6 @@
+# The root module's requires, exactly: path version [indirect]. check.sh's deps step compares go.mod's Require
+# list with these lines (sorted) and fails on any difference or on any replace. blake2b (screen's hashes, #6)
+# needs x/crypto; its blake2b imports golang.org/x/sys/cpu. Versions: the newest x/crypto whose go.mod says
+# go <= 1.24 (v0.48.0: go 1.24.0; v0.49.0 needs 1.25.0) and the x/sys it requires.
+golang.org/x/crypto v0.48.0
+golang.org/x/sys v0.41.0 indirect
