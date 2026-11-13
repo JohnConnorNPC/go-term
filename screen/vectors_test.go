@@ -14,7 +14,10 @@ import (
 // browserland-studio vectors/ (commit b6053e0) into testdata/. The headless
 // files' headers carry the sha256 of the python file each was replayed from.
 var vectorPins = map[string]string{
-	"python/hashes.json": "cc87245017305fdcf6005f6da0df0e77e590ecb5996427542fab587a7573e1df",
+	"python/hashes.json":     "cc87245017305fdcf6005f6da0df0e77e590ecb5996427542fab587a7573e1df",
+	"python/textgrid.json":   "349ab3f09955c1978feeec4aad9a2d76ed316ffe0878972c5777bad372512dbd",
+	"headless/hashes.json":   "b71eb62c0b898757ef24b320fe99f043ccc839e692c7aa2decca281e334a2f69",
+	"headless/textgrid.json": "ff63f85b45da7a0dcf80b6101cba5018a8fc76b6e467e58635ebb8c9e2097ad5",
 }
 
 func readVectors(t *testing.T, name string) []byte {
@@ -47,11 +50,7 @@ type pyCase struct {
 	Entry  string          `json:"entry"`
 	Args   json.RawMessage `json:"args"`
 	Output json.RawMessage `json:"output"`
-	Replay *struct {
-		Chunks []string `json:"chunks_b64"`
-		Cols   int      `json:"cols"`
-		Rows   int      `json:"rows"`
-	} `json:"replay"`
+	Replay json.RawMessage `json:"replay"` // {chunks_b64, cols, rows, ...}; headless input_sha256 is its sha256
 }
 
 func loadPython(t *testing.T, name string) []pyCase {
