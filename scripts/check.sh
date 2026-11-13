@@ -2,14 +2,14 @@
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
 # scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), readonly (go build
 # with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
-# windows/amd64; 386 and armv7 reported), govulncheck (skipped offline unless GOVULNCHECK=require), and a 60 s
-# FuzzFeed run on ./sniff. Every step runs even when an
+# windows/amd64; 386 and armv7 reported), govulncheck (skipped offline unless GOVULNCHECK=require), and two 60 s
+# fuzz runs: fuzz (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
 # A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
-# Usage: bash scripts/check.sh [fuzztime]   (default 60s; 0 skips the fuzz step)
+# Usage: bash scripts/check.sh [fuzztime]   (default 60s for each fuzz step; 0 skips both)
 set -u
 cd "$(dirname "$0")/.."
 GO=${GO:-go}
@@ -132,6 +132,11 @@ fi
 [ -z "$vulndir" ] || rm -rf "$vulndir"
 if [ "$FUZZTIME" != 0 ] && [ -d sniff ]; then
 	step fuzz "$GO" test -run '^$' -fuzz '^FuzzFeed$' -fuzztime "$FUZZTIME" ./sniff
+fi
+# fuzz-instance: FuzzInstance (screen/fuzz_test.go): each input stops past an 8,000,000-cell work budget, and one still
+# running after 60 s fails as a hang. A crasher is written to screen/testdata/fuzz/FuzzInstance (porcelain-after shows it).
+if [ "$FUZZTIME" != 0 ]; then
+	step fuzz-instance "$GO" test -run '^$' -fuzz '^FuzzInstance$' -fuzztime "$FUZZTIME" ./screen
 fi
 echo "porcelain-after-begin"; git status --porcelain; echo "porcelain-after-end"
 echo "FINAL EXIT $fail"
