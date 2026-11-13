@@ -905,8 +905,14 @@ func (h *InputHandler) CursorForwardTab(params *Params) bool {
 	if h.activeBuffer.X >= h.bufferService.Cols {
 		return true
 	}
+	// a stop that does not move never will: stop there, not after up to
+	// 2^31-1 more turns (the CSI parameter cap)
 	for param := paramOr1(params, 0); param > 0; param-- {
-		h.activeBuffer.X = h.activeBuffer.NextStop(h.activeBuffer.X)
+		x := h.activeBuffer.NextStop(h.activeBuffer.X)
+		if x == h.activeBuffer.X {
+			break
+		}
+		h.activeBuffer.X = x
 	}
 	return true
 }
@@ -916,8 +922,12 @@ func (h *InputHandler) CursorBackwardTab(params *Params) bool {
 	if h.activeBuffer.X >= h.bufferService.Cols {
 		return true
 	}
-	for param := paramOr1(params, 0); param > 0; param-- {
-		h.activeBuffer.X = h.activeBuffer.PrevStop(h.activeBuffer.X)
+	for param := paramOr1(params, 0); param > 0; param-- { // as CursorForwardTab
+		x := h.activeBuffer.PrevStop(h.activeBuffer.X)
+		if x == h.activeBuffer.X {
+			break
+		}
+		h.activeBuffer.X = x
 	}
 	return true
 }
@@ -1047,6 +1057,9 @@ func (h *InputHandler) InsertLines(params *Params) bool {
 	}
 
 	row := h.activeBuffer.YBase + h.activeBuffer.Y
+	// once every line from the cursor to the region's bottom is blank, a
+	// further turn only swaps a blank line for an identical one
+	param = min(param, h.activeBuffer.ScrollBottom-h.activeBuffer.Y+1)
 
 	scrollBottomRowsOffset := h.bufferService.Rows - 1 - h.activeBuffer.ScrollBottom
 	scrollBottomAbsolute := h.bufferService.Rows - 1 + h.activeBuffer.YBase - scrollBottomRowsOffset + 1
@@ -1071,6 +1084,7 @@ func (h *InputHandler) DeleteLines(params *Params) bool {
 	}
 
 	row := h.activeBuffer.YBase + h.activeBuffer.Y
+	param = min(param, h.activeBuffer.ScrollBottom-h.activeBuffer.Y+1) // as InsertLines
 
 	j := h.bufferService.Rows - 1 - h.activeBuffer.ScrollBottom
 	j = h.bufferService.Rows - 1 + h.activeBuffer.YBase - j
@@ -1109,7 +1123,8 @@ func (h *InputHandler) DeleteChars(params *Params) bool {
 
 // ScrollUp handles SU.
 func (h *InputHandler) ScrollUp(params *Params) bool {
-	for param := paramOr1(params, 0); param > 0; param-- {
+	// past the region's height every line of it is blank (as InsertLines)
+	for param := min(paramOr1(params, 0), h.activeBuffer.ScrollBottom-h.activeBuffer.ScrollTop+1); param > 0; param-- {
 		h.activeBuffer.Lines.Splice(h.activeBuffer.YBase+h.activeBuffer.ScrollTop, 1)
 		h.activeBuffer.Lines.Splice(h.activeBuffer.YBase+h.activeBuffer.ScrollBottom, 0, h.activeBuffer.GetBlankLine(h.eraseAttrData(), false))
 	}
@@ -1119,7 +1134,7 @@ func (h *InputHandler) ScrollUp(params *Params) bool {
 
 // ScrollDown handles SD.
 func (h *InputHandler) ScrollDown(params *Params) bool {
-	for param := paramOr1(params, 0); param > 0; param-- {
+	for param := min(paramOr1(params, 0), h.activeBuffer.ScrollBottom-h.activeBuffer.ScrollTop+1); param > 0; param-- { // as ScrollUp
 		h.activeBuffer.Lines.Splice(h.activeBuffer.YBase+h.activeBuffer.ScrollBottom, 1)
 		h.activeBuffer.Lines.Splice(h.activeBuffer.YBase+h.activeBuffer.ScrollTop, 0, h.activeBuffer.GetBlankLine(NewAttributeData(), false))
 	}
