@@ -20,6 +20,9 @@ type Config struct {
 	// ScrollbackLines and ScrollbackCells bound the history: HistoryCap.
 	// Zero or less takes the default.
 	ScrollbackLines, ScrollbackCells int
+	// PayloadLimit caps an OSC, DCS or APC string, in code units: a longer
+	// one is dropped whole. Zero or less is DefaultPayloadLimit.
+	PayloadLimit int
 	// Unicode is the width table: "6" (or ""), what the page uses (no
 	// unicode11 addon). Version 11 is not supported yet.
 	Unicode string
@@ -30,6 +33,13 @@ func (c Config) lines() int {
 		return DefaultScrollbackLines
 	}
 	return c.ScrollbackLines
+}
+
+func (c Config) payloadLimit() int {
+	if c.PayloadLimit <= 0 {
+		return DefaultPayloadLimit
+	}
+	return c.PayloadLimit
 }
 
 func (c Config) cells() int {
@@ -54,7 +64,8 @@ func (c Config) check() error {
 }
 
 // NewTerminal returns a vt terminal of cols x rows whose scrollback is
-// c.HistoryCap(cols). The terminal's Options are vt's defaults otherwise.
+// c.HistoryCap(cols) and whose payload cap is c's. The terminal's Options are
+// vt's defaults otherwise.
 func NewTerminal(cols, rows int, c Config) (*vt.Terminal, error) {
 	if err := c.check(); err != nil {
 		return nil, err
@@ -62,6 +73,7 @@ func NewTerminal(cols, rows int, c Config) (*vt.Terminal, error) {
 	o := vt.NewOptions()
 	o.Cols, o.Rows = max(cols, vt.MinimumCols), max(rows, vt.MinimumRows)
 	o.Scrollback = c.HistoryCap(o.Cols)
+	o.PayloadLimit = c.payloadLimit()
 	return vt.NewTerminal(o), nil
 }
 
