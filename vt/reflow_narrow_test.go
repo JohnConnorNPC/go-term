@@ -87,6 +87,33 @@ func TestCombiningAtPendingWrap(t *testing.T) {
 		if b := term.Buffer(); line(term, 0) != full || line(term, 1) != "x" || b.X != 1 || b.Y != 1 {
 			t.Errorf("%d cols: %q, %q, cursor (%d,%d), want x at (1,1)", cols, line(term, 0), line(term, 1), b.X, b.Y)
 		}
+		// From cols+1 [#9, rulings-5]: LF, VT and FF (xterm.js lineFeed:
+		// "if (this._activeBuffer.x >= this._bufferService.cols)
+		// this._activeBuffer.x--") take one off, so the cursor is at pending
+		// wrap on the next row and x wraps once more; ED and EL
+		// (restrictCursor(cols)) leave the cursor at cols, so x wraps to row 1.
+		for _, c := range []struct {
+			op   string
+			y, x int // the row x lands on, and then the cursor column
+		}{{"\n", 2, 1}, {"\v", 2, 1}, {"\f", 2, 1}, {"\x1b[K", 1, 1}, {"\x1b[J", 1, 1}} {
+			term := newTestTerminal(cols, 4)
+			term.WriteString(full + "\x1f́" + c.op)
+			b := term.Buffer()
+			if wantY := c.y - 1; b.X != cols || b.Y != wantY {
+				t.Errorf("%d cols, %q from cols+1: cursor (%d,%d), want (%d,%d)", cols, c.op, b.X, b.Y, cols, wantY)
+			}
+			term.WriteString("x")
+			if b := term.Buffer(); line(term, 0) != full || line(term, c.y) != "x" || b.X != c.x || b.Y != c.y {
+				t.Errorf("%d cols, %q then x: row 0 %q, row %d %q, cursor (%d,%d)", cols, c.op, line(term, 0), c.y, line(term, c.y), b.X, b.Y)
+			}
+		}
+		// DECAWM off: x from cols+1 overwrites the last cell (print's
+		// no-wrap branch sets X = cols-1), as from cols.
+		nowrap := newTestTerminal(cols, 3)
+		nowrap.WriteString("\x1b[?7l" + full + "\x1f́x")
+		if b := nowrap.Buffer(); line(nowrap, 0) != full[:cols-1]+"x" || b.X != cols || b.Y != 0 {
+			t.Errorf("%d cols, ?7l: row 0 %q, cursor (%d,%d), want last cell x at (%d,0)", cols, line(nowrap, 0), b.X, b.Y, cols)
+		}
 		two := newTestTerminal(cols, 3)
 		two.WriteString(full + "\x1f\u200d\u200d")
 		if b := two.Buffer(); b.X != 1 || b.Y != 1 {
