@@ -3,7 +3,6 @@ package screen
 import (
 	"fmt"
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -17,36 +16,12 @@ var splitStreams = map[string]string{
 	"wide":    "日本語 ｱ漢字\r\n1234567890123456789日x\r\n123456789012345678日y 全角",
 	"combine": "e\u0301 a\u0308\u0323 n\u0303x\r\n1234567890123456789e\u0301z",
 	"cancel":  "\x1b[1\x18x\x1b]2;t\x1aY\x1bP$qm\x18Z\x1b[31\x1b[32mG",
-	// U+2014, U+200B ZWSP, U+200D ZWJ, U+20000 (cjk-ext-b): each has a
-	// continuation byte 0x80 that a write can end on (quirkCut).
+	// U+2014, U+200B ZWSP, U+200D ZWJ, U+20000 (cjk-ext-b): each has a held
+	// continuation byte 0x80 that a write can end on. @xterm/headless 6.0.0
+	// loses the character there (its goldens wide/cjk-ext-b, wide/zwj-family,
+	// wide/zwsp are split.sensitive); vt does not (#14).
 	"quirk":  "a—b\u200bc👨\u200d👩d𠀀e",
 	"scroll": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\x1b[2;3r\x1b[3;1H\x1bM\x1bD\x1b[S\x1b[T\x1b[r\x1b[?1049h\x1b[2J",
-}
-
-// quirkCut says a write ends a UTF-8 sequence's held bytes on a 0x80
-// continuation byte with more to come. xterm.js's Utf8ToUtf32, which vt ports
-// as is, reads a held 0x80 byte as the end of what it holds and loses the
-// character, so @xterm/headless is split-sensitive there too: the goldens'
-// recorded split.sensitive cases wide/cjk-ext-b, wide/zwj-family, wide/zwsp.
-func quirkCut(chunks []string) bool {
-	s, k := strings.Join(chunks, ""), 0
-	for _, c := range chunks[:len(chunks)-1] {
-		k += len(c)
-		if k >= 2 && s[k-1] == 0x80 && s[k-2] >= 0x80 && s[k]&0xC0 == 0x80 {
-			return true
-		}
-	}
-	return false
-}
-
-// quirkVariants name the quirk stream's variants that differ, each a
-// quirkCut, with the character it cuts; no other variant is excused.
-var quirkVariants = map[string]string{
-	"at 3":     "U+2014 after E2 80",
-	"at 7":     "U+200B ZWSP after E2 80, headless wide/zwsp",
-	"at 15":    "U+200D ZWJ after E2 80, headless wide/zwj-family",
-	"at 24":    "U+20000 after F0 A0 80, headless wide/cjk-ext-b",
-	"bytewise": "all four cuts",
 }
 
 type splitState struct {
@@ -78,11 +53,9 @@ func feed(t *testing.T, chunks ...string) splitState {
 // TestInstanceSplit [#7]: each stream written whole and split at every offset
 // into two writes, and one byte per write, gives the same state: the frame
 // (history, grid, cursor, modes, attribute runs, hashes), the title and the
-// replies. The only exceptions are the quirk stream's quirkVariants,
-// headless's own split sensitivity; every other variant of it, and of every
-// other stream, must be equal.
+// replies, with no exception (the quirk stream included).
 func TestInstanceSplit(t *testing.T) {
-	n, q := 0, 0
+	n := 0
 	for name, s := range splitStreams {
 		whole := feed(t, s)
 		variants := map[string][]string{}
@@ -95,20 +68,11 @@ func TestInstanceSplit(t *testing.T) {
 		}
 		variants["bytewise"] = bytes
 		for v, chunks := range variants {
-			if why := quirkVariants[v]; name == "quirk" && why != "" {
-				q++
-				if !quirkCut(chunks) {
-					t.Errorf("quirk split %s (%s) is not a quirkCut", v, why)
-				} else if reflect.DeepEqual(feed(t, chunks...), whole) {
-					t.Errorf("quirk split %s (%s): equal; vt no longer ports the quirk, drop the exception", v, why)
-				}
-				continue
-			}
 			n++
 			if got := feed(t, chunks...); !reflect.DeepEqual(got, whole) {
 				t.Errorf("%s split %s:\n got  %q %q %q\n want %q %q %q", name, v, got.Frame.Lines, got.Title, got.Replies, whole.Frame.Lines, whole.Title, whole.Replies)
 			}
 		}
 	}
-	t.Logf("%d streams, %d split variants equal to the whole write, %d named quirk variants differ", len(splitStreams), n, q)
+	t.Logf("%d streams, %d split variants equal to the whole write", len(splitStreams), n)
 }

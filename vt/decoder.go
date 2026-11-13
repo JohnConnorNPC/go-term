@@ -105,20 +105,23 @@ func (d *Utf8ToUtf32) Decode(input []byte, target []uint32) int {
 		default:
 			cp &= 0x07
 		}
-		// mirror the JS `while ((tmp = this.interim[++pos] & 0x3F) && pos < 4)`
-		// loop, including its quirk of stopping on a zero payload
+		// count and add the held continuation bytes. A free slot is 0; a held
+		// byte is 0x80-0xBF, so test the byte, not its payload: xterm.js's
+		// `while ((tmp = this.interim[++pos] & 0x3F) && pos < 4)` stops at a
+		// held 0x80 (payload 0) and loses the character (E2 80 | 94, an em
+		// dash). vt differs from @xterm/headless 6.0.0 there on purpose (#14).
 		pos := 0
 		for {
 			pos++
 			if pos >= 3 {
-				break // JS reads interim[3] as undefined → 0 → loop exit
+				break // at most 3 bytes are held
 			}
-			tmp := d.interim[pos] & 0x3F
+			tmp := d.interim[pos]
 			if tmp == 0 {
 				break
 			}
 			cp <<= 6
-			cp |= uint32(tmp)
+			cp |= uint32(tmp & 0x3F)
 		}
 		var typ int
 		switch {
