@@ -76,9 +76,11 @@ DECSET, OSC, DCS, APC and ESC tokens, rare resize and reset; the same seed write
 the split variants headless itself is sensitive to, against the whole-write golden (go-term decodes UTF-8 the same at
 every cut, #14), so nothing is skipped, and it drops the per-category minimums; its last line is
 `TOTAL <pass>/<cases> PASS|FAIL hsens=<variants scored that headless gets wrong>`. The default CLI and the gate still skip
-them. `fuzz.sh` loops batches (seed, seed+1, ...) until the seconds are spent and ends with
+them. `fuzz.sh` loops batches (seed, seed+1, ...) until the seconds are spent (checked between batches, so a run lasts at least
+that long) and ends with
 `FUZZ seconds= batches= cases= variants= hsens= diffs=`: exit 0 no diff, 1 a diff (that batch kept as
-`.cache/fuzz/fail-<seed>`, a root the CLI re-scores), 2 nothing ran or a batch was unmeasured (`.cache/fuzz/bad-<seed>`).
+`.cache/fuzz/fail-<seed>`, a root the CLI re-scores), 2 nothing ran or a batch was unmeasured (`.cache/fuzz/bad-<seed>`),
+or the host build, docker (a missing image is exit 125 under `--pull never`) or the FUZZ line failed.
 The fuzz is outside `scripts/check.sh` and CI.
 
 ## Scoring an engine

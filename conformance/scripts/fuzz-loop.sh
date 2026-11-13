@@ -1,4 +1,5 @@
 # fuzz-loop.sh <seconds> <seed> <shards>: fuzz.sh's loop, inside the node container, cwd conformance/ (POSIX sh).
+# The time is checked between batches, so a run takes at least <seconds> plus the last batch (~90 s for 100 cases).
 # Batch b uses seed+b. A batch that scores clean is deleted; one with a diff is moved to .cache/fuzz/fail-<seed+b>;
 # a batch whose goldens or score are unmeasured stops the run (exit 2), kept as .cache/fuzz/bad-<seed+b>.
 set -u
@@ -34,7 +35,7 @@ while [ $(($(date +%s) - start)) -lt "$secs" ]; do
   n=$(echo "$total" | sed -n 's/^TOTAL [0-9]*\/\([0-9]*\) [A-Z]* hsens=[0-9]*$/\1/p')
   k=$(echo "$total" | sed -n 's/^TOTAL .* hsens=\([0-9]*\)$/\1/p')
   v=$(sed -n 's/^fuzz-gen ok .* variants=\([0-9]*\) .*$/\1/p' "$dir/merge.log")
-  if [ "$rc" -gt 1 ] || [ -z "$p" ] || [ -z "$n" ] || [ -z "$v" ] || [ "$n" != 100 ]; then
+  if [ "$rc" -gt 1 ] || [ -z "$p" ] || [ -z "$n" ] || [ -z "$v" ] || [ "$n" != 100 ] || [ "$v" = 0 ]; then
     echo "FUZZ batch $s: unmeasured (exit $rc): $total"; mv "$dir" ".cache/fuzz/bad-$s"; bad=1; break
   fi
   cases=$((cases + n)) variants=$((variants + v)) hsens=$((hsens + k)) b=$((b + 1))
@@ -46,7 +47,7 @@ while [ $(($(date +%s) - start)) -lt "$secs" ]; do
     rm -rf ".cache/fuzz/fail-$s" && mv "$dir" ".cache/fuzz/fail-$s"
   fi
 done
-rmdir "$run" 2>/dev/null || true
+rm -rf "$run"                                              # kept batches were moved out
 echo "FUZZ seconds=$(($(date +%s) - start)) batches=$b cases=$cases variants=$variants hsens=$hsens diffs=$diffs"
 if [ "$bad" = 1 ] || [ "$b" = 0 ]; then exit 2; fi
 [ "$diffs" = 0 ]
