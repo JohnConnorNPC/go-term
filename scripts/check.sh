@@ -2,8 +2,10 @@
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
 # scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), readonly (go build
 # with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
-# windows/amd64; 386 and armv7 reported), and a 60 s FuzzFeed run on ./sniff. Every step runs even when an
+# windows/amd64; 386 and armv7 reported), govulncheck (skipped offline unless GOVULNCHECK=require), and a 60 s
+# FuzzFeed run on ./sniff. Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
+# A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
@@ -81,6 +83,53 @@ cross() {
 	return $rc
 }
 step cross cross
+# govulncheck: the pinned govulncheck, built by $GO, scans ./... against vuln.go.dev at symbol level (a vulnerable
+# module that is required but never called is not a finding). It judges the stdlib of the go on its PATH, so that go
+# is $GO's directory first, and its version must equal "$GO" version. The DB is live: a green commit can turn red
+# later. GOVULNCHECK=auto (default): if the tool cannot be installed (no module proxy) or vuln.go.dev does not
+# answer, the step is skipped with no exit line, neither a pass nor a failure. GOVULNCHECK=require (CI): that is a
+# failure, rc 2. rc 3 is govulncheck's "vulnerabilities found"; any other rc is the tool failing.
+vulnpin=golang.org/x/vuln/cmd/govulncheck@v1.9.0
+vulnmode=${GOVULNCHECK:-auto} vulndir="" vulnpath="" vulnwhy=""
+vulncheck_setup() { # rc 0 ready, 1 unavailable ($vulnwhy), 2 error
+	local gobin judged want
+	case $vulnmode in auto | require) ;; *) echo "govulncheck: GOVULNCHECK=$vulnmode, want auto or require"; return 2 ;; esac
+	gobin=$(command -v "$GO") || { echo "govulncheck: GO=$GO not found"; return 2; }
+	vulnpath="$(dirname "$gobin"):$PATH"
+	judged=$(PATH="$vulnpath" go version) || { echo "govulncheck: no go in $(dirname "$gobin")"; return 2; }
+	want=$("$GO" version) || return 2
+	echo "govulncheck judges: $judged"
+	[ "$judged" = "$want" ] || { echo "govulncheck: the go it would judge is not \$GO ($want)"; return 2; }
+	vulndir=$(mktemp -d) || return 2
+	GOBIN=$vulndir "$GO" install "$vulnpin" || { vulnwhy="$vulnpin did not install"; return 1; }
+	curl -fsS --max-time 10 -o /dev/null https://vuln.go.dev/index/db.json || { vulnwhy="vuln.go.dev did not answer"; return 1; }
+}
+vulncheck_run() { # vulncheck_run <setup rc>
+	local rc
+	case $1 in
+	0) ;;
+	1) echo "govulncheck: $vulnwhy (GOVULNCHECK=require)"; return 2 ;;
+	*) return 2 ;;
+	esac
+	PATH="$vulnpath" "$vulndir/govulncheck" -show version ./... > "$vulndir/out" 2>&1
+	rc=$?
+	cat "$vulndir/out"
+	case $rc in
+	0) ;;
+	3) echo "govulncheck: vulnerabilities found (rc 3)" ;;
+	*) echo "govulncheck: tool failed (rc $rc)" ;;
+	esac
+	return $rc
+}
+echo "govulncheck mode: $vulnmode"
+vulncheck_setup
+vulnrc=$?
+if [ $vulnrc = 1 ] && [ "$vulnmode" = auto ]; then
+	echo "== govulncheck skipped: $vulnwhy (not a pass)"
+else
+	step govulncheck vulncheck_run $vulnrc
+fi
+[ -z "$vulndir" ] || rm -rf "$vulndir"
 if [ "$FUZZTIME" != 0 ] && [ -d sniff ]; then
 	step fuzz "$GO" test -run '^$' -fuzz '^FuzzFeed$' -fuzztime "$FUZZTIME" ./sniff
 fi
