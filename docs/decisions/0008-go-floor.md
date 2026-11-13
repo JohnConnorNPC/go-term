@@ -15,7 +15,7 @@ Reverses QUEUE-2 Q3 (owner, 2026-11-13, "go 1.24"), recorded as 0003 item 3 and 
    the day of the bump, and the golang.org/x/sys it requires. On 2026-11-13 that was x/crypto v0.58.0 (2026-10-09) and
    x/sys v0.49.0 (2026-10-06); v0.59.0 (2026-11-11) was too new. `scripts/deps.allow` carries the rule and the lines.
 4. **conformance/candidates follows the root**: its `replace github.com/JohnConnorNPC/go-term => ../..` puts the root's
-   requires into its module graph, so its go line (`go 1.25`) and its x/sys line move with the root's, or cand.sh
+   requires into its module graph, so its go line (was `go 1.25`) and its x/sys line move with the root's, or cand.sh
    (`-mod=readonly`, offline proxy) stops building it. Only go.mod, go.sum and mods.seed change there; the #2 record
    (scores, verdict, pins, licences) is not edited or re-scored, and record-check still says RECORD OK.
 
