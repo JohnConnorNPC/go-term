@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
-# scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), go vet, go test,
-# go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
+# scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), readonly (go build
+# with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
 # windows/amd64; 386 and armv7 reported), and a 60 s FuzzFeed run on ./sniff. Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
@@ -62,6 +62,9 @@ modverify() {
 	echo "REPORT modverify: $n modules in GOMODCACHE"
 }
 step modverify modverify
+# readonly: the build needs no go.mod or go.sum update. GOFLAGS is exported above too; the step sets it itself so
+# that a later change to the export cannot drop it.
+step readonly env GOFLAGS=-mod=readonly "$GO" build ./...
 step vet "$GO" vet ./...
 step test "$GO" test -count=1 -timeout 30m ./...
 step race "$GO" test -count=1 -race -timeout 90m ./...
