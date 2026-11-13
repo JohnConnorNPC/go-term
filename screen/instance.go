@@ -26,9 +26,12 @@ const (
 var ErrFailed = errors.New("screen: instance failed")
 
 // Instance is a terminal safe to use from several goroutines in a server:
-// Write, Resize and Read are serialised by one lock, so each Read is a
+// Write, Resize, Read and Delta are serialised by one lock, so each Read is a
 // consistent snapshot, and Write takes any chunk split (vt keeps a cut
 // UTF-8, ESC, CSI, OSC or DCS sequence for the next write).
+//
+// An Instance sets none of vt's callbacks. A callback added later runs inside
+// Write, under the lock, and must not call the Instance: it would deadlock.
 type Instance struct {
 	mu    sync.Mutex
 	t     *vt.Terminal

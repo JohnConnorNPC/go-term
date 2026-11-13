@@ -74,7 +74,7 @@ each `Read` is a consistent snapshot taken between writes.
 i, err := screen.New(80, 24, screen.Config{})                 // cols 1..2000, rows 1..1000, else an error
 n, err := i.Write(chunk)                                      // io.Writer; a chunk may end anywhere
 f, err := i.Read(screen.Request{Attrs: true})                 // a Frame, as screen.Read
-changed, delta := i.Delta(&f, since, degraded)                // the instance's own FrameCache
+changed, delta, err := i.Delta(&f, since, degraded)           // the instance's own FrameCache
 err = i.Resize(cols, rows)                                    // out of range: an error, size unchanged
 err = i.Err()                                                 // nil, or ErrFailed once a panic failed it
 ```
@@ -82,9 +82,16 @@ err = i.Err()                                                 // nil, or ErrFail
 - **Chunk splits**: a write may end inside any ESC, CSI, OSC, DCS or APC sequence or UTF-8 character; vt carries the
   rest over to the next write. One exception is inherited from xterm.js's UTF-8 decoder and kept for parity with
   `@xterm/headless`: a write that ends right after a `0x80` continuation byte of a 3- or 4-byte character loses that
-  character (`E2 80` + `94` for an em dash; ZWSP, ZWJ and U+20000 split the same way, headless's split-sensitive goldens).
-- **Panics**: a panic inside vt during a call fails that instance only: the call and every later one return `ErrFailed`
-  wrapping the panic and its stack. vt's state may be torn, so the instance is not reused; other instances are unaffected.
+  character (`E2 80` + `94` for an em dash; ZWSP, ZWJ and U+20000 split the same way: headless's split-sensitive
+  goldens).
+- **Panics**: a panic during a call fails that instance only: every later call returns `ErrFailed` wrapping the panic
+  (the call that panicked also gets the stack). vt's state may be torn, so the instance is not reused; other instances
+  are unaffected.
+- **Callbacks**: an Instance sets none of vt's callbacks (replies and title are the sniffer's). Any callback added later
+  runs inside `Write`, under the instance's lock, and must not call the Instance (it would deadlock).
+- **Repeat counts**: a CSI count is capped at 2^31-1. CHT and CBT stop at a tab stop that no longer moves; IL, DL, SU
+  and SD stop at the scroll region's height; REP keeps its count past a full buffer modulo one line. None of these
+  changes what is drawn; each only drops turns that would change nothing.
 - **Memory**: an OSC, DCS or APC string longer than `Config.PayloadLimit` (default `DefaultPayloadLimit`, 1 MiB code
   units, 4 MiB as runes) is dropped whole, where xterm.js keeps up to 10,000,000. 64 MiB of an unterminated string
   peaks at about 4.4 MiB of heap. At the largest size, 2000x1000 with both screens and the history full, an instance
