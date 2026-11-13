@@ -1,5 +1,7 @@
-# The root module's checks: the workflow only runs scripts/check.sh (gofmt, deps, vet, test, race, cross, fuzz),
-# so a local run and this one execute the same commands. Actions are pinned by commit sha.
+# The root module's checks: the workflow only runs scripts/check.sh (gofmt, deps, modverify, readonly, vet, test,
+# race, cross, govulncheck, fuzz, fuzz-instance), so a local run and this one execute the same commands.
+# GOVULNCHECK=require: here an unavailable govulncheck or vuln.go.dev is a failure, not a skip. Actions are pinned by
+# commit sha.
 name: check
 on:
   push:
@@ -19,3 +21,5 @@ jobs:
           go-version: '1.27.x'
           cache: false
       - run: bash scripts/check.sh 60s
+        env:
+          GOVULNCHECK: require
