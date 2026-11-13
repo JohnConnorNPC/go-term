@@ -126,6 +126,22 @@ type hlCase struct {
 	Rows        int     `json:"rows"`
 	InputSHA256 string  `json:"input_sha256"`
 	Final       hlState `json:"final"`
+	// OutputState is headless over the python case's output bytes, written
+	// whole at the case geometry (present when that output is bytes).
+	OutputState *hlState `json:"output_state"`
+}
+
+// pyBytes decodes a python vector value {"$b": base64}; ok is false for any
+// other encoding ($digest, null, a dict).
+func pyBytes(raw json.RawMessage) (b []byte, ok bool) {
+	var v struct {
+		B *string `json:"$b"`
+	}
+	if json.Unmarshal(raw, &v) != nil || v.B == nil {
+		return nil, false
+	}
+	b, err := base64.StdEncoding.DecodeString(*v.B)
+	return b, err == nil
 }
 
 // replayHeadless feeds a headless case's input (the python case's replay
@@ -223,14 +239,34 @@ func hlModes(term *vt.Terminal) map[string]any {
 		"mouse_encoding": term.MouseService().ActiveEncoding()}
 }
 
-// checkHeadless compares a Read of term with a headless final state: grid
-// rows (trimmed), cursor (clamped as Read does), the active buffer, on the
-// normal buffer the whole history through a scrollback read, the attrs runs,
-// the modes and the title (headless null, no title event, reads as vt's "").
+// hlLines is replay.js's translateToString(true) over lines [from, to) of
+// buf: xterm trims only never-written cells, so written spaces stay.
+func hlLines(buf *vt.Buffer, from, to int) []string {
+	out := []string{}
+	for y := from; y < to; y++ {
+		s := ""
+		if l := buf.Lines.Get(y); l != nil {
+			s = l.TranslateToString(true, 0, -1)
+		}
+		out = append(out, s)
+	}
+	return out
+}
+
+// checkHeadless compares term with a headless final state: the grid rows as
+// xterm gives them (vt's translateToString) and as Read gives them (Trimmed,
+// against the headless rows space-trimmed), the cursor (clamped as Read
+// does), the active buffer, on the normal buffer the whole history (vt's
+// lines and a scrollback Read), the attrs runs, the modes and the title
+// (headless null, no title event, reads as vt's "").
 func checkHeadless(term *vt.Terminal, want hlState) error {
 	f := Read(term, Request{})
-	if got := strings.Join(f.Trimmed(), "\n"); got != strings.Join(want.Rows, "\n") {
-		return fmt.Errorf("rows %q, headless %q", f.Trimmed(), want.Rows)
+	b := term.Buffer()
+	if got := hlLines(b, b.YBase, b.YBase+f.Rows); !reflect.DeepEqual(got, want.Rows) {
+		return fmt.Errorf("rows %q, headless %q", got, want.Rows)
+	}
+	if got := strings.Join(f.Trimmed(), "\n"); got != trimAll(want.Rows) {
+		return fmt.Errorf("Read rows %q, headless %q", f.Trimmed(), want.Rows)
 	}
 	wc := Cursor{Row: clamp(want.Cursor.Row, 0, f.Rows-1), Col: clamp(want.Cursor.Col, 0, f.Cols-1)}
 	if *f.Cursor != wc {
@@ -242,8 +278,11 @@ func checkHeadless(term *vt.Terminal, want hlState) error {
 	if !f.AltScreen {
 		s := Read(term, Request{View: ViewScrollback, Lines: 1 << 30})
 		h := s.Trimmed()[:s.HistoryLines]
-		if s.HistoryLines != want.BaseY || strings.Join(h, "\n") != strings.Join(want.History, "\n") {
+		if s.HistoryLines != want.BaseY || strings.Join(h, "\n") != trimAll(want.History) {
 			return fmt.Errorf("history %d %q, headless base_y %d %q", s.HistoryLines, h, want.BaseY, want.History)
+		}
+		if got := hlLines(term.Buffers().Normal(), 0, s.HistoryLines); !reflect.DeepEqual(got, append([]string{}, want.History...)) {
+			return fmt.Errorf("history lines %q, headless %q", got, want.History)
 		}
 	}
 	if got := hlAttrs(term); !reflect.DeepEqual(normRuns(got), normRuns(want.Attrs)) {
@@ -278,25 +317,46 @@ func normRuns(rs []hlRun) []hlRun {
 // the reason. Each must still miss, so a fix shows up here.
 var knownHeadless = map[string]string{}
 
+// TestHeadlessVectors replays every A2b case (Studio's vectors/headless: the
+// A2a inputs through @xterm/headless 6.0.0) chunk by chunk and compares the
+// final state, and feeds every case's Python output bytes whole and compares
+// output_state (what the page shows for a pyte re-emit or a raw snapshot).
+// The sniffer families' files are sniff's (sniffData).
 func TestHeadlessVectors(t *testing.T) {
 	var report []string
-	known := 0
+	known, outOK, outN := 0, 0, 0
 	for _, fam := range []struct {
-		name string
-		want int
-	}{{"textgrid", 115}, {"hashes", 74}} {
+		name, dir string
+		want      int
+	}{{"textgrid", "", 115}, {"hashes", "", 74}, {"colours", "", 53}, {"pyte", "", 26}, {"raw", "", 32},
+		{"synthetic", sniffData, 57}, {"altscreen", sniffData, 118}, {"titles", sniffData, 80}} {
 		py := map[string]pyCase{}
-		for _, c := range loadPython(t, "python/"+fam.name+".json") {
+		for _, c := range loadPython(t, fam.dir+"python/"+fam.name+".json") {
 			py[c.ID] = c
 		}
 		var f struct {
 			Cases []hlCase `json:"cases"`
 		}
-		if err := json.Unmarshal(readVectors(t, "headless/"+fam.name+".json"), &f); err != nil {
+		if err := json.Unmarshal(readVectors(t, fam.dir+"headless/"+fam.name+".json"), &f); err != nil {
 			t.Fatal(err)
 		}
 		ok := 0
 		for _, c := range f.Cases {
+			if c.OutputState != nil {
+				outN++
+				out, isBytes := pyBytes(py[c.ID].Output)
+				if !isBytes {
+					t.Errorf("headless/%s %s: output_state but the python output is not bytes", fam.name, c.ID)
+				} else {
+					term := newTerm(c.Cols, c.Rows)
+					term.Write(out)
+					if err := checkHeadless(term, *c.OutputState); err != nil {
+						t.Errorf("headless/%s %s output_state: %v", fam.name, c.ID, err)
+					} else {
+						outOK++
+					}
+				}
+			}
 			err := checkHeadless(replayHeadless(t, c, py), c.Final)
 			if why, isKnown := knownHeadless[c.ID]; isKnown {
 				if err == nil {
@@ -319,5 +379,10 @@ func TestHeadlessVectors(t *testing.T) {
 	if known != len(knownHeadless) {
 		t.Errorf("%d known misses seen, %d listed", known, len(knownHeadless))
 	}
-	t.Logf("VECTORS headless %s (known misses %d, not counted as passes)", strings.Join(report, " "), known)
+	// divergence.json header "compared_with_output_state".
+	if outN != 115 {
+		t.Errorf("%d output_state cases, want 115", outN)
+	}
+	t.Logf("VECTORS headless %s output_state %d/%d (known misses %d, not counted as passes)",
+		strings.Join(report, " "), outOK, outN, known)
 }
