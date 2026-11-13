@@ -9,7 +9,7 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 | path | what |
 |---|---|
 | `vt/` | the terminal engine: a fork of github.com/0magnet/xterm-go `vt/` (a Go port of xterm.js 6.0.0), see `vt/UPSTREAM` |
-| `screen/` | Studio's typed read of a `vt` terminal: grid, cursor, modes, attribute runs, hashes, deltas, scrollback caps (below) |
+| `screen/` | Studio's typed read of a `vt` terminal: grid, cursor, modes, title, attribute runs, hashes, deltas, scrollback caps; the safe `Instance` and `Restore` (below) |
 | `sniff/` | the mode and title sniffer and the snapshot postamble (below) |
 | `conformance/` | the conformance suite: cases, xterm-headless goldens, the Go runner and CLI (see its README) |
 | `conformance/goterm/` | the runner adapter for `vt/` and the gate test (`TestGateXcur`) |
@@ -43,6 +43,7 @@ t, err := screen.NewTerminal(80, 24, screen.Config{})       // history: min(1000
 f := screen.Read(t, screen.Request{View: screen.ViewScreen, Attrs: true})
 f.Text(); f.Lines; f.Cols; f.Rows; f.Cursor; f.CursorHidden  // Lines padded to cols; Trimmed() trims them
 f.AltScreen; f.AppCursor; f.View; f.HistoryLines; f.AttrRuns; f.ContentHash; f.StableHash
+f.BracketedPaste; f.MouseTrack; f.MouseEnc; f.Title; f.Modes() // modes as sniff.Modes; the last OSC 0/2 title
 cache := screen.NewFrameCache()                               // one per terminal: the last 16 frames
 changed, delta := cache.Delta(&f, since, degraded)            // delta: send changed rows only, text ""
 err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the history cap
@@ -87,7 +88,8 @@ err = i.Err()                                                 // nil, or ErrFail
 - **Panics**: a panic during a call fails that instance only: every later call returns `ErrFailed` wrapping the panic
   (the call that panicked also gets the stack). vt's state may be torn, so the instance is not reused; other instances
   are unaffected.
-- **Callbacks**: an Instance sets none of vt's callbacks (replies and title are the sniffer's). Any callback added later
+- **Callbacks**: an Instance sets none of vt's callbacks: replies are not exposed, and modes and title are read from vt's
+  state into the `Frame`. Any callback added later
   runs inside `Write`, under the instance's lock, and must not call the Instance (it would deadlock).
 - **Repeat counts**: a CSI count is capped at 2^31-1. CHT and CBT stop at a tab stop that no longer moves; IL, DL, SU
   and SD stop at the scroll region's height; REP keeps its count past a full buffer modulo one line. None of these
@@ -96,6 +98,38 @@ err = i.Err()                                                 // nil, or ErrFail
   units, 4 MiB as runes) is dropped whole, where xterm.js keeps up to 10,000,000. 64 MiB of an unterminated string
   peaks at about 4.4 MiB of heap. At the largest size, 2000x1000 with both screens and the history full, an instance
   holds about 55 MiB.
+
+### Restore
+
+`screen.Restore` rebuilds an instance by re-feeding Studio's ring of raw pty output with the mode and title state the
+agent's sniffer reported for the whole stream, so a mode set that scrolled out of the ring is still restored.
+
+```go
+i, err := screen.Restore(screen.Snapshot{
+	Version: screen.SnapshotVersion,                          // 1; any other version is an error
+	Cols: 80, Rows: 24,                                       // New's limits
+	Modes: s.Modes(), Title: title, TitleSet: ok,             // the sniffer's report (s.Title())
+	Ring: ring,                                               // as Studio holds it
+}, screen.Config{})
+b := screen.ReplayBytes(m, ring)                              // what Restore writes
+```
+
+- **What is fed**: `screen.Preamble` (`ESC[0m ESC[2J ESC[H`, Studio's raw snapshot preamble: no hard reset, no
+  `ESC[3J`), the ring, then `sniff.Postamble(m)` (bracketed paste, DECCKM, the mouse groups reset-then-set). The ring is
+  not trimmed and queries are not stripped: that is Studio's, and a restored instance answers nothing (no callbacks).
+- **Alt screen**: the postamble does not carry it, so `Restore` aligns it only when the replay disagrees with
+  `Modes.Alt`. Reported but not reached (the switch scrolled out: the whole ring was drawn on the alt screen), the replay
+  is fed again to a new instance after `CSI ? 1049 h`; reached but not reported, `CSI ? 1049 l` follows. A replay that
+  agrees is kept as is: `CSI ? 1049 h` on the alt screen does not clear it, so a blind prefix would leave the ring's
+  output from before its own switch on the alt grid. A ring that leaves the alt screen although `Alt` is reported gets
+  `CSI ? 1049 h` last, an empty alt grid.
+- **Title**: when `TitleSet`, the injected title replaces the ring's. The sniffer cuts a title to its `TitleMax` (1024
+  bytes by default), so a longer title restores cut where the fed instance has it whole: a documented difference.
+- **Round trip**: a stream fed to one instance and restored from the same bytes with its sniffed state read the same
+  (lines with history, cursor, attribute runs, hashes, modes, title); an empty ring and a ring cut at any byte at
+  either end restore without error and report the injected modes (`TestRestoreRoundTrip`).
+- **Format**: `Snapshot` is a Go value, versioned by `SnapshotVersion`; go-term defines no byte encoding and never uses
+  xterm.js's serialize addon format. Studio owns the wire form.
 
 ## sniff
 

@@ -19,7 +19,8 @@
 5. **Panics fail the instance** (R08): `recover` under the lock. `ErrFailed` with the panic is sticky, since vt's
    state may be torn mid-write; the call that panicked also gets the stack. vt callbacks would run under the lock and
    must not call the Instance.
-6. **Replies and title are not exposed** (Q6): the sniffer owns modes and title for Studio.
+6. **Replies and title are not exposed** (Q6): the sniffer owns modes and title for Studio. Superseded in part by #8
+   (0006): `Frame` now reads the title and all five modes from vt's state; replies stay unexposed.
 
 ## Known difference kept (Q7, manager ruling)
 vt ports xterm.js's `Utf8ToUtf32` as is: a held continuation byte `0x80` reads as the end of the held bytes, so a write
