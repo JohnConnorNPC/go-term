@@ -91,8 +91,14 @@ func TestRestoreBasic(t *testing.T) {
 	// Alt not reported but the ring ends on the alt buffer: 1049l follows,
 	// the normal grid shows.
 	f, got = readTrimmed(t, restore(t, Snapshot{Ring: ring}))
-	if f.AltScreen || got != "pre||" {
-		t.Errorf("alt off: alt %v grid %q", f.AltScreen, got)
+	if f.AltScreen || got != "pre||" || *f.Cursor != (Cursor{Row: 0, Col: 3}) {
+		t.Errorf("alt off: alt %v grid %q cursor %+v, want the cursor ?1049h saved", f.AltScreen, got, *f.Cursor)
+	}
+	if _, err := ref.Write([]byte(altOff)); err != nil {
+		t.Fatal(err)
+	}
+	if fr, wantOff := readTrimmed(t, ref); got != wantOff || *f.Cursor != *fr.Cursor {
+		t.Errorf("alt off: grid %q cursor %+v, plain feed + ?1049l %q %+v", got, *f.Cursor, wantOff, *fr.Cursor)
 	}
 
 	// Alt reported but the ring leaves the alt buffer itself: alt is entered
