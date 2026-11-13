@@ -1,3 +1,3 @@
 module github.com/JohnConnorNPC/go-term
 
-go 1.22
+go 1.24
