@@ -50,6 +50,9 @@ if (arg('--merge') !== null) {
   }
   const want = all.map((f) => f.replace(/\.json$/, ''));
   if (JSON.stringify(Object.keys(m.cases).sort()) !== JSON.stringify(want)) fail('shards do not cover the cases exactly');
+  // The runner reads every golden under golden/xcur: one left from an earlier run in this root would be scored too.
+  const have = readdirSync(root + 'golden/' + REF, { recursive: true }).filter((f) => f.endsWith('.json')).sort();
+  if (JSON.stringify(have) !== JSON.stringify(all)) fail(`golden/${REF} holds other goldens than the cases: shard into a fresh root`);
   m.sensitive.sort();
   m.cases = Object.fromEntries(Object.keys(m.cases).sort().map((k) => [k, m.cases[k]])); // as an unsharded run lists them
   writeFileSync(root + 'golden/manifest.json', manifest(m));

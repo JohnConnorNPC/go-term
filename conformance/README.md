@@ -72,7 +72,9 @@ A differential fuzz against `@xterm/headless` 6.0.0 through this harness: `cmd/f
 random cases (geometry 2..60 x 1..20, scrollback 50, writes of ASCII, UTF-8 incl. wide/combining/ZWJ/invalid, C0, CSI, SGR,
 DECSET, OSC, DCS, APC and ESC tokens, rare resize and reset; the same seed writes the same files) plus byte copies of
 `probes.json` and `gen/pins.json`; `gen/fuzz.mjs --root DIR [--shard I/N | --merge N]` records xcur goldens for them
-(gen.mjs's per-case body, no noop check); `conformance -root DIR -engine goterm -fuzz` scores them. `-fuzz` also scores
+(gen.mjs's per-case body for xcur only: no x53 run, no noop check, no diff.json, no staging dir, a manifest without
+gen.mjs's own shas; `--merge` refuses a root whose `golden/xcur` holds goldens of other cases, so shard into a fresh root);
+`conformance -root DIR -engine goterm -fuzz` scores them. `-fuzz` also scores
 the split variants headless itself is sensitive to, against the whole-write golden (go-term decodes UTF-8 the same at
 every cut, #14), so nothing is skipped, and it drops the per-category minimums; its last line is
 `TOTAL <pass>/<cases> PASS|FAIL hsens=<variants scored that headless gets wrong>`. The default CLI and the gate still skip
