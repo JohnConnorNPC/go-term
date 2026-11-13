@@ -27,4 +27,5 @@ instance fed the stream has it whole.
 
 ## Tests
 `TestReadModes` (every mode against the sniffer, step by step), `TestRestoreBasic`, `TestReplayBytes` (all 60 rows of
-`sniff/testdata/postamble.json`), `TestRestoreRoundTrip` (13 streams; empty rings; every head and tail cut).
+`sniff/testdata/postamble.json`), `TestRestoreRoundTrip` (13 streams; empty rings for all 120 mode sets; every head and
+tail cut, with and without an injected title), `TestRestoreLongTitle` (the TitleMax cut, 1024 and 1023 bytes).

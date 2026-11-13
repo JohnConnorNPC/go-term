@@ -62,7 +62,8 @@ type Frame struct {
 	// default, 1006 or 1016), numbered as sniff.Modes; Modes gives all five.
 	BracketedPaste       bool
 	MouseTrack, MouseEnc int
-	// Title is the window title the last OSC 0 or 2 set; "" when none did.
+	// Title is vt's window title: what the last OSC 0 or 2, or a title-stack
+	// pop (CSI 23 t), set; "" when none did.
 	Title string
 	// HistoryLines is how many of Lines are history rows.
 	HistoryLines int

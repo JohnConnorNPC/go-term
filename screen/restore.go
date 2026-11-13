@@ -69,7 +69,8 @@ const altOn, altOff = "\x1b[?1049h", "\x1b[?1049l"
 // changed: CSI ? 1049 h on the alt buffer does not clear it, so a blind
 // prefix would leave the ring's pre-switch output on the alt grid. A ring
 // that contradicts s.Modes.Alt even so (it leaves the alt buffer itself) gets
-// CSI ? 1049 h last, an empty alt grid. An error from New or a failed instance (ErrFailed) gives no instance.
+// CSI ? 1049 h last, an empty alt grid. An error from New or a failed
+// instance (ErrFailed) gives no instance.
 func Restore(s Snapshot, c Config) (*Instance, error) {
 	if s.Version != SnapshotVersion {
 		return nil, fmt.Errorf("screen: snapshot version %d, want %d", s.Version, SnapshotVersion)

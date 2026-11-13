@@ -244,11 +244,13 @@ func TestRestoreRoundTrip(t *testing.T) {
 	}
 
 	// An empty ring, for every mode combination.
-	for _, alt := range []bool{false, true} {
+	for bits := 0; bits < 8; bits++ {
 		for _, track := range []int{0, 9, 1000, 1002, 1003} {
 			for _, enc := range []int{0, 1006, 1016} {
-				m := sniff.Modes{Alt: alt, DECCKM: track == 1000, BracketedPaste: enc == 1006, MouseTrack: track, MouseEnc: enc}
-				checkUsable(t, fmt.Sprintf("empty %+v", m), Snapshot{Version: SnapshotVersion, Cols: 20, Rows: 6, Modes: m, Title: "x", TitleSet: true})
+				m := sniff.Modes{Alt: bits&1 != 0, DECCKM: bits&2 != 0, BracketedPaste: bits&4 != 0,
+					MouseTrack: track, MouseEnc: enc}
+				checkUsable(t, fmt.Sprintf("empty %+v", m),
+					Snapshot{Version: SnapshotVersion, Cols: 20, Rows: 6, Modes: m, Title: "x", TitleSet: true})
 				cuts++
 			}
 		}
