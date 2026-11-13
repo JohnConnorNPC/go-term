@@ -19,7 +19,7 @@ func CLI(args []string, stdout io.Writer, factories map[string]Factory) int {
 	fs := flag.NewFlagSet("conformance", flag.ContinueOnError)
 	root := fs.String("root", "conformance", "the conformance directory (cases/, golden/, probes.json)")
 	engine := fs.String("engine", "stub", "engine to score: "+strings.Join(append(Engines(), "oracle"), ", "))
-	ref := fs.String("ref", "x53", "golden set: x53 (xterm-headless@5.3.0) or xcur (@xterm/headless latest)")
+	ref := fs.String("ref", "xcur", "golden set: xcur (@xterm/headless@6.0.0, the gate) or x53 (xterm-headless@5.3.0, reported)")
 	splits := fs.Bool("splits", true, "also score the chunk-split variants")
 	count := fs.Bool("count", false, "only check the per-category case counts")
 	if err := fs.Parse(args); err != nil {

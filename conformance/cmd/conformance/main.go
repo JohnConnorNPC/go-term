@@ -1,5 +1,6 @@
 // Command conformance scores a terminal engine against the xterm.js headless goldens.
 //
+//	go run ./conformance/cmd/conformance -engine goterm            (go-term's vt, against xcur)
 //	go run ./conformance/cmd/conformance -engine stub -ref x53
 //	go run ./conformance/cmd/conformance -count
 //
@@ -10,7 +11,10 @@ package main
 import (
 	"os"
 
+	"github.com/JohnConnorNPC/go-term/conformance/goterm"
 	"github.com/JohnConnorNPC/go-term/conformance/runner"
 )
 
-func main() { os.Exit(runner.CLI(os.Args[1:], os.Stdout, nil)) }
+func main() {
+	os.Exit(runner.CLI(os.Args[1:], os.Stdout, map[string]runner.Factory{"goterm": goterm.New}))
+}
