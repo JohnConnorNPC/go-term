@@ -36,16 +36,24 @@ type Snapshot struct {
 	Ring []byte
 }
 
-// ReplayBytes is what Restore writes: Preamble, ring, then
+// ReplayBytes is what Restore writes: Preamble, ring, Cancel, then
 // sniff.Postamble(m), which re-asserts bracketed paste, DECCKM and the mouse
 // modes after the ring.
 func ReplayBytes(m sniff.Modes, ring []byte) []byte {
 	pa := sniff.Postamble(m)
-	b := make([]byte, 0, len(Preamble)+len(ring)+len(pa))
+	b := make([]byte, 0, len(Preamble)+len(ring)+len(Cancel)+len(pa))
 	b = append(b, Preamble...)
 	b = append(b, ring...)
+	b = append(b, Cancel...)
 	return append(b, pa...)
 }
+
+// Cancel (CAN) separates the ring from the postamble. A ring cut inside a
+// sequence leaves it open; xterm.js abandons an open CSI, OSC, DCS or APC on
+// CAN without completing it, where the postamble's ESC would end an OSC
+// successfully and commit a fragment title. After a whole ring CAN does
+// nothing: no handler takes it.
+const Cancel = "\x18"
 
 // altOn and altOff switch to and from the alt buffer as Studio's programs do.
 const altOn, altOff = "\x1b[?1049h", "\x1b[?1049l"

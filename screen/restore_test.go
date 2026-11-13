@@ -110,7 +110,7 @@ func TestRestoreBasic(t *testing.T) {
 
 // TestReplayBytes: for every mode combination of the Python reference's
 // postamble (sniff/testdata/postamble.json), ReplayBytes is Preamble, the
-// ring, then exactly that row's bytes.
+// ring, CAN, then exactly that row's bytes.
 func TestReplayBytes(t *testing.T) {
 	b, err := os.ReadFile("../sniff/testdata/postamble.json")
 	if err != nil {
@@ -138,7 +138,7 @@ func TestReplayBytes(t *testing.T) {
 			t.Fatalf("row %+v: hex %v", r, err)
 		}
 		m := sniff.Modes{BracketedPaste: r.BracketedPaste, DECCKM: r.AppCursor, MouseTrack: r.MouseTracking, MouseEnc: r.MouseEncoding}
-		want := Preamble + string(ring) + string(pa)
+		want := Preamble + string(ring) + "\x18" + string(pa)
 		for _, alt := range []bool{false, true} { // the alt screen is not part of the postamble
 			m.Alt = alt
 			if got := string(ReplayBytes(m, ring)); got != want {
@@ -209,6 +209,9 @@ func TestRestoreRoundTrip(t *testing.T) {
 			for _, ring := range []string{s[k:], s[:k]} {
 				snap.Ring = []byte(ring)
 				checkUsable(t, fmt.Sprintf("%s cut %d %q", name, k, ring), snap)
+				noTitle := snap
+				noTitle.Title, noTitle.TitleSet = "", false
+				checkUsable(t, fmt.Sprintf("%s cut %d %q, no title", name, k, ring), noTitle)
 				cuts++
 			}
 		}
@@ -247,17 +250,26 @@ func TestRestoreRoundTrip(t *testing.T) {
 	t.Logf("restore: %d streams, %d cuts and empty rings", len(streams), cuts)
 }
 
-// checkUsable restores snap, which must give its modes and title and then
-// show further output.
+// checkUsable restores snap, which must give its modes and its title, or
+// without one the title of the ring fed alone (a sequence the ring was cut in
+// commits no fragment), and then show further output.
 func checkUsable(t *testing.T, name string, snap Snapshot) {
 	t.Helper()
 	i, err := Restore(snap, Config{})
 	if err != nil {
 		t.Fatalf("%s: %v", name, err)
 	}
+	want := snap.Title
+	if !snap.TitleSet {
+		plain, _ := New(snap.Cols, snap.Rows, Config{})
+		if _, err := plain.Write(snap.Ring); err != nil {
+			t.Fatal(err)
+		}
+		want = readAll(t, plain).Title
+	}
 	f := readAll(t, i)
-	if f.Modes() != snap.Modes || (snap.TitleSet && f.Title != snap.Title) {
-		t.Errorf("%s: modes %+v title %q, want %+v %q", name, f.Modes(), f.Title, snap.Modes, snap.Title)
+	if f.Modes() != snap.Modes || f.Title != want {
+		t.Errorf("%s: modes %+v title %q, want %+v %q", name, f.Modes(), f.Title, snap.Modes, want)
 	}
 	if _, err := i.Write([]byte("\x1b[2J\x1b[Hok")); err != nil {
 		t.Fatalf("%s: %v", name, err)

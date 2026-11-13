@@ -115,7 +115,9 @@ b := screen.ReplayBytes(m, ring)                              // what Restore wr
 ```
 
 - **What is fed**: `screen.Preamble` (`ESC[0m ESC[2J ESC[H`, Studio's raw snapshot preamble: no hard reset, no
-  `ESC[3J`), the ring, then `sniff.Postamble(m)` (bracketed paste, DECCKM, the mouse groups reset-then-set). The ring is
+  `ESC[3J`), the ring, `screen.Cancel` (CAN), then `sniff.Postamble(m)` (bracketed paste, DECCKM, the mouse groups
+  reset-then-set). CAN abandons a CSI, OSC, DCS or APC the ring was cut in, as xterm.js does, so the postamble's ESC
+  does not complete it (a cut OSC title is not committed); after a whole ring it does nothing. The ring is
   not trimmed and queries are not stripped: that is Studio's, and a restored instance answers nothing (no callbacks).
 - **Alt screen**: the postamble does not carry it, so `Restore` aligns it only when the replay disagrees with
   `Modes.Alt`. Reported but not reached (the switch scrolled out: the whole ring was drawn on the alt screen), the replay
@@ -127,7 +129,8 @@ b := screen.ReplayBytes(m, ring)                              // what Restore wr
   bytes by default), so a longer title restores cut where the fed instance has it whole: a documented difference.
 - **Round trip**: a stream fed to one instance and restored from the same bytes with its sniffed state read the same
   (lines with history, cursor, attribute runs, hashes, modes, title); an empty ring and a ring cut at any byte at
-  either end restore without error and report the injected modes (`TestRestoreRoundTrip`).
+  either end restore without error, report the injected modes and, with no injected title, the title of the ring
+  alone (no fragment) (`TestRestoreRoundTrip`).
 - **Format**: `Snapshot` is a Go value, versioned by `SnapshotVersion`; go-term defines no byte encoding and never uses
   xterm.js's serialize addon format. Studio owns the wire form.
 

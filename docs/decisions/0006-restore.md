@@ -2,8 +2,10 @@
 
 ## Decision
 1. **Restore re-feeds bytes** (R15, Studio SA1 Q4): a new instance is fed `Preamble` (Studio's raw snapshot preamble,
-   `ESC[0m ESC[2J ESC[H`), the ring as Studio holds it, then `sniff.Postamble` of the agent-reported modes. The
+   `ESC[0m ESC[2J ESC[H`), the ring as Studio holds it, CAN, then `sniff.Postamble` of the agent-reported modes. The
    reported state is the sniffer's view of the whole stream, so a mode set that scrolled out of the ring survives.
+   CAN (review round 1, S2) abandons a sequence the ring was cut in, as xterm.js does: without it the postamble's ESC
+   would end a cut OSC successfully and commit a fragment title. No handler takes CAN, so a whole ring is unchanged.
 2. **No trim, no strip** (rulings Q1): Studio owns the ring and its raw snapshot (`raw.py`'s replay from the last clear,
    resync after an evicted head, the DA/DSR/OSC 52 strip). Trimming here would drop history and break the round trip.
    A restored instance sets no callbacks, so queries in the ring are answered to nobody.
