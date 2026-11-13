@@ -71,6 +71,8 @@ type pyCase struct {
 	Args   json.RawMessage `json:"args"`
 	Output json.RawMessage `json:"output"`
 	Replay json.RawMessage `json:"replay"` // {chunks_b64, cols, rows, ...}; headless input_sha256 is its sha256
+	// Ops are a stream case's [method, args, result, state after] (the sniffers).
+	Ops [][4]json.RawMessage `json:"ops"`
 }
 
 func loadPython(t *testing.T, name string) []pyCase {

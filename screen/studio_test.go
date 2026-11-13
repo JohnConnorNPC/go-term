@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"sort"
 	"strings"
 	"testing"
@@ -257,4 +258,227 @@ func TestPythonTextgrid(t *testing.T) {
 	t.Logf("PYTHON screens render %d render_screen %d _render_screen_text %d: %d match, %d differ (= divergence.json %d); %d digest",
 		compared["textgrid.render"], compared["textgrid.render_screen"], compared["hashes._render_screen_text"],
 		n-len(diff), len(diff), len(listed), len(digests))
+}
+
+// sniffDiff replays a Python sniffer case (altscreen.DecModeSniffer,
+// AltScreenSniffer, titles.OscTitleSniffer) through package sniff op by op,
+// as sniff's own vector test does, and returns the differing field ("modes"
+// or "title") or "" when every op agrees. TitleMax is 4096, the Python
+// payload cap (sniff's maxPayload), so no Python title is cut.
+func sniffDiff(t *testing.T, c pyCase) string {
+	t.Helper()
+	s := sniff.New(sniff.Options{TitleMax: 4096})
+	want, have := "", false
+	if len(c.Ops) == 0 {
+		t.Fatalf("%s: no ops", c.ID)
+	}
+	for i, op := range c.Ops {
+		args, ok := pyDict(t, op[1])
+		if !ok || len(args) != 1 {
+			t.Fatalf("%s op %d: args %s", c.ID, i, op[1])
+		}
+		for _, v := range args {
+			b, isBytes := pyBytes(v)
+			if !isBytes {
+				t.Fatalf("%s op %d: chunk %s", c.ID, i, v)
+			}
+			s.Feed(b)
+		}
+		if c.Entry == "titles.OscTitleSniffer" {
+			var r *string
+			mustUnmarshal(t, op[2], &r)
+			if r != nil {
+				want, have = *r, true
+			}
+			if got, ok := s.Title(); got != want || ok != have {
+				return "title"
+			}
+			continue
+		}
+		st, ok := pyDict(t, op[3])
+		if !ok || len(st) != 5 {
+			t.Fatalf("%s op %d: state %s", c.ID, i, op[3])
+		}
+		var m sniff.Modes
+		mustUnmarshal(t, st["alt_screen"], &m.Alt)
+		mustUnmarshal(t, st["app_cursor"], &m.DECCKM)
+		mustUnmarshal(t, st["bracketed_paste"], &m.BracketedPaste)
+		mustUnmarshal(t, st["mouse_tracking"], &m.MouseTrack)
+		mustUnmarshal(t, st["mouse_encoding"], &m.MouseEnc)
+		if s.Modes() != m {
+			return "modes"
+		}
+	}
+	return ""
+}
+
+// studioEntries are the A2a producers with no go-term counterpart: Studio's
+// byte producers (raw snapshot, pyte re-emit, textgrid's trim), checked
+// through output_state where their output is bytes (#9 rulings-0 R2).
+var studioEntries = map[string]bool{"raw.render": true, "raw._trim": true, "pyte.render": true,
+	"pyte.emit_screen": true, "pyte._color_params": true, "textgrid._trim_for_screen": true}
+
+// TestStudioLedger gives every A2a case (Studio's vectors/python, 746) exactly
+// one disposition, each re-checked here:
+//   - GO: go-term reproduces Python's value (attr_runs, the hashes, the
+//     screen reads of TestPythonTextgrid, the sniffers through package sniff);
+//   - LISTED: go-term differs from Python, divergence.json lists the case
+//     against python with those fields, and go-term equals headless there;
+//   - STUDIO: a Studio producer (studioEntries); its bytes, when bytes, are fed
+//     to vt and equal headless's output_state;
+//   - UNCOMPARED: divergence.json header "uncompared", and pyte.available.
+//
+// Every A2b case passes outright (TestHeadlessVectors). go-term's own
+// difference from Studio's snapshot, the CAN byte, is TestRawReplay's.
+func TestStudioLedger(t *testing.T) {
+	div := loadDivergence(t)
+	uncompared := map[string]bool{}
+	for _, u := range div.Header.Uncompared {
+		uncompared[u.ID] = true
+	}
+	listed := map[string]string{}
+	for _, d := range div.Differ {
+		if d.Against != "python" {
+			continue
+		}
+		var fs []string
+		for f := range d.Fields {
+			fs = append(fs, f)
+		}
+		sort.Strings(fs)
+		listed[d.ID] = strings.Join(fs, ",")
+	}
+	screens, _, _ := pythonScreens(t)
+	disp := map[string]int{}
+	seen := map[string]bool{}
+	listedGO := 0
+	for _, fam := range []struct{ name, dir string }{{"textgrid", ""}, {"colours", ""}, {"hashes", ""}, {"pyte", ""},
+		{"raw", ""}, {"altscreen", sniffData}, {"synthetic", sniffData}, {"titles", sniffData}} {
+		py := map[string]pyCase{}
+		cases := loadPython(t, fam.dir+"python/"+fam.name+".json")
+		for _, c := range cases {
+			py[c.ID] = c
+		}
+		var hf struct {
+			Cases []hlCase `json:"cases"`
+		}
+		mustUnmarshal(t, readVectors(t, fam.dir+"headless/"+fam.name+".json"), &hf)
+		hl := map[string]hlCase{}
+		for _, c := range hf.Cases {
+			hl[c.ID] = c
+		}
+		for _, c := range cases {
+			key := fam.name + ":" + c.ID
+			seen[key] = true
+			var diff string // the fields go-term differs from Python in, "" for GO
+			switch {
+			case uncompared[key] || c.Entry == "pyte.available":
+				disp["UNCOMPARED"]++
+				continue
+			case studioEntries[c.Entry]:
+				out, isBytes := pyBytes(c.Output)
+				h, ok := hl[c.ID]
+				switch {
+				case !isBytes && c.Entry == "pyte._color_params":
+				case !isBytes:
+					t.Errorf("%s: %s output is not bytes and not uncompared", key, c.Entry)
+				case !ok || h.OutputState == nil:
+					t.Errorf("%s: no headless output_state", key)
+				default:
+					term := newTerm(h.Cols, h.Rows)
+					term.Write(out)
+					if err := checkHeadless(term, *h.OutputState); err != nil {
+						t.Errorf("%s output_state: %v", key, err)
+					}
+				}
+				disp["STUDIO"]++
+				continue
+			case c.Entry == "pyte.attr_runs":
+				got, want := runPyAttrRuns(t, c)
+				for i := range want {
+					if fam.name == "colours" && want[i].Bg == "bfightmagenta" { // colours.json's named exception
+						want[i].Bg = "brightmagenta"
+					}
+				}
+				if fmt.Sprint(got) != fmt.Sprint(want) {
+					diff = "attrs"
+				}
+			case c.Entry == "hashes._content_hash" || c.Entry == "hashes._stable_hash":
+				var want string
+				mustUnmarshal(t, c.Output, &want)
+				if pyHash(t, c) != want {
+					diff = "value"
+				}
+			case c.Entry == "textgrid.render" || c.Entry == "textgrid.render_screen" ||
+				c.Entry == "hashes._render_screen_text":
+				diff = strings.Join(sortedCopy(screens[key]), ",")
+			case c.Entry == "altscreen.DecModeSniffer" || c.Entry == "altscreen.AltScreenSniffer" ||
+				c.Entry == "titles.OscTitleSniffer":
+				diff = sniffDiff(t, c)
+			default:
+				t.Errorf("%s: entry %q has no disposition", key, c.Entry)
+				continue
+			}
+			if diff == "" {
+				// headless differs from Python here and go-term agrees with
+				// Python: only where go-term follows Python by design.
+				if listed[key] != "" {
+					switch {
+					case fam.name == "colours": // Colour maps xterm's palette to pyte's names (SA1 Q1)
+					case strings.HasPrefix(c.ID, "synthetic/") && strings.Contains(c.ID, "-cap#"): // sniff keeps Python's caps
+					default:
+						t.Errorf("%s: divergence.json lists %s, but go-term equals Python", key, listed[key])
+					}
+					listedGO++
+				}
+				disp["GO"]++
+				continue
+			}
+			h, ok := hl[c.ID]
+			switch {
+			case listed[key] == "":
+				t.Errorf("%s: go-term differs from Python in %s, not in divergence.json", key, diff)
+			case listed[key] != diff:
+				t.Errorf("%s: go-term differs from Python in %s, divergence.json lists %s", key, diff, listed[key])
+			case !ok:
+				t.Errorf("%s: listed, but no headless case", key)
+			default:
+				if err := checkHeadless(replayHeadless(t, h, py), h.Final); err != nil {
+					t.Errorf("%s: listed, but go-term differs from headless: %v", key, err)
+				}
+				if c.Entry == "titles.OscTitleSniffer" {
+					s := sniff.New(sniff.Options{TitleMax: 4096})
+					var r struct {
+						Chunks []string `json:"chunks_b64"`
+					}
+					mustUnmarshal(t, c.Replay, &r)
+					for _, ch := range r.Chunks {
+						b, _ := base64.StdEncoding.DecodeString(ch)
+						s.Feed(b)
+					}
+					if got, ok := s.Title(); h.Final.Title == nil || !ok || got != *h.Final.Title {
+						t.Errorf("%s: listed, but sniff's title %q differs from headless", key, got)
+					}
+				}
+			}
+			disp["LISTED"]++
+		}
+	}
+	for _, d := range div.Differ {
+		if !seen[d.ID] {
+			t.Errorf("divergence.json %s: no such A2a case", d.ID)
+		}
+	}
+	n := disp["GO"] + disp["LISTED"] + disp["STUDIO"] + disp["UNCOMPARED"]
+	if n != 746 || len(seen) != 746 {
+		t.Errorf("%d dispositions over %d cases, want 746", n, len(seen))
+	}
+	t.Logf("LEDGER a2a GO %d (%d listed, go-term follows Python) LISTED %d STUDIO %d UNCOMPARED %d = %d; a2b 555 (TestHeadlessVectors); list testdata/headless/divergence.json %.16s; divergences can-separator (TestRawReplay)",
+		disp["GO"], listedGO, disp["LISTED"], disp["STUDIO"], disp["UNCOMPARED"], n, vectorPins["headless/divergence.json"])
+}
+
+func sortedCopy(ss []string) []string {
+	out := append([]string(nil), ss...)
+	sort.Strings(out)
+	return out
 }

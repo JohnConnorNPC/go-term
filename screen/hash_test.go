@@ -60,6 +60,30 @@ func TestStableHash(t *testing.T) {
 // _stable_hash cases give byte-identical values through ContentHash and
 // StableHash (the definition is exact; SA1 Q2). Python's malformed cursors
 // ({} or a missing key) fall back to the content hash, as nil does here.
+// pyHash is go-term's value for a hashes._content_hash or _stable_hash case:
+// ContentHash(text), or StableHash(text, cursor, row_offset).
+func pyHash(t *testing.T, c pyCase) string {
+	t.Helper()
+	args, ok := pyDict(t, c.Args)
+	if !ok {
+		t.Fatalf("%s: args not a dict", c.ID)
+	}
+	var text string
+	mustUnmarshal(t, args["text"], &text)
+	if c.Entry == "hashes._content_hash" {
+		return ContentHash(text)
+	}
+	var off int
+	mustUnmarshal(t, args["row_offset"], &off)
+	var cur *Cursor
+	if d, ok := pyDict(t, args["cursor"]); ok && d["row"] != nil && d["col"] != nil {
+		cur = &Cursor{}
+		mustUnmarshal(t, d["row"], &cur.Row)
+		mustUnmarshal(t, d["col"], &cur.Col)
+	}
+	return StableHash(text, cur, off)
+}
+
 func TestPythonHashVectors(t *testing.T) {
 	var content, contentOK, stable, stableOK int
 	for _, c := range loadPython(t, "python/hashes.json") {
@@ -70,29 +94,12 @@ func TestPythonHashVectors(t *testing.T) {
 		default:
 			continue
 		}
-		args, ok := pyDict(t, c.Args)
-		if !ok {
-			t.Fatalf("%s: args not a dict", c.ID)
-		}
-		var text string
-		mustUnmarshal(t, args["text"], &text)
-		var got string
 		if c.Entry == "hashes._content_hash" {
 			content++
-			got = ContentHash(text)
 		} else {
 			stable++
-			var off int
-			mustUnmarshal(t, args["row_offset"], &off)
-			var cur *Cursor
-			if d, ok := pyDict(t, args["cursor"]); ok && d["row"] != nil && d["col"] != nil {
-				cur = &Cursor{}
-				mustUnmarshal(t, d["row"], &cur.Row)
-				mustUnmarshal(t, d["col"], &cur.Col)
-			}
-			got = StableHash(text, cur, off)
 		}
-		if got != want {
+		if got := pyHash(t, c); got != want {
 			t.Errorf("%s %s: %s, Python %s", c.ID, c.Entry, got, want)
 			continue
 		}
