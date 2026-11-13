@@ -3,6 +3,7 @@ package screen
 import (
 	"strings"
 
+	"github.com/JohnConnorNPC/go-term/sniff"
 	"github.com/JohnConnorNPC/go-term/vt"
 )
 
@@ -56,6 +57,13 @@ type Frame struct {
 	// AltScreen is true while the alt buffer is active; AppCursor is DECCKM
 	// (application cursor keys).
 	AltScreen, AppCursor bool
+	// BracketedPaste is mode 2004. MouseTrack is the mouse tracking mode (0
+	// off, 9, 1000, 1002 or 1003) and MouseEnc the report encoding (0 the
+	// default, 1006 or 1016), numbered as sniff.Modes; Modes gives all five.
+	BracketedPaste       bool
+	MouseTrack, MouseEnc int
+	// Title is the window title the last OSC 0 or 2 set; "" when none did.
+	Title string
 	// HistoryLines is how many of Lines are history rows.
 	HistoryLines int
 	// AttrRuns are AttrRuns(t, MaxAttrRuns): the styled runs of the grid rows
@@ -68,6 +76,20 @@ type Frame struct {
 	// StableHash(Text(), Cursor-as-rune-index, HistoryLines).
 	ContentHash, StableHash string
 }
+
+// Modes is the frame's DEC private-mode state in the sniff package's terms,
+// the state a restore re-asserts.
+func (f *Frame) Modes() sniff.Modes {
+	return sniff.Modes{Alt: f.AltScreen, DECCKM: f.AppCursor, BracketedPaste: f.BracketedPaste,
+		MouseTrack: f.MouseTrack, MouseEnc: f.MouseEnc}
+}
+
+// vt's mouse protocol and encoding names as DECSET numbers; any other name
+// (NONE, DEFAULT) is 0.
+var (
+	mouseTrackModes = map[string]int{"X10": 9, "VT200": 1000, "DRAG": 1002, "ANY": 1003}
+	mouseEncModes   = map[string]int{"SGR": 1006, "SGR_PIXELS": 1016}
+)
 
 // Text is Studio's text: Lines joined with "\n".
 func (f *Frame) Text() string { return strings.Join(f.Lines, "\n") }
@@ -83,7 +105,7 @@ func (f *Frame) Trimmed() []string {
 
 // Read reads t: the live screen of the active buffer at its base (not a
 // viewport the user scrolled), the cursor, the modes, history rows on
-// ViewScrollback, the hashes, and attribute runs when r.Attrs. It does not
+// ViewScrollback, the title, the hashes, and attribute runs when r.Attrs. It does not
 // lock t.
 func Read(t *vt.Terminal, r Request) Frame {
 	bufs := t.Buffers()
@@ -97,6 +119,11 @@ func Read(t *vt.Terminal, r Request) Frame {
 		CursorHidden: core.IsCursorHidden,
 		AltScreen:    active == bufs.Alt(),
 		AppCursor:    core.DecPrivateModes.ApplicationCursorKeys,
+
+		BracketedPaste: core.DecPrivateModes.BracketedPasteMode,
+		MouseTrack:     mouseTrackModes[t.MouseService().ActiveProtocol()],
+		MouseEnc:       mouseEncModes[t.MouseService().ActiveEncoding()],
+		Title:          t.InputHandler().WindowTitle(),
 	}
 	f.Cursor = &Cursor{Row: clamp(active.Y, 0, rows-1), Col: clamp(active.X, 0, cols-1)}
 	if r.View == ViewScrollback && !f.AltScreen {
