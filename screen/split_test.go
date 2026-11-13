@@ -39,6 +39,16 @@ func quirkCut(chunks []string) bool {
 	return false
 }
 
+// quirkVariants name the quirk stream's variants that differ, each a
+// quirkCut, with the character it cuts; no other variant is excused.
+var quirkVariants = map[string]string{
+	"at 3":     "U+2014 after E2 80",
+	"at 7":     "U+200B ZWSP after E2 80, headless wide/zwsp",
+	"at 15":    "U+200D ZWJ after E2 80, headless wide/zwj-family",
+	"at 24":    "U+20000 after F0 A0 80, headless wide/cjk-ext-b",
+	"bytewise": "all four cuts",
+}
+
 type splitState struct {
 	Frame          Frame
 	Title, Replies string
@@ -68,7 +78,9 @@ func feed(t *testing.T, chunks ...string) splitState {
 // TestInstanceSplit [#7]: each stream written whole and split at every offset
 // into two writes, and one byte per write, gives the same state: the frame
 // (history, grid, cursor, modes, attribute runs, hashes), the title and the
-// replies. The one exception is quirkCut, headless's own split sensitivity.
+// replies. The only exceptions are the quirk stream's quirkVariants,
+// headless's own split sensitivity; every other variant of it, and of every
+// other stream, must be equal.
 func TestInstanceSplit(t *testing.T) {
 	n, q := 0, 0
 	for name, s := range splitStreams {
@@ -83,10 +95,12 @@ func TestInstanceSplit(t *testing.T) {
 		}
 		variants["bytewise"] = bytes
 		for v, chunks := range variants {
-			if quirkCut(chunks) {
+			if why := quirkVariants[v]; name == "quirk" && why != "" {
 				q++
-				if reflect.DeepEqual(feed(t, chunks...), whole) {
-					t.Errorf("%s split %s: equal although quirkCut; vt no longer ports the quirk, drop the exception", name, v)
+				if !quirkCut(chunks) {
+					t.Errorf("quirk split %s (%s) is not a quirkCut", v, why)
+				} else if reflect.DeepEqual(feed(t, chunks...), whole) {
+					t.Errorf("quirk split %s (%s): equal; vt no longer ports the quirk, drop the exception", v, why)
 				}
 				continue
 			}
@@ -96,5 +110,5 @@ func TestInstanceSplit(t *testing.T) {
 			}
 		}
 	}
-	t.Logf("%d streams, %d split variants equal to the whole write, %d quirkCut variants differ", len(splitStreams), n, q)
+	t.Logf("%d streams, %d split variants equal to the whole write, %d named quirk variants differ", len(splitStreams), n, q)
 }
