@@ -4,7 +4,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -143,5 +145,124 @@ func TestReplayBytes(t *testing.T) {
 				t.Errorf("modes %+v: %q, want %q", m, got, want)
 			}
 		}
+	}
+}
+
+// restoreStreams are the split streams plus streams that set every mode the
+// postamble carries, on either buffer.
+func restoreStreams() map[string]string {
+	s := map[string]string{
+		"modes":    "\x1b[?2004h\x1b[?1h\x1b[?1002h\x1b[?1006hx\x1b]2;t\x07\x1b[1;32mgreen\x1b[0m",
+		"altmodes": "pre\x1b[?1049h\x1b[?1000h\x1b[?1016h\x1b]0;alt title\x1b\\\x1b[7malt\x1b[m text",
+		"mouseoff": "\x1b[?9h\x1b[?1006h\x1b[?1003l\x1b[?2004h\x1b[?2004l\x1b[?1h\x1b[!pdone",
+	}
+	for k, v := range splitStreams {
+		s[k] = v
+	}
+	return s
+}
+
+func sniffed(s string) (sniff.Modes, string, bool) {
+	sn := sniff.New(sniff.Options{})
+	sn.Feed([]byte(s))
+	title, ok := sn.Title()
+	return sn.Modes(), title, ok
+}
+
+func readAll(t *testing.T, i *Instance) Frame {
+	t.Helper()
+	f, err := i.Read(Request{View: ViewScrollback, Lines: 1 << 20, Attrs: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return f
+}
+
+// TestRestoreRoundTrip: a stream S fed to A, and B restored from S with the
+// modes and title the sniffer reports for S, read the same (lines with
+// history, cursor, attribute runs, hashes, modes, title). A ring that lost
+// the mode sets (scrolled out) still reports the injected modes. An empty
+// ring and every head and tail cut of each stream restore without error,
+// report the injected modes and take further output.
+func TestRestoreRoundTrip(t *testing.T) {
+	streams := restoreStreams()
+	cuts := 0
+	for name, s := range streams {
+		m, title, ok := sniffed(s)
+		a, _ := New(20, 6, Config{})
+		if _, err := a.Write([]byte(s)); err != nil {
+			t.Fatal(err)
+		}
+		snap := Snapshot{Version: SnapshotVersion, Cols: 20, Rows: 6, Modes: m, Title: title, TitleSet: ok, Ring: []byte(s)}
+		b, err := Restore(snap, Config{})
+		if err != nil {
+			t.Fatalf("%s: %v", name, err)
+		}
+		fa, fb := readAll(t, a), readAll(t, b)
+		if !reflect.DeepEqual(fa, fb) {
+			t.Errorf("%s: restored frame differs\n fed      %+v\n restored %+v", name, fa, fb)
+		}
+		if fb.Modes() != m {
+			t.Errorf("%s: modes %+v, sniffed %+v", name, fb.Modes(), m)
+		}
+		for k := 0; k <= len(s); k++ {
+			for _, ring := range []string{s[k:], s[:k]} {
+				snap.Ring = []byte(ring)
+				checkUsable(t, fmt.Sprintf("%s cut %d %q", name, k, ring), snap)
+				cuts++
+			}
+		}
+	}
+
+	// The mode sets are before the ring (scrolled out): only the injected
+	// state carries them.
+	gone := "\x1b[?2004h\x1b[?1h\x1b[?1003h\x1b[?1006h\x1b]2;gone\x07\x1b[?1049h"
+	for _, tail := range []string{"visible\r\nmore", "\x1b[?1049lnormal again"} {
+		m, title, ok := sniffed(gone + tail)
+		a, _ := New(20, 6, Config{})
+		if _, err := a.Write([]byte(gone + tail)); err != nil {
+			t.Fatal(err)
+		}
+		b, err := Restore(Snapshot{Version: SnapshotVersion, Cols: 20, Rows: 6, Modes: m, Title: title, TitleSet: ok, Ring: []byte(tail)}, Config{})
+		if err != nil {
+			t.Fatal(err)
+		}
+		fa, fb := readAll(t, a), readAll(t, b)
+		if fb.Modes() != m || fb.Modes() != fa.Modes() || fb.Title != "gone" || fb.Text() != fa.Text() {
+			t.Errorf("scrolled out %q: restored modes %+v title %q text %q; fed %+v %q %q",
+				tail, fb.Modes(), fb.Title, fb.Text(), fa.Modes(), fa.Title, fa.Text())
+		}
+	}
+
+	// An empty ring, for every mode combination.
+	for _, alt := range []bool{false, true} {
+		for _, track := range []int{0, 9, 1000, 1002, 1003} {
+			for _, enc := range []int{0, 1006, 1016} {
+				m := sniff.Modes{Alt: alt, DECCKM: track == 1000, BracketedPaste: enc == 1006, MouseTrack: track, MouseEnc: enc}
+				checkUsable(t, fmt.Sprintf("empty %+v", m), Snapshot{Version: SnapshotVersion, Cols: 20, Rows: 6, Modes: m, Title: "x", TitleSet: true})
+				cuts++
+			}
+		}
+	}
+	t.Logf("restore: %d streams, %d cuts and empty rings", len(streams), cuts)
+}
+
+// checkUsable restores snap, which must give its modes and title and then
+// show further output.
+func checkUsable(t *testing.T, name string, snap Snapshot) {
+	t.Helper()
+	i, err := Restore(snap, Config{})
+	if err != nil {
+		t.Fatalf("%s: %v", name, err)
+	}
+	f := readAll(t, i)
+	if f.Modes() != snap.Modes || (snap.TitleSet && f.Title != snap.Title) {
+		t.Errorf("%s: modes %+v title %q, want %+v %q", name, f.Modes(), f.Title, snap.Modes, snap.Title)
+	}
+	if _, err := i.Write([]byte("\x1b[2J\x1b[Hok")); err != nil {
+		t.Fatalf("%s: %v", name, err)
+	}
+	if f, err = i.Read(Request{}); err != nil || f.Trimmed()[0] != "ok" {
+		t.Errorf("%s: after restore, row 0 %q (%v)", name, f.Trimmed()[0], err)
 	}
 }
