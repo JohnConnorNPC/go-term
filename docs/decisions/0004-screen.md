@@ -18,6 +18,7 @@
    cpu detection): the newest x/crypto whose go.mod says go <= 1.24 (v0.49.0 needs 1.25). check.sh's deps step now
    requires exactly `scripts/deps.allow`, no replace, and `go mod verify`. `go get` wrote the go directive as
    `go 1.24.0`, the same floor as 0003's `go 1.24`.
+   Superseded by 0008 (#15, 2026-11-14): floor `go 1.27.0`, x/crypto v0.58.0 and x/sys v0.49.0, picked by 0008's rule.
 
 ## Known difference (fixed in #10)
 vt collected APC as an OSC string, so BEL ended it; in 6.0.0 APC is the SOS/PM/APC ignore state that only ST ends.

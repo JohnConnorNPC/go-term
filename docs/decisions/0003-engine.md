@@ -20,8 +20,11 @@ concern of 0002's facts no longer applies.
    nine behaviour bugs (origin-mode CPR, DECRC origin, scrollback 0, soft hyphen, U+FFFD split); magnet ports exactly
    6.0.0 and its licence is the xterm.js licence. Its upstream (one maintainer) matters less once the code is ours.
 3. **Go floor = 1.24** (go.mod `go 1.24`; vt needs 1.24).
+   Superseded by 0008 (#15, 2026-11-14): the floor is `go 1.27.0`, CI runs 1.27.x.
 4. **conformance/candidates stays frozen** as the #2 record: its equivalence table (including M7/M9), scores and
    record-check are not edited or re-scored. The in-tree adapter (conformance/goterm) reads vt natively, with no table.
+   Amended by 0008 (#15): its go.mod go line and x/sys line (with go.sum, mods.seed) follow the root's; the record
+   itself is unchanged.
 
 ## Result
 `go test -run TestGateXcur ./conformance/goterm/` → `GATE goterm xcur 314/314`; the CLI
