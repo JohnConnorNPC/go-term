@@ -34,7 +34,10 @@ func TestInstanceConcurrent(t *testing.T) {
 					t.Errorf("torn frame: %d lines, %dx%d, %d history, cursor %v", len(f.Lines), f.Cols, f.Rows, f.HistoryLines, *f.Cursor)
 					return
 				}
-				i.Delta(&f, since, false)
+				if _, _, err := i.Delta(&f, since, false); err != nil {
+					t.Error(err)
+					return
+				}
 				since = f.ContentHash
 				reads.Add(1)
 			}

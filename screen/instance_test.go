@@ -2,6 +2,7 @@ package screen
 
 import (
 	"errors"
+	"strings"
 	"testing"
 
 	"github.com/JohnConnorNPC/go-term/vt"
@@ -47,10 +48,10 @@ func TestInstanceWriteRead(t *testing.T) {
 	if err != nil || f.Trimmed()[0] != "hellobold" || len(f.AttrRuns) != 1 {
 		t.Fatalf("Read = %q, %d runs, %v", f.Trimmed()[0], len(f.AttrRuns), err)
 	}
-	if _, delta := i.Delta(&f, "", false); delta {
+	if _, delta, _ := i.Delta(&f, "", false); delta {
 		t.Errorf("delta with no since")
 	}
-	if changed, delta := i.Delta(&f, f.ContentHash, false); !delta || len(changed) != 0 {
+	if changed, delta, err := i.Delta(&f, f.ContentHash, false); !delta || len(changed) != 0 || err != nil {
 		t.Errorf("delta against itself: %v %v", changed, delta)
 	}
 	for _, s := range [][2]int{{0, 5}, {2001, 5}, {100, 1001}} {
@@ -100,9 +101,22 @@ func TestInstancePanic(t *testing.T) {
 		t.Errorf("second instance: %q, %v", f.Trimmed()[0], err)
 	}
 
-	torn, _ := New(80, 24, Config{})
-	torn.t = nil
-	if _, err := torn.Read(Request{}); !errors.Is(err, ErrFailed) {
-		t.Errorf("Read of a torn terminal: %v", err)
+	if err := bad.Err(); strings.Contains(err.Error(), "goroutine") {
+		t.Errorf("the sticky error repeats the stack: %v", err)
+	}
+
+	for name, call := range map[string]func(*Instance) error{
+		"Read":   func(i *Instance) error { _, err := i.Read(Request{}); return err },
+		"Resize": func(i *Instance) error { return i.Resize(10, 10) },
+		"Delta":  func(i *Instance) error { _, _, err := i.Delta(nil, "", false); return err },
+	} {
+		torn, _ := New(80, 24, Config{})
+		torn.t = nil // a torn terminal; Delta panics on the nil frame
+		if err := call(torn); !errors.Is(err, ErrFailed) || !strings.Contains(err.Error(), "goroutine") {
+			t.Errorf("%s of a torn instance: %v", name, err)
+		}
+		if _, err := torn.Write([]byte("x")); !errors.Is(err, ErrFailed) {
+			t.Errorf("Write after a failed %s: %v", name, err)
+		}
 	}
 }

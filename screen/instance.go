@@ -20,9 +20,9 @@ const (
 )
 
 // ErrFailed is what every call of an instance returns, wrapped with the
-// panic and its stack, once a panic in vt during one of them failed it: vt's
-// state may be torn, so the instance takes no more writes or reads. Other
-// instances are unaffected.
+// panic, once a panic during one of them failed it: vt's state may be torn, so
+// the instance takes no more calls. The call that panicked also gets the
+// stack. Other instances are unaffected.
 var ErrFailed = errors.New("screen: instance failed")
 
 // Instance is a terminal safe to use from several goroutines in a server:
@@ -66,8 +66,8 @@ func (i *Instance) do(f func()) (err error) {
 	}
 	defer func() {
 		if r := recover(); r != nil {
-			i.err = fmt.Errorf("%w: panic: %v\n%s", ErrFailed, r, debug.Stack())
-			err = i.err
+			i.err = fmt.Errorf("%w: panic: %v", ErrFailed, r)
+			err = fmt.Errorf("%w\n%s", i.err, debug.Stack())
 		}
 	}()
 	f()
@@ -103,9 +103,11 @@ func (i *Instance) Read(r Request) (Frame, error) {
 }
 
 // Delta is the instance's own FrameCache.Delta: f should be a Read of this
-// instance.
-func (i *Instance) Delta(f *Frame, since string, degraded bool) ([]ChangedRow, bool) {
-	return i.cache.Delta(f, since, degraded)
+// instance. Like every call it fails on a failed instance, and a panic in it
+// fails the instance.
+func (i *Instance) Delta(f *Frame, since string, degraded bool) (changed []ChangedRow, delta bool, err error) {
+	err = i.do(func() { changed, delta = i.cache.Delta(f, since, degraded) })
+	return changed, delta, err
 }
 
 // Err is nil, or the ErrFailed error every call returns once the instance
