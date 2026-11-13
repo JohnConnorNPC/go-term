@@ -29,7 +29,8 @@ func (v View) String() string {
 // Request selects what Read returns.
 type Request struct {
 	View  View
-	Lines int // history rows wanted on ViewScrollback; <= 0 gives none
+	Lines int  // history rows wanted on ViewScrollback; <= 0 gives none
+	Attrs bool // fill Frame.AttrRuns (grid rows only, also on ViewScrollback)
 }
 
 // Frame is one typed read of a terminal: Studio's screen_text fields.
@@ -57,6 +58,9 @@ type Frame struct {
 	AltScreen, AppCursor bool
 	// HistoryLines is how many of Lines are history rows.
 	HistoryLines int
+	// AttrRuns are AttrRuns(t, MaxAttrRuns): the styled runs of the grid rows
+	// (Row is a grid row, history is never styled); nil unless Request.Attrs.
+	AttrRuns []AttrRun
 	// ContentHash is ContentHash(Text()). StableHash is the same text with the
 	// cursor's glyph replaced by one NUL: the glyph whose cells cover the
 	// cursor cell (a wide glyph covers 2 cells, a combining sequence is all
@@ -79,7 +83,8 @@ func (f *Frame) Trimmed() []string {
 
 // Read reads t: the live screen of the active buffer at its base (not a
 // viewport the user scrolled), the cursor, the modes, history rows on
-// ViewScrollback, and the hashes. It does not lock t.
+// ViewScrollback, the hashes, and attribute runs when r.Attrs. It does not
+// lock t.
 func Read(t *vt.Terminal, r Request) Frame {
 	bufs := t.Buffers()
 	active := bufs.Active()
@@ -121,6 +126,9 @@ func Read(t *vt.Terminal, r Request) Frame {
 	f.StableHash = f.ContentHash
 	if maskRowIdx >= 0 {
 		f.StableHash = ContentHash(maskRow(f.Lines, maskRowIdx, maskStart, maskEnd))
+	}
+	if r.Attrs {
+		f.AttrRuns = AttrRuns(t, MaxAttrRuns)
 	}
 	return f
 }

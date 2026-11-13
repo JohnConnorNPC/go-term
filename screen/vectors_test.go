@@ -14,7 +14,9 @@ import (
 // browserland-studio vectors/ (commit b6053e0) into testdata/. The headless
 // files' headers carry the sha256 of the python file each was replayed from.
 var vectorPins = map[string]string{
+	"python/colours.json":    "6c4638852b1fecbd58decc47742cfd545db50b61232c0764d6439a086593266f",
 	"python/hashes.json":     "cc87245017305fdcf6005f6da0df0e77e590ecb5996427542fab587a7573e1df",
+	"python/pyte.json":       "7a4e88416b06d85090c9be5084cc1dd2ab15bbb74540f04bc040682364814fce",
 	"python/textgrid.json":   "349ab3f09955c1978feeec4aad9a2d76ed316ffe0878972c5777bad372512dbd",
 	"headless/hashes.json":   "b71eb62c0b898757ef24b320fe99f043ccc839e692c7aa2decca281e334a2f69",
 	"headless/textgrid.json": "ff63f85b45da7a0dcf80b6101cba5018a8fc76b6e467e58635ebb8c9e2097ad5",
