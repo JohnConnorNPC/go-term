@@ -23,16 +23,20 @@ const (
 )
 
 // Result is one case's score; Diff is the first mismatch. Skipped names the split variants not scored because headless
-// itself is sensitive to them (S2): they are reported, never a silent PASS.
+// itself is sensitive to them (S2): they are reported, never a silent PASS. Rescored names those same variants when
+// Options.ScoreSensitive scored them instead.
 type Result struct {
 	ID, Category string
 	Status       Status
 	Diff         string
 	Skipped      []string
+	Rescored     []string
 }
 
-// Options select what RunCase scores beyond the whole-write run and the probes.
-type Options struct{ Splits bool }
+// Options select what RunCase scores beyond the whole-write run and the probes. Splits scores the chunk-split
+// variants; ScoreSensitive (the -fuzz mode) also scores those headless itself is sensitive to, against the
+// whole-write golden as every other variant: go-term is split-safe at every cut (#14), so any difference is SPLIT.
+type Options struct{ Splits, ScoreSensitive bool }
 
 const splitLimit = 512 // as gen/lib/split.mjs SPLIT_LIMIT
 
@@ -121,7 +125,7 @@ func steps(e Engine, g *Golden, chunk func(int, []byte) [][]byte) string {
 }
 
 // RunCase scores one golden: STALE check, the whole-write steps, the probe twins, then (opt.Splits) every split
-// variant except those headless itself flagged as chunk-sensitive.
+// variant except those headless itself flagged as chunk-sensitive, unless opt.ScoreSensitive.
 func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 	r := Result{ID: g.ID, Category: g.Category(), Status: PASS}
 	fail := func(s Status, d string) Result { r.Status, r.Diff = s, d; return r }
@@ -151,11 +155,15 @@ func RunCase(g *Golden, f Factory, pr *Probes, opt Options) Result {
 		skip[id] = true
 	}
 	for _, v := range variants(g) {
-		if opt.Splits && skip[v.id] {
-			r.Skipped = append(r.Skipped, v.id)
-		}
-		if !opt.Splits || skip[v.id] {
+		if !opt.Splits {
 			continue
+		}
+		if skip[v.id] && !opt.ScoreSensitive {
+			r.Skipped = append(r.Skipped, v.id)
+			continue
+		}
+		if skip[v.id] {
+			r.Rescored = append(r.Rescored, v.id)
 		}
 		if e, err = start(f, g); err != nil {
 			return fail(FAIL, "engine: "+err.Error())

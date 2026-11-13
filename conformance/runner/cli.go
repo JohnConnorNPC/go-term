@@ -11,7 +11,9 @@ import (
 
 // CLI is cmd/conformance's body: it registers factories (extra named engines), parses args and scores one engine, writing
 // its lines to stdout. It returns the exit status: 0 every case passes (or the counts meet the minimums), 1 a case
-// fails, 2 something is unmeasured.
+// fails, 2 something is unmeasured. With -fuzz (a root written by cmd/fuzzgen and gen/fuzz.mjs) the variants headless
+// itself is split-sensitive to are scored against the whole-write golden (Options.ScoreSensitive), the per-category
+// minimums do not apply, and the last line is "TOTAL <pass>/<cases> PASS|FAIL hsens=<rescored variants>".
 func CLI(args []string, stdout io.Writer, factories map[string]Factory) int {
 	for name, f := range factories {
 		Register(name, f)
@@ -22,6 +24,7 @@ func CLI(args []string, stdout io.Writer, factories map[string]Factory) int {
 	ref := fs.String("ref", "xcur", "golden set: xcur (@xterm/headless@6.0.0, the gate) or x53 (xterm-headless@5.3.0, reported)")
 	splits := fs.Bool("splits", true, "also score the chunk-split variants")
 	count := fs.Bool("count", false, "only check the per-category case counts")
+	fuzz := fs.Bool("fuzz", false, "a fuzz root: score headless's split-sensitive variants too, no category minimums")
 	if err := fs.Parse(args); err != nil {
 		if err == flag.ErrHelp {
 			return 0
@@ -45,9 +48,10 @@ func CLI(args []string, stdout io.Writer, factories map[string]Factory) int {
 		fmt.Fprintf(stdout, "UNMEASURED engine=%s found=%v goldens=%d err=%v\n", *engine, ok, len(gs), err)
 		return 2
 	}
-	pass, total, skipped := map[string]int{}, map[string]int{}, 0
+	pass, total, skipped, rescored := map[string]int{}, map[string]int{}, 0, 0
 	for _, g := range gs {
-		r := RunCase(g, f, pr, Options{Splits: *splits})
+		r := RunCase(g, f, pr, Options{Splits: *splits, ScoreSensitive: *fuzz})
+		rescored += len(r.Rescored)
 		total[r.Category]++
 		if len(r.Skipped) > 0 {
 			skipped += len(r.Skipped)
@@ -59,6 +63,18 @@ func CLI(args []string, stdout io.Writer, factories map[string]Factory) int {
 		} else {
 			fmt.Fprintln(stdout, r.Status, r.ID, r.Diff)
 		}
+	}
+	if *fuzz {
+		all := 0
+		for _, n := range pass {
+			all += n
+		}
+		verdict := "PASS"
+		if all != len(gs) {
+			verdict = "FAIL"
+		}
+		fmt.Fprintf(stdout, "TOTAL %d/%d %s hsens=%d\n", all, len(gs), verdict, rescored)
+		return exitCode(all == len(gs), false)
 	}
 	var cats []string
 	for c := range RequiredCategories {

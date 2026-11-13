@@ -34,3 +34,25 @@ func TestRunSplit(t *testing.T) {
 		t.Fatalf("split variants: %s %s, want SPLIT", r.Status, r.Diff)
 	}
 }
+
+// TestRunScoreSensitive (#9 -fuzz): with every split variant marked headless-sensitive, the default scoring skips them
+// all and passes an engine that breaks one-byte writes; ScoreSensitive scores them against the whole-write golden and
+// catches it as SPLIT, naming each variant it scored. The oracle (split-safe) passes both ways.
+func TestRunScoreSensitive(t *testing.T) {
+	pr, g := fixture(t)
+	g.Sensitive = nil
+	for _, v := range variants(g) {
+		g.Sensitive = append(g.Sensitive, v.id)
+	}
+	bad := func(Config) (Engine, error) { return &splitbad{oracle: &oracle{pr: pr, step: -1}}, nil }
+	if r := RunCase(g, bad, pr, Options{Splits: true}); r.Status != PASS || len(r.Skipped) != len(g.Sensitive) || r.Rescored != nil {
+		t.Fatalf("default: %s skipped %d rescored %v, want PASS with all %d skipped", r.Status, len(r.Skipped), r.Rescored, len(g.Sensitive))
+	}
+	if r := RunCase(g, bad, pr, Options{Splits: true, ScoreSensitive: true}); r.Status != SPLIT || r.Skipped != nil {
+		t.Fatalf("ScoreSensitive: %s %s skipped %v, want SPLIT and none skipped", r.Status, r.Diff, r.Skipped)
+	}
+	r := RunCase(g, Oracle(pr), pr, Options{Splits: true, ScoreSensitive: true})
+	if r.Status != PASS || len(r.Rescored) != len(g.Sensitive) || r.Skipped != nil {
+		t.Fatalf("oracle ScoreSensitive: %s %s rescored %d of %d", r.Status, r.Diff, len(r.Rescored), len(g.Sensitive))
+	}
+}
