@@ -1237,6 +1237,14 @@ func (h *InputHandler) RepeatPrecedingCharacter(params *Params) bool {
 		length = full + (length-full)%perLine
 	}
 	x := h.activeBuffer.X - chWidth
+	if x < 0 || x >= h.bufferService.Cols {
+		// xterm.js's getString reads past its typed array here (undefined),
+		// gets '' and prints nothing: x < 0 after a wide char dropped at 2
+		// cols with DECAWM off or a resize under it, x >= cols under mode
+		// 2027 after a zero-width char at the last column or dropped at
+		// pending wrap (TestRepPastLineEnd, TestRepAfterWideAtTwoCols).
+		return true
+	}
 	bufferRow := h.activeBuffer.Lines.Get(h.activeBuffer.YBase + h.activeBuffer.Y)
 	text := bufferRow.GetString(x)
 	var codepoints []uint32

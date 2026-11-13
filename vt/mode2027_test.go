@@ -54,3 +54,29 @@ func TestMode2027OffByDefault(t *testing.T) {
 		}
 	}
 }
+
+// TestRepPastLineEnd [#9]: REP reads the cell at X minus the preceding
+// char's width. Under mode 2027 a zero-width char that joins nothing leaves a
+// non-zero join state of width 0, so that cell is X itself: cols after one
+// written in the last column, cols+1 after one dropped in the pending-wrap
+// column. xterm.js's getString reads past its typed array there, gets ” and
+// prints nothing; vt indexed past the line (panic).
+func TestRepPastLineEnd(t *testing.T) {
+	for _, c := range []struct {
+		name, pre string
+		x         int
+	}{{"at cols", strings.Repeat("0", 11), 12}, {"at cols+1", strings.Repeat("0", 12), 13}} {
+		term := newMode2027Terminal(12, 3)
+		term.WriteString("\x1b[?2027h" + c.pre + "\x1f́\x1b[b")
+		if b := term.Buffer(); b.X != c.x || b.Y != 0 || line(term, 1) != "" {
+			t.Errorf("%s: cursor (%d,%d) row 1 %q, want (%d,0) and REP printing nothing", c.name, b.X, b.Y, line(term, 1), c.x)
+		}
+	}
+	// x < 0, any provider: DECAWM off at 2 cols, a second wide char is
+	// dropped at X = 1 with the join state of width 2 (x = -1).
+	term := newTestTerminal(2, 3)
+	term.WriteString("\x1b[?7l中中\x1b[b")
+	if b := term.Buffer(); b.X != 1 || b.Y != 0 || line(term, 0) != "中" {
+		t.Errorf("2 cols ?7l: cursor (%d,%d) row 0 %q, want (1,0) %q", b.X, b.Y, line(term, 0), "中")
+	}
+}

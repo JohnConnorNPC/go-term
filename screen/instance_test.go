@@ -120,3 +120,38 @@ func TestInstancePanic(t *testing.T) {
 		}
 	}
 }
+
+// TestRepAfterWideAtTwoCols [#9]: REP after a wide char whose cell is gone
+// from under the cursor (x = X-2 < 0) prints nothing, as xterm.js's getString
+// of an index before its array gives ”; it used to panic, which an Instance
+// turns into a sticky ErrFailed. Two ways in at screen's minimum 2 columns.
+func TestRepAfterWideAtTwoCols(t *testing.T) {
+	for _, c := range []struct {
+		name      string
+		cols      int
+		pre, post string
+		resizeTo2 bool
+	}{
+		{"?7l at 2 cols", 2, "\x1b[?7l中中", "\x1b[b", false},
+		{"80 cols, resize to 2", 80, "中", "\x1b[b", true},
+	} {
+		i, err := New(c.cols, 3, Config{})
+		if err != nil {
+			t.Fatal(err)
+		}
+		i.Write([]byte(c.pre))
+		if c.resizeTo2 {
+			if err := i.Resize(2, 3); err != nil {
+				t.Fatalf("%s: resize: %v", c.name, err)
+			}
+		}
+		i.Write([]byte(c.post))
+		f, err := i.Read(Request{})
+		if err != nil || i.Err() != nil {
+			t.Fatalf("%s: read %v, Err %v", c.name, err, i.Err())
+		}
+		if got := f.Trimmed(); got[0] != "中" || got[1] != "" || f.Cursor.Row != 0 || f.Cursor.Col != 1 {
+			t.Errorf("%s: rows %q cursor %+v, want 中 alone and the cursor at (0,1)", c.name, got, *f.Cursor)
+		}
+	}
+}
