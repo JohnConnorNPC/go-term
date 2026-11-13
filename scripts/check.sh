@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# check.sh: the root module's local checks, in order: gofmt -l (must print nothing), go vet, go test, go test -race,
-# and a 60 s FuzzFeed run on ./sniff. Every step runs even when an earlier one fails; the exit code is 1 when any
-# step failed. Uses the go on PATH (GO=<path> overrides). The conformance/candidates module is its own module and
+# check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires and
+# replaces nothing), go vet, go test, go test -race, and a 60 s FuzzFeed run on
+# ./sniff. Every step runs even when an earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides). The conformance/candidates module is its own module and
 # is not covered here (conformance/scripts/go.sh runs it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
 # Usage: bash scripts/check.sh [fuzztime]   (default 60s; 0 skips the fuzz step)
@@ -28,6 +28,15 @@ gofmt_empty() {
 	[ -z "$out" ] || { echo "gofmt -l lists:"; echo "$out"; return 1; }
 }
 step gofmt gofmt_empty
+# deps: the root module requires and replaces nothing (vt/ is in-tree, stdlib only). Read through go's own go.mod
+# parser, so a quoted path such as replace "example.com/m" => ../m is seen too (#4 R2).
+no_deps() {
+	local j
+	j=$("$GO" mod edit -json) || return 2
+	printf '%s' "$j" | grep -Eq '"(Require|Replace)": \[' && { echo "go.mod has a require or replace:"; printf '%s\n' "$j"; return 1; }
+	return 0
+}
+step deps no_deps
 step vet "$GO" vet ./...
 step test "$GO" test -count=1 -timeout 30m ./...
 step race "$GO" test -count=1 -race -timeout 90m ./...
