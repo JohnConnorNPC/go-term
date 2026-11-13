@@ -9,6 +9,7 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 | path | what |
 |---|---|
 | `vt/` | the terminal engine: a fork of github.com/0magnet/xterm-go `vt/` (a Go port of xterm.js 6.0.0), see `vt/UPSTREAM` |
+| `screen/` | Studio's typed read of a `vt` terminal: grid, cursor, modes, attribute runs, hashes, deltas, scrollback caps (below) |
 | `sniff/` | the mode and title sniffer and the snapshot postamble (below) |
 | `conformance/` | the conformance suite: cases, xterm-headless goldens, the Go runner and CLI (see its README) |
 | `conformance/goterm/` | the runner adapter for `vt/` and the gate test (`TestGateXcur`) |
@@ -22,11 +23,49 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 `bash scripts/check.sh` runs the root module's checks with the `go` on `PATH` (`GO=<path>` picks another) and exits
 non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.mod requires exactly
 `scripts/deps.allow` (golang.org/x/crypto for blake2b, golang.org/x/sys indirect), replaces nothing, and `go mod verify`
-passes;
-`go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
+passes; `go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
 `cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
 are REPORT lines only); a `FuzzFeed` run on `./sniff`. The GitHub workflow `check.yml` runs the same script.
-The engine choice is `docs/decisions/0003-engine.md`.
+The engine choice is `docs/decisions/0003-engine.md`; the read API's choices are `docs/decisions/0004-screen.md`.
+
+Widths are Unicode v6, as `@xterm/headless` 6.0.0 without the unicode11 addon (what Studio's page loads); Unicode v11 is
+not supported yet. DEC mode 2027 (grapheme clusters), which 6.0.0 does not have, is off unless
+`vt.Options.GraphemeMode2027` is set.
+
+## screen
+
+`github.com/JohnConnorNPC/go-term/screen` reads a `*vt.Terminal` into the values of Studio's `screen_text` reply; Studio
+builds the JSON. The functions take no lock: the caller serialises them with `Write`.
+
+```go
+t, err := screen.NewTerminal(80, 24, screen.Config{})       // history: min(1000 lines, 100,000 cells / cols)
+f := screen.Read(t, screen.Request{View: screen.ViewScreen, Attrs: true})
+f.Text(); f.Lines; f.Cols; f.Rows; f.Cursor; f.CursorHidden  // Lines padded to cols; Trimmed() trims them
+f.AltScreen; f.AppCursor; f.View; f.HistoryLines; f.AttrRuns; f.ContentHash; f.StableHash
+cache := screen.NewFrameCache()                               // one per terminal: the last 16 frames
+changed, delta := cache.Delta(&f, since, degraded)            // delta: send changed rows only, text ""
+err = screen.Resize(t, cols, rows, screen.Config{})           // re-applies the history cap
+```
+
+- Rows are space-padded to the width as Python's renderers give them (a wide glyph is one rune over two cells). The
+  cursor is grid-relative and clamped to the grid (the pending-wrap column reads as the last one); `CursorHidden` is
+  DECTCEM. `ViewScrollback` with `Lines` prepends history; on the alt screen it reads as `ViewScreen`.
+- `ContentHash` is blake2b-128 (`digest_size=16`) of the UTF-8 text, 32 lowercase hex digits. `StableHash` is the same
+  over the text with the cursor's glyph replaced by one NUL (all cells and runes of that glyph), equal to `ContentHash`
+  when there is no cursor; `screen.StableHash` is Python's `_stable_hash` itself (the column is a rune index).
+- `AttrRuns`: maximal runs of (fg, bg, reverse, bold, underscore) other than the default, `len` in cells, at most 2000.
+  Colours are pyte's names: `default`; `black red green brown blue magenta cyan white` and `bright*` for SGR 30-37,
+  40-47, 90-97, 100-107 (bg 105 is `brightmagenta`); 6-hex from pyte's 256 table for every `38;5;n`/`48;5;n` (n=1 is
+  `cd0000`); `%02x%02x%02x` for `38;2`. Dim, italic and the other attributes are not part of a run.
+- `Delta`: a delta only when `since` is a remembered hash, the read is not degraded, the view is screen, the row counts
+  match and at most `int(rows*0.6)` rows changed (an unchanged screen always qualifies); otherwise the full text.
+
+Tested against Studio's vectors (copies in `screen/testdata`, sha256-pinned): python colours 53/53, pyte attr runs 11/11,
+python `_content_hash` 69/69 and `_stable_hash` 68/68 byte for byte, headless textgrid 114/115 and hashes 74/74 (the
+one miss is an engine difference, below); every xcur golden through `Read` (314/314, wide 30/30); pyte's 256 table.
+
+Known difference from `@xterm/headless` 6.0.0: `vt` ends an APC string (`ESC _`) at BEL, so text after
+`ESC _ ... BEL` prints; 6.0.0 ignores APC until ST (`test_control_string_families_are_skipped#2`).
 
 ## sniff
 
