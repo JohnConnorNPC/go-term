@@ -1,0 +1,21 @@
+# The root module's checks: the workflow only runs scripts/check.sh (gofmt, deps, vet, test, race, cross, fuzz),
+# so a local run and this one execute the same commands. Actions are pinned by commit sha.
+name: check
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.24.x'
+          cache: false
+      - run: bash scripts/check.sh 60s
