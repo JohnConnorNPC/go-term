@@ -221,6 +221,7 @@ What Browserland Studio uses, by package; the sections above give the details.
 ## Releases
 
 - v0.3.0: `screen` (Read, Instance, Restore) and `sniff`'s mode and title fixes; vt keeps a character a write ended
-  inside (#14); Studio's vectors and the differential fuzz (#9).
+  inside (#14); Studio's vectors and the differential fuzz (#9), whose first finding is fixed: a zero-width char that
+  joins nothing in the pending-wrap column moves the cursor to cols+1, as xterm.js does.
 - v0.2.0: the `sniff` package and `scripts/check.sh` (no `screen` yet). v0.x makes no compatibility promise.
 - v0.1.0: the conformance harness.

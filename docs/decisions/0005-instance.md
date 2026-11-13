@@ -37,6 +37,8 @@ region's bottom, SU/SD to the region's height, and REP keeps its count past a fu
 only turns that change nothing (`TestHugeRepeatCounts`, and `TestHugeRep` against the clusters written out).
 ICH, DCH, ECH, SL, SR, DECIC and DECDC were already bounded by the line length.
 
-A zero-width char that joins nothing (after a C0 control) in the pending-wrap column was written one cell past the line
-(index out of range). xterm.js's typed array drops that write, and vt now skips it (`TestCombiningAtPendingWrap`,
-FuzzInstance crasher `d791907a10fdac2f` kept as a seed).
+A zero-width char that joins nothing (after any control: C0, CSI, ESC, OSC or DCS end) in the pending-wrap column was
+written one cell past the line (index out of range). xterm.js's typed array drops that write, and vt now skips it
+(`TestCombiningAtPendingWrap`, FuzzInstance crasher `d791907a10fdac2f` kept as a seed). xterm.js still moves the
+cursor to cols+1 there, and so does vt since #9 (differential fuzz case `1794598569-6`, `TestFuzzCase1794598569`): the
+next char wraps, CPR reports cols+2, and `screen.Read` clamps the cursor to the last column as for pending wrap.
