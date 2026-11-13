@@ -449,6 +449,12 @@ func TestStudioLedger(t *testing.T) {
 				continue
 			}
 			h, ok := hl[c.ID]
+			if fam.name == "colours" {
+				// Colour follows pyte's names, not headless (SA1 Q1): a colours
+				// case where go-term differs from Python is a regression, even
+				// one divergence.json lists.
+				t.Errorf("%s: colours follow Python by design, go-term differs in %s", key, diff)
+			}
 			switch {
 			case listed[key] == "":
 				t.Errorf("%s: go-term differs from Python in %s, not in divergence.json", key, diff)
