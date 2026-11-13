@@ -47,3 +47,48 @@ func New(cols, rows int, c Config) (*Instance, error) {
 	}
 	return &Instance{t: t, cfg: c, cache: NewFrameCache()}, nil
 }
+
+// do runs f under the lock, unless the instance has failed.
+func (i *Instance) do(f func()) error {
+	i.mu.Lock()
+	defer i.mu.Unlock()
+	if i.err != nil {
+		return i.err
+	}
+	f()
+	return nil
+}
+
+// Write feeds pty output to the terminal; it is an io.Writer.
+func (i *Instance) Write(p []byte) (int, error) {
+	if err := i.do(func() { i.t.Write(p) }); err != nil {
+		return 0, err
+	}
+	return len(p), nil
+}
+
+// Resize resizes the terminal as Resize does. A size outside the limits is
+// an error and leaves the size unchanged.
+func (i *Instance) Resize(cols, rows int) error {
+	if err := checkSize(cols, rows); err != nil {
+		return err
+	}
+	return i.do(func() { _ = Resize(i.t, cols, rows, i.cfg) }) // cfg was checked by New
+}
+
+// Read is Read of the terminal, under the lock. A failed instance gives a
+// zero Frame and its error.
+func (i *Instance) Read(r Request) (Frame, error) {
+	var f Frame
+	err := i.do(func() { f = Read(i.t, r) })
+	if err != nil {
+		return Frame{}, err
+	}
+	return f, nil
+}
+
+// Delta is the instance's own FrameCache.Delta: f should be a Read of this
+// instance.
+func (i *Instance) Delta(f *Frame, since string, degraded bool) ([]ChangedRow, bool) {
+	return i.cache.Delta(f, since, degraded)
+}
