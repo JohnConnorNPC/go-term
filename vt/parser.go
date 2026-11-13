@@ -421,6 +421,7 @@ func (p *Parser) SetExecuteHandlerFallback(fn func(code uint32)) { p.executeHand
 func (p *Parser) Reset() {
 	p.currentState = p.initialState
 	p.apc = false
+	p.apcBuf, p.apcOver = release(p.apcBuf), false
 	p.oscParser.Reset()
 	p.dcsParser.Reset()
 	p.params.Reset()

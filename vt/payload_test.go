@@ -68,6 +68,15 @@ func TestPayloadBuffersReleased(t *testing.T) {
 	if cap(osc.data) == 0 || cap(dcs.data) == 0 || cap(p.apcBuf) == 0 {
 		t.Errorf("short: caps osc %d dcs %d apc %d", cap(osc.data), cap(dcs.data), cap(p.apcBuf))
 	}
+	// N5: Parser.Reset drops a long APC still being collected
+	term.WriteString("\x1b_" + long)
+	if cap(p.apcBuf) < len(long) {
+		t.Fatalf("unterminated: apc cap %d", cap(p.apcBuf))
+	}
+	p.Reset()
+	if cap(p.apcBuf) != 0 || p.apc {
+		t.Errorf("after Parser.Reset: apc cap %d, collecting %v", cap(p.apcBuf), p.apc)
+	}
 }
 
 // TestPayloadLimitAboveDefault [#7 r1 S3]: a limit above xterm.js's
