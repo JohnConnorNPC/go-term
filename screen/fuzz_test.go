@@ -82,8 +82,11 @@ func fuzzOps(data []byte) (ops int, err error) {
 }
 
 // FuzzInstance [#7]: random writes, cut anywhere, interleaved with resizes
-// (reflow) and reads never panic or hang (10 s per input; the work of one
-// input is bounded by fuzzBudget).
+// (reflow) and reads never panic or hang (60 s per input). A hang never
+// returns; a budgeted input takes at most ~0.75 s CPU under -fuzz
+// instrumentation (the seed e2ff5de2cef58c25: 0.73 s), and 16 workers on a
+// loaded host (load 62) slowed it past the old 10 s [#11], so 60 s leaves
+// ~80x for load.
 func FuzzInstance(f *testing.F) {
 	for _, s := range splitStreams {
 		f.Add(append([]byte{0, 0xff}, s...))
@@ -99,8 +102,8 @@ func FuzzInstance(f *testing.F) {
 			if err != nil {
 				t.Fatal(err)
 			}
-		case <-time.After(10 * time.Second):
-			t.Fatalf("hang: %d bytes of ops still running after 10 s", len(data))
+		case <-time.After(60 * time.Second):
+			t.Fatalf("hang: %d bytes of ops still running after 60 s", len(data))
 		}
 	})
 }
