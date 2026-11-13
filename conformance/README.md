@@ -5,8 +5,8 @@ unmodified xterm.js headless; go-term follows its behaviour and is never a fork 
 
 | ref | package | role |
 |---|---|---|
-| `x53` | `xterm-headless@5.3.0` | the release the page runs; primary target |
-| `xcur` | `@xterm/headless@6.0.0` | npm `latest` at pin time; second reference |
+| `xcur` | `@xterm/headless@6.0.0` | the release Studio's page runs; **the gate** (`conformance/goterm` `TestGateXcur`) |
+| `x53` | `xterm-headless@5.3.0` | the page's earlier release; reported only (docs/decisions/0003-engine.md) |
 
 Both are pinned in `gen/pins.lst` (tarball URL + sha512 integrity), `gen/package-lock.json` and `gen/pins.json`
 (installed versions, bundle sha256, runtime option defaults, public modes keys, lockfile sha256). The unicode11 addons
@@ -19,6 +19,7 @@ bash conformance/scripts/fetch-pins.sh                                        # 
 bash conformance/scripts/node.sh conformance/gen 'npm ci --offline --ignore-scripts'
 bash conformance/scripts/node.sh conformance 'sh scripts/regen-check.sh'      # regenerate twice, compare with golden/
 bash conformance/scripts/go.sh . 'go test ./conformance/...'
+bash conformance/scripts/go.sh . 'go run ./conformance/cmd/conformance -engine goterm'   # the gate: xcur, 314/314
 bash conformance/scripts/go.sh . 'go run ./conformance/cmd/conformance -engine stub -ref x53'
 bash conformance/scripts/go.sh . 'go run ./conformance/cmd/conformance -count'
 ```
@@ -39,6 +40,7 @@ Selftests: `node.sh conformance/gen 'node selftest.mjs <suite>'` for case, cells
 - `probes.json`: the probe byte sequences, shared by the generator and the Go runner.
 - `gen/`: the node generator (`gen.mjs`), pin producer/checker (`make-pins.mjs`, `verify-pins.mjs`), selftests.
 - `runner/`: the Go scorer; `cmd/conformance`: its CLI.
+- `goterm/`: the adapter for go-term's own engine (`vt/`), read natively, and `TestGateXcur`, the gate.
 
 ## What is compared
 

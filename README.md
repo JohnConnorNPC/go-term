@@ -8,16 +8,23 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 
 | path | what |
 |---|---|
+| `vt/` | the terminal engine: a fork of github.com/0magnet/xterm-go `vt/` (a Go port of xterm.js 6.0.0), see `vt/UPSTREAM` |
 | `sniff/` | the mode and title sniffer and the snapshot postamble (below) |
 | `conformance/` | the conformance suite: cases, xterm-headless goldens, the Go runner and CLI (see its README) |
-| `conformance/candidates/` | the survey of third-party Go emulators (its own module) |
+| `conformance/goterm/` | the runner adapter for `vt/` and the gate test (`TestGateXcur`) |
+| `conformance/candidates/` | the survey of third-party Go emulators (its own module; the frozen #2 record) |
 | `docs/decisions/` | decision records |
-| `scripts/check.sh` | the local checks: `gofmt -l` empty, `go vet`, `go test`, `go test -race` |
+| `scripts/check.sh` | the checks: `gofmt -l` empty, deps, `go vet`, `go test`, `go test -race`, cross builds, fuzz |
+| `.github/workflows/check.yml` | CI: runs `scripts/check.sh` on push and pull request to master |
 
 ## Checks
 
 `bash scripts/check.sh` runs the root module's checks with the `go` on `PATH` (`GO=<path>` picks another) and exits
-non-zero when any step fails. There is no CI workflow yet (#3).
+non-zero when any step fails. The steps: `gofmt -l` prints nothing; `deps`: go.mod requires and replaces nothing;
+`go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
+`cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
+are REPORT lines only); a `FuzzFeed` run on `./sniff`. The GitHub workflow `check.yml` runs the same script.
+The engine choice is `docs/decisions/0003-engine.md`.
 
 ## sniff
 
