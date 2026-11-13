@@ -493,7 +493,10 @@ func (h *InputHandler) Print(data []uint32, start, end int) {
 
 	// handle wide chars: reset start_cell-1 if we would overwrite the
 	// second cell of a wide char
-	if h.activeBuffer.X > 0 && end-start > 0 && bufferRow.GetWidth(h.activeBuffer.X-1) == 2 {
+	// (X is cols+1 after a zero-width char that joined nothing in the
+	// pending-wrap column, see below: xterm.js reads past the line there,
+	// which is never width 2.)
+	if h.activeBuffer.X > 0 && h.activeBuffer.X <= cols && end-start > 0 && bufferRow.GetWidth(h.activeBuffer.X-1) == 2 {
 		bufferRow.SetCellFromCodepoint(h.activeBuffer.X-1, 0, 1, curAttr)
 	}
 
@@ -580,10 +583,12 @@ func (h *InputHandler) Print(data []uint32, start, end int) {
 		}
 
 		if h.activeBuffer.X >= cols {
-			// A zero-width char that joins nothing (a C0 control reset the
-			// join state) in the pending-wrap column: xterm.js writes it past
-			// the end of the line's typed array, which drops the write. The
-			// cursor stays at the edge.
+			// A zero-width char that joins nothing (a control reset the join
+			// state) in the pending-wrap column: xterm.js writes it past the
+			// end of the line's typed array, which drops the write, and still
+			// advances the cursor to cols+1 (headless 6.0.0, fuzz case
+			// 1794598569-6: cursor 13 at 12 cols). The next char wraps.
+			h.activeBuffer.X++
 			continue
 		}
 
