@@ -278,3 +278,33 @@ func checkUsable(t *testing.T, name string, snap Snapshot) {
 		t.Errorf("%s: after restore, row 0 %q (%v)", name, f.Trimmed()[0], err)
 	}
 }
+
+// TestRestoreLongTitle: the sniffer cuts a title to TitleMax (1024 bytes by
+// default) on a rune boundary, and Restore sets that cut title, where an
+// instance fed the stream keeps it whole: the documented difference.
+func TestRestoreLongTitle(t *testing.T) {
+	for _, c := range []struct {
+		long string
+		kept int // bytes: 1024, or less to end on a rune boundary
+	}{{strings.Repeat("t", 2000), 1024}, {"a" + strings.Repeat("é", 1000), 1023}} {
+		long := c.long
+		s := "\x1b]2;" + long + "\x07x"
+		m, title, ok := sniffed(s)
+		if !ok || len(title) != c.kept || !strings.HasPrefix(long, title) {
+			t.Fatalf("sniffed title of %d bytes: %d bytes, ok %v", len(long), len(title), ok)
+		}
+		a, _ := New(20, 6, Config{})
+		if _, err := a.Write([]byte(s)); err != nil {
+			t.Fatal(err)
+		}
+		b := restore(t, Snapshot{Cols: 20, Rows: 6, Modes: m, Title: title, TitleSet: ok, Ring: []byte(s)})
+		fa, fb := readAll(t, a), readAll(t, b)
+		if fa.Title != long || fb.Title != title {
+			t.Errorf("title: fed %d bytes, restored %d bytes, want %d and %d", len(fa.Title), len(fb.Title), len(long), len(title))
+		}
+		fa.Title, fb.Title = "", ""
+		if !reflect.DeepEqual(fa, fb) {
+			t.Errorf("long title: frames differ beyond the title")
+		}
+	}
+}

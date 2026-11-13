@@ -126,7 +126,8 @@ b := screen.ReplayBytes(m, ring)                              // what Restore wr
   output from before its own switch on the alt grid. A ring that leaves the alt screen although `Alt` is reported gets
   `CSI ? 1049 h` last, an empty alt grid.
 - **Title**: when `TitleSet`, the injected title replaces the ring's. The sniffer cuts a title to its `TitleMax` (1024
-  bytes by default), so a longer title restores cut where the fed instance has it whole: a documented difference.
+  bytes by default) on a rune boundary, so a longer title restores cut where the fed instance has it whole: a
+  documented difference (`TestRestoreLongTitle`).
 - **Round trip**: a stream fed to one instance and restored from the same bytes with its sniffed state read the same
   (lines with history, cursor, attribute runs, hashes, modes, title); an empty ring and a ring cut at any byte at
   either end restore without error, report the injected modes and, with no injected title, the title of the ring
