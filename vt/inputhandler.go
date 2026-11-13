@@ -579,6 +579,14 @@ func (h *InputHandler) Print(data []uint32, start, end int) {
 			continue
 		}
 
+		if h.activeBuffer.X >= cols {
+			// A zero-width char that joins nothing (a C0 control reset the
+			// join state) in the pending-wrap column: xterm.js writes it past
+			// the end of the line's typed array, which drops the write. The
+			// cursor stays at the edge.
+			continue
+		}
+
 		// insert mode: move characters to right
 		if insertMode {
 			bufferRow.InsertCells(h.activeBuffer.X, chWidth-oldWidth, h.activeBuffer.GetNullCell(curAttr))

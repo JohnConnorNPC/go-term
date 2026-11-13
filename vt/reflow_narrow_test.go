@@ -66,3 +66,18 @@ func TestSingleRowNarrowStillAcceptsWrites(t *testing.T) {
 	term.Resize(MinimumCols, 1)
 	term.WriteString(strings.Repeat("y", 500))
 }
+
+// TestCombiningAtPendingWrap: a combining mark after a C0 control joins
+// nothing, and in the pending-wrap column it used to be written one cell past
+// the line (index out of range; xterm.js's typed array drops the write). gh #7
+// FuzzInstance found it at 2 columns.
+func TestCombiningAtPendingWrap(t *testing.T) {
+	for _, cols := range []int{2, 80} {
+		term := newTestTerminal(cols, 3)
+		full := strings.Repeat("0", cols)
+		term.WriteString(full + "\x1f́x")
+		if line(term, 0) != full || line(term, 1) != "x" {
+			t.Errorf("%d cols: %q, %q", cols, line(term, 0), line(term, 1))
+		}
+	}
+}
