@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
-# scripts/deps.allow, replaces nothing, go mod verify passes), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
+# scripts/deps.allow and replaces nothing), modverify (go mod download, then go mod verify), go vet, go test,
+# go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
 # windows/amd64; 386 and armv7 reported), and a 60 s FuzzFeed run on ./sniff. Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
@@ -31,7 +32,7 @@ gofmt_empty() {
 }
 step gofmt gofmt_empty
 # deps: the root module requires exactly scripts/deps.allow (path version [indirect]; x/crypto for blake2b and the
-# x/sys it imports, #6) and replaces nothing, and go mod verify passes. go.mod is read through go's own parser
+# x/sys it imports, #6) and replaces nothing. go.mod is read through go's own parser
 # (go mod edit -json), so a quoted path such as replace "example.com/m" => ../m is seen too (#4 R2).
 allowed_deps() {
 	local j got want
@@ -48,9 +49,19 @@ allowed_deps() {
 	[ -n "$want" ] || { echo "scripts/deps.allow lists nothing (unmeasured)"; return 2; }
 	[ "$got" = "$want" ] || { echo "go.mod requires:"; printf '%s\n' "$got"; echo "scripts/deps.allow:"; printf '%s\n' "$want"; return 1; }
 	echo "deps: $(printf '%s\n' "$got" | wc -l) requires match scripts/deps.allow"
-	"$GO" mod verify
 }
 step deps allowed_deps
+# modverify: go mod verify checks only the modules already in the module cache, so on an empty cache it passes
+# having checked nothing (#12). Downloading first makes it observe every module the build needs: with a warm cache
+# it is green offline too; an empty cache offline fails at the download (unmeasured is a failure, not a pass).
+modverify() {
+	local n
+	"$GO" mod download || return 1
+	"$GO" mod verify || return 1
+	n=$("$GO" list -m -f '{{if and .Dir (not .Main)}}x{{end}}' all | grep -c x)
+	echo "REPORT modverify: $n modules in GOMODCACHE"
+}
+step modverify modverify
 step vet "$GO" vet ./...
 step test "$GO" test -count=1 -timeout 30m ./...
 step race "$GO" test -count=1 -race -timeout 90m ./...
