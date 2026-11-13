@@ -2,6 +2,6 @@ module github.com/JohnConnorNPC/go-term
 
 go 1.27.0
 
-require golang.org/x/crypto v0.48.0
+require golang.org/x/crypto v0.58.0
 
-require golang.org/x/sys v0.41.0 // indirect
+require golang.org/x/sys v0.49.0 // indirect
