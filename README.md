@@ -20,23 +20,29 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 
 ## Checks
 
-`bash scripts/check.sh` runs the root module's checks with the `go` on `PATH` (`GO=<path>` picks another) and exits
-non-zero when any step fails. Each step's result is its `== <step> exit N` line; a skipped step prints
-`== <step> skipped: ... (not a pass)` instead, so count passes as `exit 0` lines, never skip lines. The steps:
+`bash scripts/check.sh` runs the root module's checks with the `go` on `PATH` (`GO=<path>` picks another; `GOWORK` is
+off, so a parent `go.work` changes nothing) and exits non-zero when any step fails. Each step's result is its
+`== <step> exit N` line; a step that changes `git status --porcelain` is red too. A skipped step prints
+`== <step> skipped: ... (not a pass)` instead, and the last line names the skips: `FINAL EXIT 0 skipped=0` is a full
+pass, `FINAL EXIT 0 skipped=govulncheck` is not. Count passes as `exit 0` lines, never skip lines. The steps:
 `gofmt -l` prints nothing; `deps`: go.mod requires exactly `scripts/deps.allow` (golang.org/x/crypto for blake2b,
-golang.org/x/sys indirect) and replaces nothing; `modverify`: `go mod download`, then `go mod verify` (verify alone
-checks only the modules already in the module cache, so on an empty cache it would check nothing); `readonly`:
-`go build ./...` with `-mod=readonly`; `go vet`; `go test` (including the conformance gate, every case against
-`@xterm/headless@6.0.0`); `go test -race`; `cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64
-and windows/amd64 (linux/386 and linux/arm are REPORT lines only); `govulncheck`: the govulncheck version pinned in
-`scripts/check.sh`, built by the same go, scans the module against vuln.go.dev at symbol level (a vulnerable module that
-is required but never called is not a finding) and judges the standard library of that go. The database is live, so a
-green commit can turn red later. When the tool cannot be installed or vuln.go.dev does not answer, the step is skipped;
-with `GOVULNCHECK=require`, which `check.yml` sets, that is a failure. `fuzz` and `fuzz-instance`: 60 s runs of
-`FuzzFeed` on `./sniff` and `FuzzInstance` on `./screen` (each input stops past an 8,000,000-cell work budget and fails
-as a hang after 60 s; a crasher is written to `screen/testdata/fuzz/FuzzInstance`); `bash scripts/check.sh 0` skips
-both. The GitHub workflow `check.yml` runs the same script. Offline, `check.sh` needs a module cache from an earlier
-online run (without one the steps that load modules fail) and skips `govulncheck`.
+golang.org/x/sys indirect) and replaces nothing; `modverify`: `go mod download` must leave go.mod and go.sum unchanged
+(it writes missing go.sum lines back, which would hide an incomplete committed go.sum), `go mod verify` passes, and
+every module that provides a package to the build or its tests is in the module cache (verify alone checks only what is
+already there, so on an empty cache it would check nothing); `readonly`: `go build ./...` with `-mod=readonly`;
+`go vet`; `go test` (including the conformance gate, every case against `@xterm/headless@6.0.0`); `go test -race`;
+`cross`: `CGO_ENABLED=0` builds for linux/amd64, linux/arm64, darwin/arm64 and windows/amd64 (linux/386 and linux/arm
+are REPORT lines only); `govulncheck`: the govulncheck version pinned in `scripts/check.sh`, built by the same go,
+scans the module against vuln.go.dev at symbol level (a vulnerable module that is required but never called is not a
+finding), for this host's GOOS/GOARCH only (not the other cross targets), and judges the standard library of that go
+(the report's `Go:` line must name it). The database is live, so a green commit can turn red later. vuln.go.dev is
+probed first: when it does not answer (or there is no curl), the step is skipped, and with `GOVULNCHECK=require`, which
+`check.yml` sets, that is a failure; with the database up, a tool that does not install or run is a failure in both
+modes. `fuzz` and `fuzz-instance`: 60 s runs of `FuzzFeed` on `./sniff` and `FuzzInstance` on `./screen` (each input
+stops past an 8,000,000-cell work budget and fails as a hang after 60 s; a crasher is written to
+`screen/testdata/fuzz/FuzzInstance`); the argument is 0, which skips both, or a duration such as `60s` or `2m`. The
+GitHub workflow `check.yml` runs the same script. Offline, `check.sh` needs a module cache from an earlier online run
+(without one the steps that load modules fail) and skips `govulncheck`.
 go-term needs Go 1.27 or newer (go.mod `go 1.27.0`, `0008-go-floor.md`); CI runs 1.27.x. On a host with an older go,
 run `GOTOOLCHAIN=go1.27.4 bash scripts/check.sh`: without the pin, auto-switch picks go1.27.0, an old patch.
 The differential fuzz against `@xterm/headless`, `bash conformance/scripts/fuzz.sh`, runs outside `check.sh` (it needs
