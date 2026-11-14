@@ -10,11 +10,16 @@
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
+# The last line is "FINAL EXIT <0|1> skipped=<0|step,step...>": exit 0 with skips is not a full pass.
 # Usage: bash scripts/check.sh [fuzztime]   (default 60s for each fuzz step; 0 skips both)
 set -u
 cd "$(dirname "$0")/.."
 GO=${GO:-go}
 FUZZTIME=${1:-60s}
+# fuzztime is 0 (skip both fuzz steps) or a duration such as 60s or 2m; 1x would pass after one input each (#12 N15)
+if [ "$FUZZTIME" != 0 ] && ! [[ $FUZZTIME =~ ^([0-9]+[hms])+$ ]]; then
+	echo "usage: bash scripts/check.sh [fuzztime], fuzztime 0 or a duration such as 60s or 2m, not $FUZZTIME"; exit 2
+fi
 export GOFLAGS=-mod=readonly
 echo "HEAD $(git rev-parse HEAD)"
 echo "porcelain-begin"; git status --porcelain; echo "porcelain-end"
@@ -34,6 +39,11 @@ step() { # step <name> <cmd...>: red when cmd fails, and when it changes git sta
 	fi
 	echo "== $name exit $rc"
 	[ $rc -eq 0 ] || fail=1
+}
+skipped=""
+skip() { # skip <name> <why>: the step did not run; the FINAL line names it (#12 S4)
+	echo "== $1 skipped: $2 (not a pass)"
+	skipped=${skipped:+$skipped,}$1
 }
 gofmt_empty() {
 	local out
@@ -148,18 +158,24 @@ echo "govulncheck mode: $vulnmode"
 vulncheck_probe
 vulnrc=$?
 if [ $vulnrc = 1 ] && [ "$vulnmode" = auto ]; then
-	echo "== govulncheck skipped: $vulnwhy (not a pass)"
+	skip govulncheck "$vulnwhy"
 else
 	step govulncheck vulncheck
 fi
-if [ "$FUZZTIME" != 0 ] && [ -d sniff ]; then
+if [ "$FUZZTIME" = 0 ]; then
+	skip fuzz "fuzztime 0"
+elif [ -d sniff ]; then
 	step fuzz "$GO" test -run '^$' -fuzz '^FuzzFeed$' -fuzztime "$FUZZTIME" ./sniff
+else
+	skip fuzz "no ./sniff"
 fi
 # fuzz-instance: FuzzInstance (screen/fuzz_test.go): each input stops past an 8,000,000-cell work budget, and one still
 # running after 60 s fails as a hang. A crasher is written to screen/testdata/fuzz/FuzzInstance (porcelain-after shows it).
-if [ "$FUZZTIME" != 0 ]; then
+if [ "$FUZZTIME" = 0 ]; then
+	skip fuzz-instance "fuzztime 0"
+else
 	step fuzz-instance "$GO" test -run '^$' -fuzz '^FuzzInstance$' -fuzztime "$FUZZTIME" ./screen
 fi
 echo "porcelain-after-begin"; git status --porcelain; echo "porcelain-after-end"
-echo "FINAL EXIT $fail"
+echo "FINAL EXIT $fail skipped=${skipped:-0}"
 exit $fail
