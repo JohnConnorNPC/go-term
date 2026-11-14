@@ -21,6 +21,9 @@ if [ "$FUZZTIME" != 0 ] && ! [[ $FUZZTIME =~ ^([0-9]+[hms])+$ ]]; then
 	echo "usage: bash scripts/check.sh [fuzztime], fuzztime 0 or a duration such as 60s or 2m, not $FUZZTIME"; exit 2
 fi
 export GOFLAGS=-mod=readonly
+# GOWORK=off: a go.work in a parent directory (or GOWORK in the environment) would put every step in workspace mode,
+# where its replaces change what is built and verified (#12 S5).
+export GOWORK=off
 echo "HEAD $(git rev-parse HEAD)"
 echo "porcelain-begin"; git status --porcelain; echo "porcelain-end"
 echo "go $($GO version)"
