@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
 # scripts/deps.allow and replaces nothing), modverify (go mod download leaves go.mod and go.sum unchanged, go mod
-# verify passes, every module is in the cache), readonly (go build with -mod=readonly), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
-# windows/amd64; 386 and armv7 reported), govulncheck (skipped when vuln.go.dev does not answer, unless GOVULNCHECK=require), and two 60 s
-# fuzz runs: fuzz (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an
-# earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
+# verify passes, every module is in the cache), readonly (go build with -mod=readonly), go vet, go test,
+# go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64, windows/amd64; 386 and armv7 reported),
+# govulncheck (skipped when vuln.go.dev does not answer, unless GOVULNCHECK=require), and two 60 s fuzz runs: fuzz
+# (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an earlier one fails;
+# the exit code is 1 when any step failed (2 on a usage error). Uses the go on PATH (GO=<path> overrides), with
+# GOFLAGS=-mod=readonly and GOWORK=off.
 # A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
 # A step that changes git status --porcelain (writes a tracked or an untracked, not ignored file) is red too.
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
