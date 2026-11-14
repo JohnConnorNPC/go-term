@@ -1,28 +1,54 @@
 #!/usr/bin/env bash
 # check.sh: the root module's local checks, in order: gofmt -l (must print nothing), deps (go.mod requires exactly
-# scripts/deps.allow, replaces nothing, go mod verify passes), go vet, go test, go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64,
-# windows/amd64; 386 and armv7 reported), and a 60 s FuzzFeed run on ./sniff. Every step runs even when an
-# earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
+# scripts/deps.allow and replaces nothing), modverify (go mod download leaves go.mod and go.sum unchanged, go mod
+# verify passes, every module is in the cache), readonly (go build with -mod=readonly), go vet, go test,
+# go test -race, cross builds (linux/amd64, linux/arm64, darwin/arm64, windows/amd64; 386 and armv7 reported),
+# govulncheck (skipped when vuln.go.dev does not answer, unless GOVULNCHECK=require), and two 60 s fuzz runs: fuzz
+# (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an earlier one fails;
+# the exit code is 1 when any step failed (2 on a usage error). Uses the go on PATH (GO=<path> overrides), with
+# GOFLAGS=-mod=readonly and GOWORK=off.
+# A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
+# A step that changes git status --porcelain (writes a tracked or an untracked, not ignored file) is red too.
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
-# Usage: bash scripts/check.sh [fuzztime]   (default 60s; 0 skips the fuzz step)
+# The last line is "FINAL EXIT <0|1> skipped=<0|step,step...>": exit 0 with skips is not a full pass.
+# Usage: bash scripts/check.sh [fuzztime]   (default 60s for each fuzz step; 0 skips both)
 set -u
 cd "$(dirname "$0")/.."
 GO=${GO:-go}
 FUZZTIME=${1:-60s}
+# fuzztime is 0 (skip both fuzz steps) or a duration such as 60s or 2m; 1x would pass after one input each (#12 N15)
+if [ "$FUZZTIME" != 0 ] && ! [[ $FUZZTIME =~ ^([0-9]+[hms])+$ ]]; then
+	echo "usage: bash scripts/check.sh [fuzztime], fuzztime 0 or a duration such as 60s or 2m, not $FUZZTIME"; exit 2
+fi
 export GOFLAGS=-mod=readonly
+# GOWORK=off: a go.work in a parent directory (or GOWORK in the environment) would put every step in workspace mode,
+# where its replaces change what is built and verified (#12 S5).
+export GOWORK=off
 echo "HEAD $(git rev-parse HEAD)"
 echo "porcelain-begin"; git status --porcelain; echo "porcelain-end"
 echo "go $($GO version)"
 echo "command: bash scripts/check.sh $FUZZTIME"
 fail=0
-step() { # step <name> <cmd...>
-	local name=$1; shift
+step() { # step <name> <cmd...>: red when cmd fails, and when it changes git status --porcelain (#12 S2)
+	local name=$1 before after rc; shift
 	echo "== $name: $*"
-	"$@"; local rc=$?
+	before=$(git status --porcelain 2>&1)
+	"$@"; rc=$?
+	after=$(git status --porcelain 2>&1)
+	if [ "$before" != "$after" ]; then
+		echo "$name changed the tree (git status --porcelain, before and after):"
+		diff <(printf '%s\n' "$before") <(printf '%s\n' "$after")
+		[ $rc -ne 0 ] || rc=1
+	fi
 	echo "== $name exit $rc"
 	[ $rc -eq 0 ] || fail=1
+}
+skipped=""
+skip() { # skip <name> <why>: the step did not run; the FINAL line names it (#12 S4)
+	echo "== $1 skipped: $2 (not a pass)"
+	skipped=${skipped:+$skipped,}$1
 }
 gofmt_empty() {
 	local out
@@ -31,7 +57,7 @@ gofmt_empty() {
 }
 step gofmt gofmt_empty
 # deps: the root module requires exactly scripts/deps.allow (path version [indirect]; x/crypto for blake2b and the
-# x/sys it imports, #6) and replaces nothing, and go mod verify passes. go.mod is read through go's own parser
+# x/sys it imports, #6) and replaces nothing. go.mod is read through go's own parser
 # (go mod edit -json), so a quoted path such as replace "example.com/m" => ../m is seen too (#4 R2).
 allowed_deps() {
 	local j got want
@@ -48,9 +74,40 @@ allowed_deps() {
 	[ -n "$want" ] || { echo "scripts/deps.allow lists nothing (unmeasured)"; return 2; }
 	[ "$got" = "$want" ] || { echo "go.mod requires:"; printf '%s\n' "$got"; echo "scripts/deps.allow:"; printf '%s\n' "$want"; return 1; }
 	echo "deps: $(printf '%s\n' "$got" | wc -l) requires match scripts/deps.allow"
-	"$GO" mod verify
 }
 step deps allowed_deps
+# modverify: go mod verify checks only the modules already in the module cache, so on an empty cache it passes
+# having checked no module zip (#12). The step downloads first, verifies, and requires every module that provides
+# a package to the build or its tests (go list -deps -test) to be in the cache. go mod download also writes missing go.sum lines back (#12 M1), so go.mod and go.sum must
+# come out unchanged: a change means the committed files are incomplete (red, and the committed copies are put
+# back). With a warm cache the step is green offline; an empty cache offline fails at the download.
+modverify() {
+	local t mods all have rc=0
+	t=$(mktemp -d) || return 2
+	cp go.mod go.sum "$t/" || { rm -rf "$t"; return 2; }
+	"$GO" mod download || rc=1
+	if ! cmp -s go.mod "$t/go.mod" || ! cmp -s go.sum "$t/go.sum"; then
+		echo "modverify: go mod download changed go.mod or go.sum (the committed files are incomplete):"
+		diff "$t/go.mod" go.mod; diff "$t/go.sum" go.sum
+		cp "$t/go.mod" "$t/go.sum" . || rc=2
+		[ $rc = 2 ] || rc=1
+	fi
+	rm -rf "$t"
+	[ $rc = 0 ] || return $rc
+	"$GO" mod verify || return 1
+	mods=$("$GO" list -e -deps -test -f '{{with .Module}}{{if not .Main}}{{.Path}} {{.Dir}}{{end}}{{end}}' ./...) ||
+		{ echo "modverify: go list failed (unmeasured)"; return 2; }
+	mods=$(printf '%s\n' "$mods" | awk 'NF && !seen[$0]++')
+	all=$(printf '%s\n' "$mods" | awk 'NF >= 1' | wc -l)
+	have=$(printf '%s\n' "$mods" | awk 'NF >= 2' | wc -l)
+	[ "$all" -gt 0 ] || { echo "modverify: go list lists no modules (unmeasured)"; return 2; }
+	[ "$have" = "$all" ] || { echo "modverify: $((all - have)) of $all modules not in GOMODCACHE:"; printf '%s\n' "$mods" | awk 'NF == 1'; return 1; }
+	echo "REPORT modverify: $all of $all modules in GOMODCACHE, verified"
+}
+step modverify modverify
+# readonly: the build needs no go.mod or go.sum update. GOFLAGS is exported above too; the step sets it itself so
+# that a later change to the export cannot drop it.
+step readonly env GOFLAGS=-mod=readonly "$GO" build ./...
 step vet "$GO" vet ./...
 step test "$GO" test -count=1 -timeout 30m ./...
 step race "$GO" test -count=1 -race -timeout 90m ./...
@@ -67,9 +124,63 @@ cross() {
 	return $rc
 }
 step cross cross
-if [ "$FUZZTIME" != 0 ] && [ -d sniff ]; then
+# govulncheck: the pinned govulncheck, built by $GO, scans ./... against vuln.go.dev at symbol level (a vulnerable
+# module that is required but never called is not a finding), for this host's GOOS/GOARCH only. It judges the stdlib
+# of the go on its PATH, so PATH starts with "$GO" env GOROOT's bin, and the Go its own report names ("Go: ...") must
+# equal "$GO" env GOVERSION. The DB is live: a green commit can turn red later. vuln.go.dev is probed first: with
+# GOVULNCHECK=auto (default) the step is skipped, with no exit line (neither a pass nor a failure), only when the probe
+# fails (or there is no curl); GOVULNCHECK=require (CI) makes that rc 2. With the DB up, a failed install is rc 2 in
+# both modes. Green is rc 0 with "No vulnerabilities found."; rc 3 is "vulnerabilities found"; anything else is the
+# tool failing.
+vulnpin=golang.org/x/vuln/cmd/govulncheck@v1.9.0
+vulnmode=${GOVULNCHECK:-auto} vulnwhy="" vulnrc=0
+vulncheck_probe() { # rc 0 DB up, 1 unavailable ($vulnwhy), 2 bad mode
+	case $vulnmode in auto | require) ;; *) echo "govulncheck: GOVULNCHECK=$vulnmode, want auto or require"; return 2 ;; esac
+	command -v curl > /dev/null || { vulnwhy="no curl to probe vuln.go.dev"; return 1; }
+	curl -fsS --max-time 10 -o /dev/null https://vuln.go.dev/index/db.json || { vulnwhy="vuln.go.dev did not answer"; return 1; }
+}
+vulncheck() { # reads $vulnrc, vulncheck_probe's rc
+	local root want d rc got
+	case $vulnrc in 0) ;; 1) echo "govulncheck: $vulnwhy (GOVULNCHECK=require)"; return 2 ;; *) return 2 ;; esac
+	{ root=$("$GO" env GOROOT) && want=$("$GO" env GOVERSION); } || { echo "govulncheck: GO=$GO does not run"; return 2; }
+	d=$(mktemp -d) || return 2
+	if ! GOBIN=$d "$GO" install "$vulnpin"; then
+		echo "govulncheck: $vulnpin did not install, with vuln.go.dev up (tool failure)"; rm -rf "$d"; return 2
+	fi
+	PATH="$root/bin:$PATH" "$d/govulncheck" -show version ./... > "$d/out" 2>&1
+	rc=$?
+	cat "$d/out"
+	got=$(grep -m1 '^Go: ' "$d/out")
+	if [ $rc = 0 ] && ! grep -q '^No vulnerabilities found\.$' "$d/out"; then
+		echo "govulncheck: rc 0 without \"No vulnerabilities found.\""; rc=2
+	fi
+	[ "$got" = "Go: $want" ] || { echo "govulncheck: judged \"${got:-no Go: line}\", want \"Go: $want\" (\$GO)"; rc=2; }
+	case $rc in 0) ;; 3) echo "govulncheck: vulnerabilities found (rc 3)" ;; *) echo "govulncheck: tool failed (rc $rc)" ;; esac
+	rm -rf "$d"
+	return $rc
+}
+echo "govulncheck mode: $vulnmode"
+vulncheck_probe
+vulnrc=$?
+if [ $vulnrc = 1 ] && [ "$vulnmode" = auto ]; then
+	skip govulncheck "$vulnwhy"
+else
+	step govulncheck vulncheck
+fi
+if [ "$FUZZTIME" = 0 ]; then
+	skip fuzz "fuzztime 0"
+elif [ -d sniff ]; then
 	step fuzz "$GO" test -run '^$' -fuzz '^FuzzFeed$' -fuzztime "$FUZZTIME" ./sniff
+else
+	skip fuzz "no ./sniff"
+fi
+# fuzz-instance: FuzzInstance (screen/fuzz_test.go): each input stops past an 8,000,000-cell work budget, and one still
+# running after 60 s fails as a hang. A crasher is written to screen/testdata/fuzz/FuzzInstance (porcelain-after shows it).
+if [ "$FUZZTIME" = 0 ]; then
+	skip fuzz-instance "fuzztime 0"
+else
+	step fuzz-instance "$GO" test -run '^$' -fuzz '^FuzzInstance$' -fuzztime "$FUZZTIME" ./screen
 fi
 echo "porcelain-after-begin"; git status --porcelain; echo "porcelain-after-end"
-echo "FINAL EXIT $fail"
+echo "FINAL EXIT $fail skipped=${skipped:-0}"
 exit $fail
