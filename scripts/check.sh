@@ -6,6 +6,7 @@
 # fuzz runs: fuzz (FuzzFeed on ./sniff) and fuzz-instance (FuzzInstance on ./screen). Every step runs even when an
 # earlier one fails; the exit code is 1 when any step failed. Uses the go on PATH (GO=<path> overrides).
 # A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
+# A step that changes git status --porcelain (writes a tracked or an untracked, not ignored file) is red too.
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
@@ -20,10 +21,17 @@ echo "porcelain-begin"; git status --porcelain; echo "porcelain-end"
 echo "go $($GO version)"
 echo "command: bash scripts/check.sh $FUZZTIME"
 fail=0
-step() { # step <name> <cmd...>
-	local name=$1; shift
+step() { # step <name> <cmd...>: red when cmd fails, and when it changes git status --porcelain (#12 S2)
+	local name=$1 before after rc; shift
 	echo "== $name: $*"
-	"$@"; local rc=$?
+	before=$(git status --porcelain 2>&1)
+	"$@"; rc=$?
+	after=$(git status --porcelain 2>&1)
+	if [ "$before" != "$after" ]; then
+		echo "$name changed the tree (git status --porcelain, before and after):"
+		diff <(printf '%s\n' "$before") <(printf '%s\n' "$after")
+		[ $rc -ne 0 ] || rc=1
+	fi
 	echo "== $name exit $rc"
 	[ $rc -eq 0 ] || fail=1
 }
