@@ -39,9 +39,9 @@ probed first: when it does not answer (or there is no curl), the step is skipped
 failure instead, for a host that must not skip (nothing in the repo sets it); with the database up, a tool that does
 not install or run is a failure in both modes. `fuzz` and `fuzz-instance`: 60 s runs of `FuzzFeed` on `./sniff` and
 `FuzzInstance` on `./screen` (each input stops past an 8,000,000-cell work budget and fails as a hang after 60 s; a
-crasher is written to `screen/testdata/fuzz/FuzzInstance`); the argument is 0, which skips both, or a duration such as
-`60s` or `2m`. Offline, `check.sh` needs a module cache from an earlier online run (without one the steps that load
-modules fail) and skips `govulncheck`.
+crasher is written to `screen/testdata/fuzz/FuzzInstance`); the argument is 0, which skips both, or a non-zero duration
+such as `60s` or `2m`. Offline, `check.sh` needs a module cache from an earlier online run (without one the steps that
+load modules fail) and skips `govulncheck`.
 go-term needs Go 1.27 or newer (go.mod `go 1.27.0`, `0008-go-floor.md`). On a host with an older go,
 run `GOTOOLCHAIN=go1.27.4 bash scripts/check.sh`: without the pin, auto-switch picks go1.27.0, an old patch.
 The differential fuzz against `@xterm/headless`, `bash conformance/scripts/fuzz.sh`, runs outside `check.sh` (it needs

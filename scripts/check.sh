@@ -18,9 +18,11 @@ set -u
 cd "$(dirname "$0")/.."
 GO=${GO:-go}
 FUZZTIME=${1:-60s}
-# fuzztime is 0 (skip both fuzz steps) or a duration such as 60s or 2m; 1x would pass after one input each (#12 N15)
-if [ "$FUZZTIME" != 0 ] && ! [[ $FUZZTIME =~ ^([0-9]+[hms])+$ ]]; then
-	echo "usage: bash scripts/check.sh [fuzztime], fuzztime 0 or a duration such as 60s or 2m, not $FUZZTIME"; exit 2
+# fuzztime is 0 (skip both fuzz steps) or a non-zero duration such as 60s or 2m; 1x would pass after one input each
+# (#12 N15), and go test rejects a zero duration such as 0s (#12 round 1 N1): only the literal 0 skips.
+if [ "$FUZZTIME" != 0 ] && { ! [[ $FUZZTIME =~ ^([0-9]+[hms])+$ ]] || [[ $FUZZTIME =~ ^(0+[hms])+$ ]]; }; then
+	echo "usage: bash scripts/check.sh [fuzztime], fuzztime 0 or a non-zero duration such as 60s or 2m, not $FUZZTIME"
+	exit 2
 fi
 export GOFLAGS=-mod=readonly
 # GOWORK=off: a go.work in a parent directory (or GOWORK in the environment) would put every step in workspace mode,
