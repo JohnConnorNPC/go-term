@@ -85,9 +85,10 @@ allowed_deps() {
 step deps allowed_deps
 # modverify: go mod verify checks only the modules already in the module cache, so on an empty cache it passes
 # having checked no module zip (#12). The step downloads first, verifies, and requires every module that provides
-# a package to the build or its tests (go list -deps -test) to be in the cache. go mod download also writes missing go.sum lines back (#12 M1), so go.mod and go.sum must
-# come out unchanged: a change means the committed files are incomplete (red, and the committed copies are put
-# back). With a warm cache the step is green offline; an empty cache offline fails at the download.
+# a package to the build or its tests (go list -deps -test) to be in the cache. go mod download also writes missing
+# go.sum lines back (#12 M1), so go.mod and go.sum must come out unchanged: a change means the committed files are
+# incomplete (red, and the committed copies are put back). With a warm cache the step is green offline; an empty
+# cache offline fails at the download.
 modverify() {
 	local t mods all have rc=0
 	t=$(mktemp -d) || return 2
@@ -97,10 +98,10 @@ modverify() {
 		echo "modverify: go mod download changed go.mod or go.sum (the committed files are incomplete):"
 		diff "$t/go.mod" go.mod; diff "$t/go.sum" go.sum
 		cp "$t/go.mod" "$t/go.sum" . || rc=2
-		[ $rc = 2 ] || rc=1
+		[ "$rc" = 2 ] || rc=1
 	fi
 	rm -rf "$t"
-	[ $rc = 0 ] || return $rc
+	[ "$rc" = 0 ] || return "$rc"
 	"$GO" mod verify || return 1
 	mods=$("$GO" list -e -deps -test -f '{{with .Module}}{{if not .Main}}{{.Path}} {{.Dir}}{{end}}{{end}}' ./...) ||
 		{ echo "modverify: go list failed (unmeasured)"; return 2; }
@@ -128,7 +129,7 @@ cross() {
 		if CGO_ENABLED=0 GOOS=${t%/*} GOARCH=${t#*/} GOARM=7 "$GO" build ./... >/dev/null 2>&1; then
 			echo "REPORT $t build ok"; else echo "REPORT $t build failed (not gating)"; fi
 	done
-	return $rc
+	return "$rc"
 }
 step cross cross
 # govulncheck: the pinned govulncheck, built by $GO, scans ./... against vuln.go.dev at symbol level (a vulnerable
@@ -158,13 +159,13 @@ vulncheck() { # reads $vulnrc, vulncheck_probe's rc
 	rc=$?
 	cat "$d/out"
 	got=$(grep -m1 '^Go: ' "$d/out")
-	if [ $rc = 0 ] && ! grep -q '^No vulnerabilities found\.$' "$d/out"; then
+	if [ "$rc" = 0 ] && ! grep -q '^No vulnerabilities found\.$' "$d/out"; then
 		echo "govulncheck: rc 0 without \"No vulnerabilities found.\""; rc=2
 	fi
 	[ "$got" = "Go: $want" ] || { echo "govulncheck: judged \"${got:-no Go: line}\", want \"Go: $want\" (\$GO)"; rc=2; }
 	case $rc in 0) ;; 3) echo "govulncheck: vulnerabilities found (rc 3)" ;; *) echo "govulncheck: tool failed (rc $rc)" ;; esac
 	rm -rf "$d"
-	return $rc
+	return "$rc"
 }
 echo "govulncheck mode: $vulnmode"
 vulncheck_probe
@@ -182,7 +183,8 @@ else
 	skip fuzz "no ./sniff"
 fi
 # fuzz-instance: FuzzInstance (screen/fuzz_test.go): each input stops past an 8,000,000-cell work budget, and one still
-# running after 60 s fails as a hang. A crasher is written to screen/testdata/fuzz/FuzzInstance (porcelain-after shows it).
+# running after 60 s fails as a hang. A crasher is written to screen/testdata/fuzz/FuzzInstance (porcelain-after
+# shows it).
 if [ "$FUZZTIME" = 0 ]; then
 	skip fuzz-instance "fuzztime 0"
 else
