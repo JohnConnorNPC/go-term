@@ -8,7 +8,8 @@
 # the exit code is 1 when any step failed (2 on a usage error). Uses the go on PATH (GO=<path> overrides), with
 # GOFLAGS=-mod=readonly and GOWORK=off.
 # A step's result is its "== <step> exit N" line; a skipped step prints "== <step> skipped: ... (not a pass)" instead.
-# A step that changes git status --porcelain (writes a tracked or an untracked, not ignored file) is red too.
+# A step that changes git status --porcelain (writes a tracked or an untracked, not ignored file) is red too, and so
+# is a step where git status itself fails (exit 2 when the command passed: the tree is unmeasured).
 # The conformance/candidates module is its own module and is not covered here (conformance/scripts/go.sh runs
 # it in the pinned container).
 # The race step on conformance/runner takes far longer than go test's 10-minute default, hence the timeouts.
@@ -34,12 +35,16 @@ echo "go $($GO version)"
 echo "command: bash scripts/check.sh $FUZZTIME"
 fail=0
 step() { # step <name> <cmd...>: red when cmd fails, and when it changes git status --porcelain (#12 S2)
-	local name=$1 before after rc; shift
+	local name=$1 before after rc bad=""; shift
 	echo "== $name: $*"
-	before=$(git status --porcelain 2>&1)
+	before=$(git status --porcelain 2>&1) || bad=before
 	"$@"; rc=$?
-	after=$(git status --porcelain 2>&1)
-	if [ "$before" != "$after" ]; then
+	after=$(git status --porcelain 2>&1) || bad=${bad:+$bad and }after
+	if [ -n "$bad" ]; then # equal error texts would compare equal: a failed status is unmeasured, never green (N2)
+		echo "$name: git status --porcelain failed ($bad the step), the tree is unmeasured:"
+		printf '%s\n' "$before" "$after" | awk 'NF && !seen[$0]++'
+		[ $rc -ne 0 ] || rc=2
+	elif [ "$before" != "$after" ]; then
 		echo "$name changed the tree (git status --porcelain, before and after):"
 		diff <(printf '%s\n' "$before") <(printf '%s\n' "$after")
 		[ $rc -ne 0 ] || rc=1
