@@ -16,7 +16,6 @@ Work in progress: v0.x makes no compatibility promise. MIT licensed (see `LICENS
 | `conformance/candidates/` | the survey of third-party Go emulators (its own module; the frozen #2 record) |
 | `docs/decisions/` | decision records |
 | `scripts/check.sh` | the checks, by step: `gofmt`, `deps`, `modverify`, `readonly`, `vet`, `test`, `race`, `cross`, `govulncheck`, `fuzz`, `fuzz-instance` |
-| `.github/workflows/check.yml` | CI: runs `scripts/check.sh` on push and pull request to master |
 
 ## Checks
 
@@ -36,14 +35,14 @@ are REPORT lines only); `govulncheck`: the govulncheck version pinned in `script
 scans the module against vuln.go.dev at symbol level (a vulnerable module that is required but never called is not a
 finding), for this host's GOOS/GOARCH only (not the other cross targets), and judges the standard library of that go
 (the report's `Go:` line must name it). The database is live, so a green commit can turn red later. vuln.go.dev is
-probed first: when it does not answer (or there is no curl), the step is skipped, and with `GOVULNCHECK=require`, which
-`check.yml` sets, that is a failure; with the database up, a tool that does not install or run is a failure in both
-modes. `fuzz` and `fuzz-instance`: 60 s runs of `FuzzFeed` on `./sniff` and `FuzzInstance` on `./screen` (each input
-stops past an 8,000,000-cell work budget and fails as a hang after 60 s; a crasher is written to
-`screen/testdata/fuzz/FuzzInstance`); the argument is 0, which skips both, or a duration such as `60s` or `2m`. The
-GitHub workflow `check.yml` runs the same script. Offline, `check.sh` needs a module cache from an earlier online run
-(without one the steps that load modules fail) and skips `govulncheck`.
-go-term needs Go 1.27 or newer (go.mod `go 1.27.0`, `0008-go-floor.md`); CI runs 1.27.x. On a host with an older go,
+probed first: when it does not answer (or there is no curl), the step is skipped; `GOVULNCHECK=require` makes that a
+failure instead, for a host that must not skip (nothing in the repo sets it); with the database up, a tool that does
+not install or run is a failure in both modes. `fuzz` and `fuzz-instance`: 60 s runs of `FuzzFeed` on `./sniff` and
+`FuzzInstance` on `./screen` (each input stops past an 8,000,000-cell work budget and fails as a hang after 60 s; a
+crasher is written to `screen/testdata/fuzz/FuzzInstance`); the argument is 0, which skips both, or a duration such as
+`60s` or `2m`. Offline, `check.sh` needs a module cache from an earlier online run (without one the steps that load
+modules fail) and skips `govulncheck`.
+go-term needs Go 1.27 or newer (go.mod `go 1.27.0`, `0008-go-floor.md`). On a host with an older go,
 run `GOTOOLCHAIN=go1.27.4 bash scripts/check.sh`: without the pin, auto-switch picks go1.27.0, an old patch.
 The differential fuzz against `@xterm/headless`, `bash conformance/scripts/fuzz.sh`, runs outside `check.sh` (it needs
 docker; see "Studio API").

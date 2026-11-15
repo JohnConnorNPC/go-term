@@ -83,7 +83,7 @@ that long) and ends with
 `FUZZ seconds= batches= cases= variants= hsens= diffs=`: exit 0 no diff, 1 a diff (that batch kept as
 `.cache/fuzz/fail-<seed>`, a root the CLI re-scores), 2 nothing ran or a batch was unmeasured (`.cache/fuzz/bad-<seed>`),
 or the host build, docker (a missing image is exit 125 under `--pull never`) or the FUZZ line failed.
-The fuzz is outside `scripts/check.sh` and CI.
+The fuzz is outside `scripts/check.sh`.
 
 ## Scoring an engine
 

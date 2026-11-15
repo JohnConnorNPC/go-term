@@ -129,9 +129,9 @@ step cross cross
 # of the go on its PATH, so PATH starts with "$GO" env GOROOT's bin, and the Go its own report names ("Go: ...") must
 # equal "$GO" env GOVERSION. The DB is live: a green commit can turn red later. vuln.go.dev is probed first: with
 # GOVULNCHECK=auto (default) the step is skipped, with no exit line (neither a pass nor a failure), only when the probe
-# fails (or there is no curl); GOVULNCHECK=require (CI) makes that rc 2. With the DB up, a failed install is rc 2 in
-# both modes. Green is rc 0 with "No vulnerabilities found."; rc 3 is "vulnerabilities found"; anything else is the
-# tool failing.
+# fails (or there is no curl); GOVULNCHECK=require makes that rc 2, for a host that must not skip (nothing in the
+# repo sets it). With the DB up, a failed install is rc 2 in both modes. Green is rc 0 with "No vulnerabilities
+# found."; rc 3 is "vulnerabilities found"; anything else is the tool failing.
 vulnpin=golang.org/x/vuln/cmd/govulncheck@v1.9.0
 vulnmode=${GOVULNCHECK:-auto} vulnwhy="" vulnrc=0
 vulncheck_probe() { # rc 0 DB up, 1 unavailable ($vulnwhy), 2 bad mode
